@@ -1,0 +1,6 @@
+# Custom GIT aliases for easier usage
+
+# Discard all local changes and reset to upstream
+git fetch --all
+git reset --hard origin/master
+

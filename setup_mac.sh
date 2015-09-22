@@ -4,5 +4,4 @@
 chflags nohidden ~/Library/
 
 # Link Sublime executable to bin directory for temrinal access
-#ln -s /Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl  # Sublime 2
 ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl  # Sublime 3

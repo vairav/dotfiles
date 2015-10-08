@@ -15,6 +15,8 @@ set cursorline
 
 " Make tabs as wide as two spaces
 set tabstop=4
+set shiftwidth=4
+set expandtab
 
 " Ignore case of searches
 set ignorecase

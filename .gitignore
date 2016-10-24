@@ -1,1 +1,3 @@
 .vim
+# Ignore the installed Vim plugins
+.vim/plugged/**

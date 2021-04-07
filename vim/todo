@@ -1,0 +1,3 @@
+Need to set the environment variable
+export VIM_HOME=$HOME/workspace/dotfiles/vim
+export EDITOR=vim

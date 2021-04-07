@@ -14,6 +14,7 @@
   dts = difftool --staged
   ec = config --global -e
   f = fetch
+  fa = fetch --all
   find = log --color --source -S
   l = log --graph --branches --remotes --tags --date=iso8601 --pretty=log-default
   ld = log --graph --branches --remotes --tags --date=iso8601 --pretty=log-full

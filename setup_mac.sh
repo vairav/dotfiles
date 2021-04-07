@@ -45,3 +45,6 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 # Now you need to install all plugins within vim using vim-plug
 # Launch vim, then type:
 :PlugInstall
+
+# Git setup
+ln -s ~/workspace/dotfiles/git/gitconfig .gitconfig

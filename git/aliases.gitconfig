@@ -1,6 +1,7 @@
 [alias]
   a = add
   amend = commit -a --amend --reuse-message=HEAD
+  amend-reset-author = git commit --amend --reset-author --no-edit
   b = branch
   bl = !git --no-pager branch --verbose --all
   c = commit

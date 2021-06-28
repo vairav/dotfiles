@@ -1,0 +1,35 @@
+# vi: filetype=brewfile
+# Brewfile.apps
+
+cask "caffeine"
+cask "flux"
+
+### Editors {{{
+  cask 'evernote' # Evernote
+  # Notion
+  # Airtable
+  # Bear
+  mas "Bear", id: 1091189122
+### }}}
+
+# Open source convert video from any format to any other format
+cask "handbrake"
+
+# Modern PostgreSQL client
+cask "postico"
+
+# Communication
+cask "skype"
+cask "slack"
+
+# Entertainment
+cask "spotify"
+
+# BitTorrent client
+cask "transmission"
+
+# Speedtest.net command-line CLI
+brew "speedtest-cli"
+
+# Awesome downloader for Youtube and similar video sites
+brew "youtube-dl

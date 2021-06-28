@@ -1,0 +1,15 @@
+function download-file-from-github() {
+  matchString="github.com"
+  convertTo="raw.githubusercontent.com"
+
+  if [[ $1 != *$matchString* ]]; then
+    echo "Not a valid Github url"
+    return 1
+  fi
+
+  rawUrl=$(echo $1 | sed 's/github.com/raw.githubusercontent.com/g')
+  rawUrl=$(echo $rawUrl | sed 's/blob\///g')
+
+  wget $rawUrl
+  # http --download $rawUrl
+}

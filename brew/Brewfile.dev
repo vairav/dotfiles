@@ -14,6 +14,12 @@ cask_args appdir: '/Applications'
   #brew 'gdb'
 ### }}}
 
+### Terminals & Shells {{{
+  # Kitty - Built in Rust, GPU accelerated
+  cask 'kitty'
+  # Alacritty - Rust based, cross platform, OpenGL accelerated
+  cask 'alacritty'
+### }}}
 
 ### Code Editor & IDE {{{
   ## Editor: Vim

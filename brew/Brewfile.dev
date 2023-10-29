@@ -6,6 +6,8 @@ cask_args appdir: '/Applications'
 ### Development {{{
   # Automatic configure script builder
   brew 'autoconf'
+  # Task - Go lang based great alternative to Make
+  tap 'go-task/tap/go-task'
   # Tool for generating GNU Standards-compliant Makefiles
   #brew 'automake'
   # Cross-platform make
@@ -173,6 +175,8 @@ cask_args appdir: '/Applications'
   # Build tool for Scala projects
   #brew 'sbt'
 
+  # Rust
+  brew 'rust-analyzer'
 ### }}}
 
 

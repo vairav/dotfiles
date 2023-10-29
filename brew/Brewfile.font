@@ -68,3 +68,5 @@ cask "font-iosevka"
 cask "font-iosevka-slab"
 cask "font-profont-nerd-font"
 cask "font-ubuntumono-nerd-font"
+
+cask "font-jetbrains-mono-nerd-font"

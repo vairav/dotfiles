@@ -1,0 +1,28 @@
+window:
+  dimensions:
+    columns: 120
+    lines: 100
+
+  padding:
+    x: 0
+    y: 0
+
+  dynamic_padding: false # Spread additional padding evenly around the content
+
+  # Window Decoration
+  # Options
+  #   full: Show title bar and borders
+  #   none: Hidle title bar and borders
+  #   transparent: Show title bar, title bar buttons and a transparent background
+  #   buttonless: Show title bar, Hide title bar buttons and a transparent background
+  decorations: buttonless
+
+  # Startup Mode
+  # Options
+  #   Windowed
+  #   Maximized
+  #   Fullscreen
+  #   SimpleFullScreen (Mac OSX only)
+  startup_mode: Windowed
+
+  opacity: 1.0 # Background opacity

@@ -1,0 +1,15 @@
+# ln -s /<directory-location/dotfiles/alacritty $HOME/.config/alacritty
+# The above symlink will help Alacritty use the configs file located in our dotfiles repo
+import:
+  - ~/.config/alacritty/configs/general.yml
+  # - ~/.config/alacritty/configs/shell.yml
+  - ~/.config/alacritty/configs/window.yml
+  - ~/.config/alacritty/configs/mouse.yml
+  - ~/.config/alacritty/configs/fonts.yml
+
+# Live config reload
+live_config_reload: true
+
+# Environment variables
+env:
+  TERM: alacritty

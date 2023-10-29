@@ -85,6 +85,15 @@ tap 'buo/cask-upgrade'
   # Terminal Emulator for macOS
   cask 'iterm2'
 
+  # Rust built GPU accelerated terminal emulator
+  cask 'alacritty'
+
+  # Python based GPU accelerated terminal emulator
+  cask 'kitty'
+
+  # Web technology based terminal emulator
+  cask 'hyper'
+
   ## Terminal Multiplexer
   # Terminal multiplexer with VT100/ANSI terminal emulation
   brew 'screen'
@@ -147,6 +156,8 @@ tap 'buo/cask-upgrade'
   brew 'fd'
   # Lightweight and flexible command-line JSON processor
   brew 'jq'
+  # Go lang dependency free YAML parser
+  brew 'yq'
   # Command-line fuzzy finder
   brew "fzf"
   # Ncurses disk usage
@@ -163,6 +174,8 @@ tap 'buo/cask-upgrade'
   # Ripgrep -
   brew 'ripgrep'
   #brew 'the_silver_searcher'
+
+  brew 'lsd' # Rust based next-gen rewrite of ls
 
   # Move deleted items to trash and to also enable restoring
   brew 'trash'

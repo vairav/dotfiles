@@ -9,6 +9,8 @@ cask "flux"
   # Notion
   # Airtable
   # Bear
+  # Mark Text
+  cask 'mark-text'
   mas "Bear", id: 1091189122
 ### }}}
 

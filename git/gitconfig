@@ -117,6 +117,9 @@
 
 [url "git@github.com:"]
   insteadOf = "g:"
+  insteadOf = gh:
+  insteadOf = github:
+  insteadOf = git://github.com/
   pushInsteadOf = "g:"
 
 [url "git@bitbucket.org:"]
@@ -137,3 +140,5 @@
   path = ~/workspace/dotfiles/git/user.homesite.config
 [includeIf "gitdir:~/workspace/ritual"]
   path = ~/workspace/dotfiles/git/user.ritual.config
+[init]
+	defaultBranch = main

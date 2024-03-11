@@ -1,0 +1,5 @@
+import = ["/home/vairav/.config/alacritty/configs/general.toml", "/home/vairav/.config/alacritty/configs/window.toml", "/home/vairav/.config/alacritty/configs/mouse.toml", "/home/vairav/.config/alacritty/configs/fonts.toml"]
+live_config_reload = true
+
+[env]
+TERM = "alacritty"

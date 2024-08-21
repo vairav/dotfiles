@@ -1,7 +1,7 @@
 [window]
-decorations = "buttonless"
+#decorations = "Buttonless"
+decorations = "None"
 dynamic_padding = false
-opacity = 1.0
 startup_mode = "Windowed"
 
 [window.dimensions]
@@ -9,5 +9,5 @@ columns = 120
 lines = 100
 
 [window.padding]
-x = 0
-y = 0
+x = 5
+y = 5

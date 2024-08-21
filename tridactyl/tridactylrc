@@ -1,0 +1,33 @@
+" Containers
+containercreate Personal
+containercreate Trading
+containercreate Electronics
+containercreate Labs
+containercreate Naachi
+containercreate Arya
+
+containercreate Cosmix
+
+" Container <> Domain encapsulation
+"autocontainadd https://*.simplertrading.com Trading
+"autocontainadd https://*.optionalpha.com Trading
+"autocontainadd https://*.tipranks.com Trading
+
+" Preconfigured tabs
+"composite start-trading js windows.create({ url: ['https://www.simplertrading.com', 'https://www.optionalpha.com']})
+
+" Custom commands
+"bind T composite start-trading
+
+"let TRIDACTYL_HOME = '/home/vairav/workspace/dotfiles/tridactyl'
+
+"command close-duplicates jsb :source `${TRIDACTYL_HOME}/scripts/closeDuplicates.js`
+command close-duplicates jsb :source `/home/vairav/workspace/dotfiles/tridactyl/scripts/closeDuplicates.js`
+
+" Define a command to run the closeDuplicateTabs function by reading the script file every time
+"command close-duplicates jsb -p fetch("file:///home/user/workspace/dotfiles/tridactyl/scripts/closeDuplicates.js")
+"    .then(response => response.text())
+"    .then(script => {
+"        eval(script);
+"        closeDuplicateTabs();
+"    })

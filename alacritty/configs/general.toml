@@ -1,5 +1,3 @@
-hide_cursor_when_typing = true
-
 [env]
 LANG = "en_US.UTF-8"
 LC_ALL = "en_US.UTF-8"

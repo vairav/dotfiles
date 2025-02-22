@@ -140,5 +140,7 @@
   path = ~/workspace/dotfiles/git/user.homesite.config
 [includeIf "gitdir:~/workspace/ritual"]
   path = ~/workspace/dotfiles/git/user.ritual.config
+[includeIf "gitdir:~/workspace/org-f/"]
+  path = ~/workspace/dotfiles/git/user.org-f.config
 [init]
 	defaultBranch = main

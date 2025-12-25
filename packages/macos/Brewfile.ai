@@ -1,0 +1,34 @@
+# Brewfile.ai - AI and LLM tools
+# Usage: brew bundle --file=Brewfile.ai
+
+# =============================================================================
+# AI Desktop Apps
+# =============================================================================
+cask "chatgpt"                  # OpenAI ChatGPT
+cask "claude"                   # Anthropic Claude
+cask "cursor"                   # AI-powered code editor
+cask "windsurf"                 # AI coding assistant
+cask "zed"                      # Fast editor with AI
+cask "trae"                     # AI tool
+cask "msty"                     # Local AI model manager (multi-provider)
+cask "lm-studio"                # Local LLM runner
+cask "repo-prompt"              # AI prompt tool
+
+# =============================================================================
+# AI CLI Tools
+# =============================================================================
+brew "qwen-code"                # Qwen AI coding assistant
+
+# MCP Servers (Model Context Protocol)
+# These may require specific taps - install manually if not available
+# brew "github-mcp-server"
+# brew "terraform-mcp-server"
+
+# =============================================================================
+# Installation Notes
+# =============================================================================
+# claude-code (CLI):
+#   npm install -g @anthropics/claude-code
+#
+# ollama (local LLM runner):
+#   brew install ollama

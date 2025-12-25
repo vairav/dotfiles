@@ -1,0 +1,118 @@
+# Brewfile.apps - GUI applications
+# Usage: brew bundle --file=Brewfile.apps
+
+cask_args appdir: "/Applications"
+
+# =============================================================================
+# Browsers
+# =============================================================================
+cask "google-chrome"
+cask "firefox"
+cask "firefox-developer-edition"
+cask "zen"                      # Privacy-focused browser
+# Note: Tridactyl must be installed manually via Firefox Add-ons
+# https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/
+
+# =============================================================================
+# Communication
+# =============================================================================
+cask "discord"
+cask "legcord"                  # Discord client
+cask "slack"
+cask "rocket-chat"
+cask "signal"
+cask "whatsapp"
+cask "zoom"
+
+# =============================================================================
+# Notes & Knowledge
+# =============================================================================
+cask "logseq"
+cask "notion"
+cask "obsidian"
+
+# =============================================================================
+# System Utilities
+# =============================================================================
+cask "1password"
+cask "adguard"
+cask "aldente"                  # Battery charge limiter
+cask "alfred"
+cask "antigravity"
+cask "antinote"
+cask "betterdisplay"
+cask "bettertouchtool"
+cask "cheatsheet"               # Hold ⌘ to see keyboard shortcuts
+cask "cleanshot"
+cask "clop"
+cask "hazel"
+cask "homerow"
+cask "keyboard-maestro"
+cask "keymapp"                  # ZSA keyboard configurator
+cask "loop"                     # Window management
+cask "mouseless"                # Keyboard-driven mouse
+cask "pixelsnap"
+cask "popclip"
+cask "qlcolorcode"              # QuickLook syntax highlighting
+cask "rectangle"
+cask "stats"                    # Menu bar system monitor
+cask "superkey"
+cask "suspicious-package"       # Inspect .pkg installers
+
+# =============================================================================
+# Cloud & Storage
+# =============================================================================
+cask "box-drive"
+cask "cryptomator"
+cask "dropbox"
+cask "forklift"                 # File manager
+cask "google-drive"
+cask "mountain-duck"            # Mount cloud storage
+cask "onedrive"
+
+# =============================================================================
+# Media & Creative
+# =============================================================================
+cask "affinity-designer"
+cask "affinity-photo"
+cask "affinity-publisher"
+cask "bloom"
+cask "comet"
+cask "handbrake"                # Video transcoder
+cask "krita"
+cask "open-video-downloader"
+
+# =============================================================================
+# Security & VPN
+# =============================================================================
+cask "bitwarden"
+cask "1password-cli"
+cask "ente-auth"                # 2FA authenticator
+cask "tailscale"
+
+# =============================================================================
+# Finance
+# =============================================================================
+cask "tradingview"
+
+# =============================================================================
+# Downloads
+# =============================================================================
+brew "youtube-dl"
+brew "speedtest-cli"
+
+# =============================================================================
+# Mac App Store Apps
+# =============================================================================
+mas "Amphetamine", id: 937984704
+mas "Canary Mail", id: 1236045954
+mas "Dropover", id: 1355679052
+mas "GarageBand", id: 682658836
+mas "Grila", id: 6444335028
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "PastePal", id: 1503446680
+mas "TestFlight", id: 899247664
+mas "Xcode", id: 497799835

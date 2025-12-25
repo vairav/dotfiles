@@ -1,8 +1,0 @@
-
-[env]
-TERM = "alacritty"
-
-[general]
-live_config_reload = true
-import = ["./configs/general.toml", "./configs/window.toml", "./configs/mouse.toml", "./configs/fonts.toml", "./themes/kanagawa_dragon.toml"]
-

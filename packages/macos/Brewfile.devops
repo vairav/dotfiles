@@ -1,0 +1,35 @@
+# Brewfile.devops - DevOps and Infrastructure tools
+# Usage: brew bundle --file=Brewfile.devops
+
+# =============================================================================
+# AWS
+# =============================================================================
+brew "awscli"
+cask "aws-vault"                # Securely store AWS credentials
+
+# =============================================================================
+# Terraform
+# =============================================================================
+brew "terraform"
+brew "terraform-docs"           # Generate docs from Terraform
+brew "terragrunt"               # Terraform wrapper
+brew "tflint"                   # Terraform linter
+
+tap "warrensbox/tap"
+brew "tfswitch"                 # Switch Terraform versions
+
+# =============================================================================
+# Configuration Management
+# =============================================================================
+brew "ansible"
+brew "packer"                   # Build machine images
+
+# =============================================================================
+# Secret Management
+# =============================================================================
+brew "sops"                     # Encrypt secrets in files
+
+# =============================================================================
+# VPN / Networking
+# =============================================================================
+brew "tailscale"                # Mesh VPN

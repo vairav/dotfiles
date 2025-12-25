@@ -1,0 +1,67 @@
+# Brewfile.core - Essential system packages
+# Usage: brew bundle --file=Brewfile.core
+
+# Taps
+tap "homebrew/services"
+tap "buo/cask-upgrade"
+tap "yqrashawn/goku"
+
+# System libraries
+brew "openssl"
+brew "ncurses"
+
+# Shells
+brew "bash"
+brew "bash-completion@2"
+brew "zsh"
+brew "zsh-lovers"
+
+# Core utilities (GNU replacements)
+brew "coreutils"
+brew "gawk"
+brew "wget"
+brew "curl"
+
+# Compression
+brew "p7zip"
+brew "xz"
+brew "unrar"
+
+# Essential CLI tools
+brew "git"
+brew "git-lfs"
+brew "jq"
+brew "yq"
+brew "dasel"                # Query JSON/YAML/TOML/XML (multi-format)
+brew "tree"
+brew "watch"
+brew "tldr"
+brew "tealdeer"             # Rust tldr client (faster)
+
+# Modern replacements
+brew "bat"                  # cat replacement
+brew "eza"                  # ls replacement (exa successor)
+brew "fd"                   # find replacement
+brew "ripgrep"              # grep replacement
+brew "fzf"                  # fuzzy finder
+brew "zoxide"               # cd replacement
+brew "atuin"                # Shell history sync
+
+# Monitoring
+brew "htop"
+
+# macOS utilities
+brew "mas"                  # Mac App Store CLI
+brew "m-cli"                # macOS CLI swiss army knife
+brew "trash"                # Move to trash instead of rm
+
+# Network utilities
+brew "netcat"
+brew "telnet"
+brew "sshpass"              # SSH password automation
+
+# OCR
+brew "tesseract"            # OCR engine
+
+# Karabiner
+brew "yqrashawn/goku/goku"  # Karabiner config manager (uses EDN format)

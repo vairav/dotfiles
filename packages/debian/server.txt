@@ -1,0 +1,29 @@
+# Debian/Ubuntu Server - Minimal packages
+# Usage: sudo apt-get install -y $(grep -v '^#' server.txt | grep -v '^$' | tr '\n' ' ')
+
+# Shell
+zsh
+
+# Terminal multiplexer
+tmux
+
+# Editor
+neovim
+
+# Search and find
+fzf
+ripgrep
+fd-find
+
+# Utilities
+git
+curl
+wget
+jq
+tree
+htop
+ncdu
+
+# Modern replacements (may need manual install on older distros)
+bat
+eza

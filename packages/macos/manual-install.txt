@@ -1,0 +1,24 @@
+# Manual Install Apps
+# These apps are not available via Homebrew and must be installed manually
+# =============================================================================
+
+# ScreenSage Pro
+# Download: https://apps.apple.com/app/screensage-pro (if available) or developer website
+
+# Spencer
+# Download: Check Mac App Store or developer website
+
+# Cricut Design Space
+# Download: https://design.cricut.com/setup
+
+# thinkorswim (TD Ameritrade)
+# Download: https://www.tdameritrade.com/tools-and-platforms/thinkorswim.html
+
+# =============================================================================
+# Post-Install Steps
+# =============================================================================
+
+# Firefox Tridactyl Extension
+# Install manually: https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/
+# Then run native messenger:
+#   curl -fsSl https://raw.githubusercontent.com/tridactyl/native_messenger/master/installers/install.sh | bash

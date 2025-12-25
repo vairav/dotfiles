@@ -1,0 +1,70 @@
+# Arch Linux Desktop - Full packages
+# Usage: sudo pacman -S $(grep -v '^#' desktop.txt | grep -v '^$' | tr '\n' ' ')
+# For AUR packages, use yay/paru instead
+
+# Shell
+zsh
+
+# Terminal
+tmux
+kitty
+alacritty
+
+# Editors
+vim
+neovim
+
+# Git
+git
+git-lfs
+tig
+
+# Search and find
+fzf
+ripgrep
+fd
+
+# Utilities
+curl
+wget
+jq
+yq
+tree
+htop
+ncdu
+ranger
+bat
+eza
+
+# Development
+base-devel
+python
+python-pip
+go
+ruby
+lua
+shellcheck
+
+# Containers
+docker
+docker-compose
+
+# Network
+nmap
+httpie
+
+# Media
+vlc
+imagemagick
+perl-image-exiftool
+
+# Misc
+p7zip
+unrar
+
+# Hyprland (Wayland compositor)
+# hyprland
+# waybar
+# wofi
+# dunst
+# swww

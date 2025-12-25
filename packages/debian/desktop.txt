@@ -1,0 +1,63 @@
+# Debian/Ubuntu Desktop - Full packages
+# Usage: sudo apt-get install -y $(grep -v '^#' desktop.txt | grep -v '^$' | tr '\n' ' ')
+
+# Shell
+zsh
+
+# Terminal
+tmux
+kitty
+alacritty
+
+# Editors
+vim
+neovim
+
+# Git
+git
+git-lfs
+tig
+
+# Search and find
+fzf
+ripgrep
+fd-find
+
+# Utilities
+curl
+wget
+jq
+yq
+tree
+htop
+ncdu
+ranger
+bat
+eza
+
+# Development
+build-essential
+python3
+python3-pip
+python3-venv
+golang
+ruby
+lua5.4
+shellcheck
+
+# Containers
+docker.io
+docker-compose
+
+# Network
+nmap
+httpie
+
+# Media
+vlc
+imagemagick
+exiftool
+
+# Misc
+p7zip-full
+unrar

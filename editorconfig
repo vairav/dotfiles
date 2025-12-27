@@ -1,0 +1,72 @@
+root = true
+
+# Defaults
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 100
+
+# Go - gofmt requires tabs
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Python - PEP8 says 4 spaces
+[*.{py,pyi}]
+indent_size = 4
+
+# Rust - rustfmt uses 4
+[*.rs]
+indent_size = 4
+
+# Zig - zig fmt uses 4
+[*.zig]
+indent_size = 4
+
+# C/C++
+[*.{c,h,cpp,hpp,cc,cxx,hxx}]
+indent_size = 4
+
+# Java/Kotlin
+[*.{java,kt,kts}]
+indent_size = 4
+
+# Web stuff - 2 spaces
+[*.{ts,tsx,js,jsx,mjs,cjs}]
+indent_size = 2
+
+[*.lua]
+indent_size = 2
+
+[*.{sh,bash,zsh,fish}]
+indent_size = 2
+
+[*.{rb,rake}]
+indent_size = 2
+
+# Config files
+[*.{json,jsonc,yaml,yml,toml}]
+indent_size = 2
+
+[*.{xml,html,htm,css,scss,sass,less}]
+indent_size = 2
+
+[*.vim]
+indent_size = 2
+
+# Special cases
+[{Makefile,makefile,*.mk}]
+indent_style = tab
+
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+
+[.git*]
+indent_style = tab
+
+[*.{diff,patch}]
+trim_trailing_whitespace = false

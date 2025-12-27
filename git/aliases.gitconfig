@@ -1,126 +1,101 @@
+# Git Aliases
+
 [alias]
+  # Basics
   a = add
-  amend = commit -a --amend --reuse-message=HEAD
-  amend-reset-author = git commit --amend --reset-author --no-edit
   b = branch
-  bl = !git --no-pager branch --verbose --all
   c = commit
   co = checkout --no-guess
   cob = checkout -b
-  contributors = shortlog --summary --numbered
-  cm = !git add -A && git commit -m
   d = diff --stat=100,100 --patch
   ds = diff --stat=100,100 --patch --staged
   dt = difftool
   dts = difftool --staged
-  ec = config --global -e
   f = fetch
   fa = fetch --all
-  find = log --color --source -S
-  l = log --graph --branches --remotes --tags --date=iso8601 --pretty=log-default
-  ld = log --graph --branches --remotes --tags --date=iso8601 --pretty=log-full
-  
-  # Open current repo in browser
-  open = "!hub browse"
-
-  r = reflog --date=iso8601 --pretty=reflog-default
-  rd = reflog --date=iso8601 --pretty=reflog-full
-  url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
-  rh = reset --hard # git rh origin/master or git gh origin/main
-  rm-ignored = rm -r --cached . && git add . && git commit -am "Remove ignored files"
   s = status
   st = status --short --branch
-  ss = stash save
-  sc = stach clear
-  sl  = !git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}'
-	sp  = !git stash pop `git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}'`
-	sd  = !git stash drop `git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}'`
-	fixup = "!f() { SHA=`git rev-parse "$1"`; git commit --fixup "$SHA" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash "$SHA^"; }; f"
-  changelog = "!_() { t=$(git describe --abbrev=0 --tags); git log ${t}..HEAD --no-merges --pretty=format:'* %s'; }; _"
-
-  save = !git add -A && git commit -m "SAVEPOINT"
-  show-ls = diff-tree --no-commit-id --name-only -r # provide commit hash
-  sus = stash -k # Stash all unstaged files tracked in the repo
-  saus = stash -k -u # Stash all unstaged files + newly added files that are not tracked
-  sm = submodule
-  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-  undo = reset HEAD~1 --mixed
-  undo2 = reset --soft HEAD^
   w = whatchanged
-  wip = commit -am "[WIP]"
-  ctags = !.git/hooks/ctags
-  pr = "! \
-    function f() { \
-      git fetch --force --update-head-ok ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; \
-    }; f"
-  pr-clean = "! \
-    git for-each-ref refs/heads/pr/* --format='%(refname)' \
-    | sed s#refs/heads/## \
-    | xargs -I '{}' git branch --delete --force {}"
-  today   = log --since=midnight --color --graph \
-            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
-            --abbrev-commit
-  yesterday = log --since yesterday --until=midnight --color --graph \
-            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
-            --abbrev-commit
-  history = log --graph --pretty=format:'%C(yellow)%h%Creset \
-            -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' \
-            --abbrev-commit --date=short --date-order -n30
 
-  remotes  = remote -v
+  # Branches
+  bl = !git --no-pager branch --verbose --all
   branches = branch -a
-
-  # list files which have changed since REVIEW_BASE
-  # (REVIEW_BASE defaults to 'master' in my zshrc)
-  files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
-  # Open all files changed since REVIEW_BASE in Vim tabs
-  # Then, run fugitive's :Gdiff in each tab, and finally
-  # tell vim-gitgutter to show +/- for changes since REVIEW_BASE
-  review = !nvim -p $(git files) +\"tabdo Gvdiffsplit! $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
-  # Same as the above, except specify names of files as arguments,
-  # instead of opening all files:
-  # git reviewone foo.js bar.js
-  reviewone = !nvim -p +\"tabdo Gvdiffsplit! $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
-
-  # Interactive rebase with the given number of latest commits
-	rebase-branch = "!r() { git rebase -i HEAD~$1; }; r"
-
-  # respond to PR feedback
-  pr =!git commit --amend --reuse-message=HEAD --no-edit && git push --force-with-lease
-
-  # interactive sync your current branch with master
-  sync = !git fetch origin && git rebase --interactive origin/master
-  # interactive sync your current branch with master
-  syncu = !git fetch upstream && git rebase --interactive upstream/master
-
-  # Pull in remote changes for the current repository and all its submodules
-  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-
-	# Switch to a branch, creating it if necessary
-	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-
-  # Checkout a pull request from origin (of a github repository)
-  f = !"pr() { git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr"
-
+  remotes = remote -v
+  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  upstream = "!git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD) $(git rev-parse --abbrev-ref HEAD)"
   unpushed = log --branches --not --remotes --no-walk --decorate --oneline
 
-  conflicts = diff --name-only --diff-filter=U
-  # nice logs
-  lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset %s %C(bold green)%ar%Creset %C(bold blue)%an%Creset%C(bold red)%d%Creset' -n 16
-	lines = ! git ls-files | xargs cat | wc -l
-
-  # requires FZF
-	autofixup = "!f() { COMMIT=$(git log --pretty=oneline | fzf | awk '{print $1}'); git commit --fixup $COMMIT; GIT_SEQUENCE_EDITOR=: git rebase --autostash --autosquash -i $COMMIT^; }; f"
-  
-  # commit all with an message (which need not be quoted)
+  # Commits
+  amend = commit -a --amend --reuse-message=HEAD
+  amend-reset-author = commit --amend --reset-author --no-edit
   cm = "!f() { git commit -a -m \"$*\" ; }; f"
-
   save = "!git add -A && git commit -m 'SAVEPOINT'"
+  wip = commit -am "[WIP]"
   wipe = "!git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard"
 
-  # fix your branch when it's missing upstream
-  upstream = "!git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD) $(git rev-parse --abbrev-ref HEAD)"
+  # Stash (with fzf)
+  ss = stash save
+  sc = stash clear
+  sl = !git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}'
+  sp = !git stash pop $(git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}')
+  sd = !git stash drop $(git stash list | awk -F':' '{print $1}' | fzf --preview 'git -c color.ui=always stash show -p {}')
+  sus = stash -k
+  saus = stash -k -u
 
-	# List aliases
-	aliases = config --get-regexp alias
+  # Log
+  l = log --graph --branches --remotes --tags --date=format:'%a %d-%b-%Y %I:%M %p %z' --pretty=log-default
+  ld = log --graph --branches --remotes --tags --pretty=log-full
+  lg = log --graph --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  history = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date-order -n30
+  today = log --since=midnight --color --graph \
+    --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(blue)[%an]%Creset' \
+    --abbrev-commit
+  yesterday = log --since yesterday --until=midnight --color --graph \
+    --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(blue)[%an]%Creset' \
+    --abbrev-commit
+  find = log --color --source -S
 
+  # Reflog
+  r = reflog --date=format:'%a %d-%b-%Y %I:%M %p %z' --pretty=reflog-default
+  rd = reflog --date=format:'%a %d-%b-%Y %I:%M %p %z' --pretty=reflog-full
+
+  # Diff with difftastic (syntax-aware)
+  dft = "!f() { GIT_EXTERNAL_DIFF=difft git diff --ext-diff $@; }; f"
+  dfts = "!f() { GIT_EXTERNAL_DIFF=difft git diff --ext-diff --staged $@; }; f"
+
+  # Review (uses REVIEW_BASE, defaults to master)
+  files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+  review = !nvim -p $(git files) +\"tabdo Gvdiffsplit! $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+  reviewone = !nvim -p +\"tabdo Gvdiffsplit! $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+  show-ls = diff-tree --no-commit-id --name-only -r
+  conflicts = diff --name-only --diff-filter=U
+
+  # Rebase
+  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  sync = !git fetch origin && git rebase --interactive origin/master
+  syncu = !git fetch upstream && git rebase --interactive upstream/master
+  rebase-branch = "!r() { git rebase -i HEAD~$1; }; r"
+  fixup = "!f() { SHA=$(git rev-parse \"$1\"); git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
+  autofixup = "!f() { COMMIT=$(git log --pretty=oneline | fzf | awk '{print $1}'); git commit --fixup $COMMIT; GIT_SEQUENCE_EDITOR=: git rebase --autostash --autosquash -i $COMMIT^; }; f"
+
+  # Reset
+  rh = reset --hard
+  undo = reset HEAD~1 --mixed
+  undo-soft = reset --soft HEAD^
+
+  # Pull requests
+  pr-checkout = "!f() { git fetch --force --update-head-ok ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | sed s#refs/heads/## | xargs -I '{}' git branch --delete --force {}"
+  pr-update = !git commit --amend --reuse-message=HEAD --no-edit && git push --force-with-lease
+
+  # Misc
+  ec = config --global -e
+  aliases = config --get-regexp alias
+  contributors = shortlog --summary --numbered
+  changelog = "!_() { t=$(git describe --abbrev=0 --tags); git log ${t}..HEAD --no-merges --pretty=format:'* %s'; }; _"
+  url = !bash -c 'git config --get remote.origin.url | sed -E \"s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g\"'
+  open = "!hub browse"
+  lines = !git ls-files | xargs cat | wc -l
+  sm = submodule
+  ctags = !.git/hooks/ctags
+  rm-ignored = !git rm -r --cached . && git add . && git commit -am \"Remove ignored files\"

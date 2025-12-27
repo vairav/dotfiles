@@ -1,0 +1,40 @@
+# Zsh config
+#
+# Structure:
+#   common/      - History, aliases, exports, tools
+#   frameworks/  - Zim, omz, or plain
+#   functions/   - Custom functions
+#
+# Set ZSH_FRAMEWORK in ~/.zshrc.local (zim, omz, or plain)
+
+export DOTFILES="$HOME/workspace/dotfiles"
+
+# Default to zim
+: ${ZSH_FRAMEWORK:=zim}
+
+# Common settings
+source $DOTFILES/zsh/common/history.zsh
+source $DOTFILES/zsh/common/keybindings.zsh
+source $DOTFILES/zsh/common/exports.zsh
+source $DOTFILES/zsh/common/aliases.zsh
+
+# Framework
+if [[ -f $DOTFILES/zsh/frameworks/${ZSH_FRAMEWORK}/init.zsh ]]; then
+  source $DOTFILES/zsh/frameworks/${ZSH_FRAMEWORK}/init.zsh
+else
+  echo "Warning: Unknown ZSH_FRAMEWORK '${ZSH_FRAMEWORK}', falling back to plain"
+  source $DOTFILES/zsh/frameworks/plain/init.zsh
+fi
+
+# Tools (after framework for proper integration)
+source $DOTFILES/zsh/common/tools.zsh
+
+# Custom functions
+if [[ -d $DOTFILES/zsh/functions ]]; then
+  for func in $DOTFILES/zsh/functions/*.zsh(N); do
+    source "$func"
+  done
+fi
+
+# Local overrides
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

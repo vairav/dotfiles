@@ -1,0 +1,41 @@
+# rcm configuration
+# Symlinked to ~/.rcrc
+# See rcrc(5) for full documentation
+
+# Dotfiles location
+DOTFILES_DIRS="$HOME/workspace/dotfiles"
+
+# Files/directories to NEVER symlink
+# These are docs, scripts, support files, or managed separately
+EXCLUDES="
+*.md
+.git
+.gitignore
+.gitmodules
+.brew
+.cask
+.osx
+docs
+packages
+hooks
+setup_mac.sh
+setup_ubuntu.sh
+brew
+prompt
+ls
+ssh
+sublime
+termux
+tridactyl
+vim
+zsh
+tmux
+git
+mise.toml
+"
+
+# Source machine-specific rcrc settings (tags, hostname)
+# Create ~/.rcrc.local with:
+#   TAGS="desktop macos"
+#   HOSTNAME="your-hostname"
+[[ -f ~/.rcrc.local ]] && source ~/.rcrc.local

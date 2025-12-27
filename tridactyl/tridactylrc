@@ -1,33 +1,35 @@
+" vim: set filetype=tridactyl
+
 " Containers
-containercreate Personal
-containercreate Trading
-containercreate Electronics
-containercreate Labs
-containercreate Naachi
-containercreate Arya
+" These isolate cookies/sessions so you can have separate logins
+set auconcreatecontainer true
 
-containercreate Cosmix
+containercreate Personal blue fingerprint
+containercreate Trading green dollar
+containercreate Cosmix purple briefcase
 
-" Container <> Domain encapsulation
-"autocontainadd https://*.simplertrading.com Trading
-"autocontainadd https://*.optionalpha.com Trading
-"autocontainadd https://*.tipranks.com Trading
+" Uncomment to auto-open specific sites in containers
+" autocontain -s simplertrading\.com Trading
+" autocontain -s optionalpha\.com Trading
+" autocontain -s tipranks\.com Trading
 
-" Preconfigured tabs
-"composite start-trading js windows.create({ url: ['https://www.simplertrading.com', 'https://www.optionalpha.com']})
 
-" Custom commands
-"bind T composite start-trading
+" Tab management
 
-"let TRIDACTYL_HOME = '/home/vairav/workspace/dotfiles/tridactyl'
+" Close duplicate tabs (keeps first, closes the rest)
+command closeDuplicates jsb browser.tabs.query({}).then(tabs => { const seen = new Map(); const toClose = []; tabs.forEach(t => { if (seen.has(t.url)) { toClose.push(t.id); } else { seen.set(t.url, t.id); } }); if (toClose.length > 0) { browser.tabs.remove(toClose); tri.excmds.fillcmdline_tmp(3000, "# Closed " + toClose.length + " duplicate tab(s)"); } else { tri.excmds.fillcmdline_tmp(3000, "# No duplicate tabs found"); } })
 
-"command close-duplicates jsb :source `${TRIDACTYL_HOME}/scripts/closeDuplicates.js`
-command close-duplicates jsb :source `/home/vairav/workspace/dotfiles/tridactyl/scripts/closeDuplicates.js`
+" Same but only in current window
+command closeDuplicatesWindow jsb browser.tabs.query({currentWindow: true}).then(tabs => { const seen = new Map(); const toClose = []; tabs.forEach(t => { if (seen.has(t.url)) { toClose.push(t.id); } else { seen.set(t.url, t.id); } }); if (toClose.length > 0) { browser.tabs.remove(toClose); tri.excmds.fillcmdline_tmp(3000, "# Closed " + toClose.length + " duplicate(s)"); } else { tri.excmds.fillcmdline_tmp(3000, "# No duplicates found"); } })
 
-" Define a command to run the closeDuplicateTabs function by reading the script file every time
-"command close-duplicates jsb -p fetch("file:///home/user/workspace/dotfiles/tridactyl/scripts/closeDuplicates.js")
-"    .then(response => response.text())
-"    .then(script => {
-"        eval(script);
-"        closeDuplicateTabs();
-"    })
+" Sort all tabs alphabetically by URL
+alias tabsort jsb browser.tabs.query({}).then(tabs => tabs.sort((t1, t2) => t1.url.localeCompare(t2.url)).forEach((tab, index) => browser.tabs.move(tab.id, {index})))
+
+" Close all tabs matching a keyword, e.g. :closetabs youtube
+command closetabs jsb -p browser.tabs.query({}).then(tabs => { let count = 0; tabs.forEach(t => { if(t.url.includes(JS_ARG)) { browser.tabs.remove(t.id); count++; } }); tri.excmds.fillcmdline_tmp(3000, "# Closed " + count + " tab(s)"); })
+
+
+" Bindings
+
+bind ,du closeDuplicates
+bind ,so tabsort

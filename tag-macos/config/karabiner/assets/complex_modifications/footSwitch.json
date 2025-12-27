@@ -1,0 +1,53 @@
+{
+  "title": "Footswitch 3-switch right most to Command+W",
+  "rules": [
+    {
+      "description": "Use 3rd switch on Footswitch device to issue Command+W",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com.google.Chrome",
+                "^org.mozilla.firefox"
+              ]
+            },
+            {
+              "type": "device_if",
+              "identifiers": {
+                  "is_keyboard": true,
+                  "is_pointing_device": true,
+                  "product_id": 29699,
+                  "vendor_id": 3141
+              }
+            }
+          ],
+          "type": "frontmost_application_if"
+        }
+      ],
+      "from": {
+        "key_code": "m",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "q"
+        }
+      ],
+      "to_if_alone": [
+        {
+          "key_code": "w",
+          "modifiers": [
+            "left_command"
+          ]
+        }
+      ],
+      "type": "basic"
+    }
+  ]
+}
+

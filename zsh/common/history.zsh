@@ -1,0 +1,14 @@
+# History Configuration
+# Shared across all frameworks
+
+setopt HIST_IGNORE_ALL_DUPS
+HISTSIZE=1000000000
+SAVEHIST=1000000000
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_BEEP
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY

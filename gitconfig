@@ -1,0 +1,151 @@
+# Git config
+
+# Includes
+[include]
+  path = ~/workspace/dotfiles/git/aliases.gitconfig
+  path = ~/workspace/dotfiles/git/colors.gitconfig
+  path = ~/workspace/dotfiles/git/delta.gitconfig
+  path = ~/workspace/dotfiles/git/user.default.config
+  path = ~/.gitconfig.local
+
+# Core
+[core]
+  editor = $EDITOR
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+  excludesfile = ~/.gitignore_global
+
+[init]
+  defaultBranch = main
+
+[help]
+  autocorrect = prompt
+
+# Sorting
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[column]
+  ui = auto
+  tag = never
+
+# Diff
+[diff]
+  algorithm = histogram
+  tool = nvimdiff
+  renames = copies
+  submodule = log
+  colorMoved = default
+  mnemonicPrefix = true
+
+[difftool]
+  prompt = false
+  trustExitCode = true
+
+[difftool "nvimdiff"]
+  cmd = nvim -d "$LOCAL" "$REMOTE"
+
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+
+# Merge
+[merge]
+  tool = nvimdiff
+  conflictStyle = zdiff3
+  keepBackup = false
+  log = true
+
+[mergetool]
+  prompt = false
+  keepBackup = false
+
+[mergetool "nvimdiff"]
+  cmd = nvim -d "$LOCAL" "$BASE" "$REMOTE" "$MERGED" -c 'wincmd J | wincmd ='
+
+[mergetool "meld"]
+  cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+
+# Fetch & Pull
+[fetch]
+  prune = true
+  pruneTags = true
+
+[pull]
+  rebase = true
+
+# Push
+[push]
+  default = current
+  autoSetupRemote = true
+  followTags = true
+
+# Rebase
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+# Rerere - remember conflict resolutions
+[rerere]
+  enabled = true
+  autoUpdate = true
+
+# Commit
+[commit]
+  verbose = true
+
+# Status & Log
+[status]
+  short = true
+  branch = true
+
+[log]
+  date = format:%a %d-%b-%Y %I:%M %p %z
+
+# Grep
+[grep]
+  lineNumber = true
+  patternType = perl
+
+# Whitespace
+[apply]
+  whitespace = error
+
+# Pretty formats
+[format]
+  pretty = log-default
+
+[pretty]
+  log-default = format:%C(auto)%h%C(reset) %C(blue)%ad%C(reset)%C(auto)%d%C(reset) %C(241)%aN <%aE>%C(reset)%n%s%n
+  log-full = format:%C(auto)%h%C(reset)%C(auto)%d%C(reset)   %C(239)[P: %p] [T: %t]%C(reset)%n%C(white)Author:%C(reset)   %aN %C(241)<%aE>%C(reset)%n          %C(blue)%ad%C(reset) %C(cyan)(%ar)%C(reset)%n%C(white)Commit:%C(reset)   %cN %C(241)<%cE>%C(reset)   %C(239)[GPG: %G?% GK]%C(reset)%n          %C(blue)%cd%C(reset) %C(cyan)(%cr)%C(reset)%w(0,4,4)%n%n%C(bold)%s%C(reset)%n%n%-b%n%n%-N%n
+  reflog-default = format:%C(auto)%h%C(reset) %C(blue)%ad%C(reset) %C(cyan)(%ar)%C(reset)%C(auto)%d%C(reset)%n %C(yellow)●%C(reset) %s %C(241)%aN <%aE>%C(reset)%n %C(yellow)○%C(reset) %C(bold yellow)(%C(magenta)%gd%C(bold yellow))%C(reset) %gs %C(241)%gN <%gE>%C(reset)%n%w(0,7,7)%+(trailers:only,unfold)
+
+# URL shortcuts
+[url "git@github.com:"]
+  insteadOf = "gh:"
+  insteadOf = "github:"
+  insteadOf = "git://github.com/"
+  pushInsteadOf = "gh:"
+
+[url "git@bitbucket.org:"]
+  insteadOf = "bb:"
+  pushInsteadOf = "bb:"
+
+# LFS
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+# GPG (uncomment to enable signing)
+[gpg]
+  program = gpg
+
+# [commit]
+#   gpgSign = true
+
+# [tag]
+#   gpgSign = true

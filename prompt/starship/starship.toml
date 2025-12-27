@@ -1,0 +1,136 @@
+# Starship Prompt Configuration
+# Portable config for macOS and Arch Linux
+# Based on oh-my-posh personal.toml theme
+
+# General settings
+add_newline = false
+command_timeout = 1000
+
+# Prompt format - left side
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$sudo\
+$character"""
+
+# Right prompt
+right_format = """
+$nodejs\
+$golang\
+$python\
+$rust\
+$cmd_duration\
+$time"""
+
+# Palette (matching oh-my-posh colors)
+palette = "custom"
+
+[palettes.custom]
+black = "#262B44"
+blue = "#4B95E9"
+green = "#59C9A5"
+orange = "#F07623"
+red = "#D81E5B"
+white = "#E0DEF4"
+yellow = "#F3AE35"
+
+# Character - shows vi mode and exit status
+[character]
+success_symbol = "[](green)"
+error_symbol = "[](red)"
+vimcmd_symbol = "[](blue)"
+vimcmd_replace_one_symbol = "[](orange)"
+vimcmd_replace_symbol = "[](orange)"
+vimcmd_visual_symbol = "[](yellow)"
+
+# Username
+[username]
+style_user = "bg:yellow fg:black"
+style_root = "bg:red fg:white bold"
+format = "[ $user ]($style)"
+show_always = true
+
+# Hostname (show on SSH)
+[hostname]
+ssh_only = true
+style = "bg:yellow fg:black"
+format = "[ $hostname ]($style)"
+
+# Directory
+[directory]
+style = "bg:orange fg:white"
+format = "[  $path ]($style)"
+truncation_length = 1
+truncate_to_repo = false
+
+# Git branch
+[git_branch]
+style = "bg:green fg:black"
+format = "[ $symbol$branch(:$remote_branch) ]($style)"
+symbol = " "
+truncation_length = 25
+
+# Git status
+[git_status]
+style = "bg:green fg:black"
+format = "[$all_status$ahead_behind]($style)"
+conflicted = " "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇕⇡${ahead_count}⇣${behind_count} "
+untracked = " "
+stashed = " "
+modified = " "
+staged = " "
+renamed = " "
+deleted = " "
+
+# Sudo indicator
+[sudo]
+style = "bg:yellow fg:white bold"
+format = "[  ]($style)"
+disabled = false
+
+# Node.js
+[nodejs]
+style = "green"
+format = "[$symbol]($style)"
+symbol = " "
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_folders = ["node_modules"]
+
+# Go
+[golang]
+style = "blue"
+format = "[$symbol]($style)"
+symbol = " "
+detect_files = ["go.mod", "go.sum", "go.work", ".go-version"]
+
+# Python
+[python]
+style = "yellow"
+format = "[$symbol]($style)"
+symbol = " "
+detect_files = ["requirements.txt", "pyproject.toml", "Pipfile", ".python-version"]
+
+# Rust
+[rust]
+style = "red"
+format = "[$symbol]($style)"
+symbol = " "
+
+# Command duration
+[cmd_duration]
+style = "white"
+format = "[$duration]($style) "
+min_time = 2000
+
+# Time
+[time]
+disabled = false
+style = "white"
+format = "at [$time](blue bold)"
+time_format = "%H:%M:%S"

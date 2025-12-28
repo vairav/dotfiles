@@ -1,3 +1,8 @@
+---
+title: Keybindings
+nav_order: 4
+---
+
 # Keybindings
 
 Keyboard shortcuts I use across tools.

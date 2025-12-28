@@ -1,3 +1,8 @@
+---
+title: Repository Layout
+nav_order: 2
+---
+
 # Repository Layout
 
 How I organize my dotfiles using rcm.

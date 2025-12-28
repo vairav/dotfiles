@@ -1,0 +1,20 @@
+# ~/.rcrc.local - Machine-specific rcm configuration
+# This file is NOT version controlled and must be created per-machine
+
+# =============================================================================
+# macOS Desktop
+# =============================================================================
+# TAGS="desktop macos"
+# HOSTNAME="macbook-pro-work"
+
+# =============================================================================
+# Linux Desktop
+# =============================================================================
+# TAGS="desktop linux"
+# HOSTNAME="linux-desktop"
+
+# =============================================================================
+# Linux Server (minimal)
+# =============================================================================
+# TAGS="server"
+# HOSTNAME="prod-server-01"

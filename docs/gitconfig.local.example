@@ -1,0 +1,15 @@
+# ~/.gitconfig.local - Machine-specific git configuration
+# This file is NOT version controlled - create it on each machine
+
+[user]
+  name = Vairav Laxman
+  email = user@organization.com
+  # signingkey = GPG_KEY_ID
+
+# Uncomment to sign commits
+# [commit]
+#   gpgsign = true
+
+# Work overrides for specific directories
+# [includeIf "gitdir:~/workspace/org"]
+#   path = ~/.gitconfig.org

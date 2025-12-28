@@ -1,3 +1,8 @@
+---
+title: Arch Linux
+nav_order: 6
+---
+
 # Arch Linux
 
 ## EndeavourOS

@@ -1,3 +1,8 @@
+---
+title: Shell
+nav_order: 5
+---
+
 # Shell
 
 ## Install packages

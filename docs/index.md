@@ -1,28 +1,24 @@
+---
+layout: home
+title: Home
+nav_order: 1
+---
+
 # Dotfiles
 
 My dotfiles, managed with [rcm](https://github.com/thoughtbot/rcm).
-
-## Quick Links
-
-- [Repository Structure](rcm-layout.md)
-- [Package Management](packages.md)
-- [Shell Setup](shell.md)
-- [Keybindings](keybindings.md)
-- [Arch Linux Notes](arch.md)
 
 ## Setup
 
 ```bash
 # One-liner
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/dotfiles/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/vairav/dotfiles/main/install.sh | bash
 
 # With options
 curl ... | bash -s -- --work      # Work machine
 curl ... | bash -s -- --personal  # Personal machine
 curl ... | bash -s -- --server    # Server (minimal)
 ```
-
-See [README](../README.md) for manual setup steps.
 
 ## Daily Use
 

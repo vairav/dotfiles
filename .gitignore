@@ -1,1 +1,14 @@
 .DS_Store
+alacritty/themes
+
+# Secrets (never commit these)
+*.local
+.env
+.env.*
+*.secret
+*.secrets
+*_secret*
+*_secrets*
+*.key
+*.pem
+credentials*

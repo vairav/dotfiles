@@ -5,20 +5,16 @@ nav_order: 6
 
 # Arch Linux
 
-## EndeavourOS
+Notes for Arch/EndeavourOS setup.
 
-## Installing Nerd Fonts
+## Nerd Fonts
 
-- To install nerd fonts, since Nerd Fonts team have changed the way to install the fonts, you need to install each font separately
+Install via pacman (each font is a separate package now):
 
 ```shell
 sudo pacman -S ttf-sourcecodepro-nerd
 ```
 
-- This installs the `SauceCode Pro` Nerd Font
+Fonts go to `/usr/share/fonts`. Run `fc-list` to verify.
 
-- After installation, the fonts should be available in `/usr/share/fonts`
-
-- Run `fc-list` to print the list of fonts
-
-- Another option is to download the font manually and put them under `~/.local/share/fonts` folder and that should do the trick as well. This is more for a single user setting
+Alternative: download manually to `~/.local/share/fonts` for single-user install.

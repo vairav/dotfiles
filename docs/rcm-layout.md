@@ -5,7 +5,7 @@ nav_order: 2
 
 # Repository Layout
 
-How I organize my dotfiles using rcm.
+Dotfiles organization with rcm.
 
 ## Structure
 
@@ -19,7 +19,9 @@ dotfiles/
 ├── editorconfig              # -> ~/.editorconfig
 │
 ├── config/                   # -> ~/.config/
-│   ├── nvim/
+│   ├── nvim/                 # Neovim configs (NVIM_APPNAME)
+│   │   ├── lazyvim/          # nvim/lazyvim
+│   │   └── nvchad/           # nvim/nvchad
 │   ├── kitty/
 │   ├── alacritty/
 │   └── htop/
@@ -66,12 +68,15 @@ Files at repo root get symlinked to `$HOME` with a dot prefix:
 
 The `config/` directory becomes `~/.config/`:
 
-- `config/nvim/` -> `~/.config/nvim/`
+- `config/nvim/lazyvim/` -> `~/.config/nvim/lazyvim/`
+- `config/nvim/nvchad/` -> `~/.config/nvim/nvchad/`
 - `config/kitty/` -> `~/.config/kitty/`
+
+Use `NVIM_APPNAME=nvim/lazyvim` to switch neovim configs (see [Neovim](neovim.md)).
 
 ## Support directories
 
-`zsh/`, `tmux/`, `git/` contain files that are sourced or included by the main configs. They're not symlinked directly - I reference them by full path:
+`zsh/`, `tmux/`, `git/` contain files that are sourced or included by the main configs. Not symlinked directly - referenced by full path:
 
 ```bash
 # in ~/.zshrc

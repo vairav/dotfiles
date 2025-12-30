@@ -35,14 +35,14 @@ Packages are separate from dotfiles. `install.sh` handles everything.
 | Brewfile.apps.personal | Rogue Amoeba         | --personal   |
 | Brewfile.font          | Nerd Fonts           | Desktop      |
 | Brewfile.devops        | Terraform, AWS, etc  | Desktop      |
-| Brewfile.playground    | Stuff I'm testing    | --playground |
+| Brewfile.playground    | Testing/evaluation   | --playground |
 | manual-install.txt     | Not in brew          | -            |
 
 ## What's in each Brewfile
 
 ### core
 
-CLI tools I use everywhere: eza, bat, fd, ripgrep, fzf, zoxide, atuin, jq, yq, etc.
+CLI essentials: eza, bat, fd, ripgrep, fzf, zoxide, atuin, jq, yq, etc.
 
 ### dev
 
@@ -74,7 +74,7 @@ Terraform, AWS CLI, Ansible, Packer, etc.
 
 ### playground
 
-Tools I'm evaluating. Uncomment what I want to test, run install, then decide to keep or remove.
+Tools under evaluation. Uncomment to test, then decide to keep or remove.
 
 ## Linux
 

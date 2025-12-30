@@ -6,7 +6,7 @@ nav_order: 1
 
 # Dotfiles
 
-My dotfiles, managed with [rcm](https://github.com/thoughtbot/rcm).
+Dotfiles managed with [rcm](https://github.com/thoughtbot/rcm).
 
 ## Setup
 

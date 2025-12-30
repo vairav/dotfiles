@@ -5,7 +5,7 @@ nav_order: 4
 
 # Keybindings
 
-Keyboard shortcuts I use across tools.
+Keyboard shortcuts across tools.
 
 ## Shell
 
@@ -40,3 +40,20 @@ See nvim config for full keybindings. Highlights:
 | gcc         | Toggle comment   |
 | gd          | Go to definition |
 | K           | Hover docs       |
+
+### AI (CodeCompanion)
+
+| Key          | What          |
+| ------------ | ------------- |
+| leader + ai  | Inline prompt |
+| leader + ac  | Toggle chat   |
+| leader + aa  | Actions menu  |
+
+### AI completion (Codeium)
+
+| Key   | What              |
+| ----- | ----------------- |
+| Tab   | Accept completion |
+| alt+] | Next suggestion   |
+| alt+[ | Prev suggestion   |
+| ctrl+]| Clear             |

@@ -1,34 +1,30 @@
 # Brewfile.ai - AI and LLM tools
 # Usage: brew bundle --file=Brewfile.ai
 
-# =============================================================================
-# AI Desktop Apps
-# =============================================================================
-cask "chatgpt"                  # OpenAI ChatGPT
-cask "claude"                   # Anthropic Claude
-cask "cursor"                   # AI-powered code editor
-cask "windsurf"                 # AI coding assistant
-cask "zed"                      # Fast editor with AI
-cask "trae"                     # AI tool
-cask "msty"                     # Local AI model manager (multi-provider)
-cask "lm-studio"                # Local LLM runner
-cask "repo-prompt"              # AI prompt tool
+# Desktop Apps
+cask "chatgpt"
+cask "claude"
+cask "cursor"
+cask "windsurf"
+cask "zed"
+cask "trae"
+cask "msty"         # Local AI model manager (multi-provider)
+cask "lm-studio"    # Local only LLM model manager
+cask "repo-prompt"  # Repo level AI chat tool
 
-# =============================================================================
-# AI CLI Tools
-# =============================================================================
-brew "qwen-code"                # Qwen AI coding assistant
+# CLI Tools
+brew "qwen-code"
 
-# MCP Servers (Model Context Protocol)
-# These may require specific taps - install manually if not available
-# brew "github-mcp-server"
-# brew "terraform-mcp-server"
+# Block Goose
+tap "block/goose"
+brew "block/goose/goose"
+cask "block-goose"
 
-# =============================================================================
-# Installation Notes
-# =============================================================================
-# claude-code (CLI):
-#   npm install -g @anthropics/claude-code
-#
-# ollama (local LLM runner):
-#   brew install ollama
+# MCP
+brew "mcp-toolbox"
+# brew "github-mcp-server"      # Install manually if needed
+# brew "terraform-mcp-server"   # Install manually if needed
+
+# Manual installs:
+# claude-code: npm install -g @anthropics/claude-code
+# ollama: brew install ollama

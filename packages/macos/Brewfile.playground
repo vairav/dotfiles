@@ -1,27 +1,21 @@
-# Brewfile.playground - Testing/evaluation tools
-# Usage: brew bundle --file=Brewfile.playground
-#
-# Temporary holding area for tools being evaluated.
-# After testing, move to appropriate Brewfile or remove.
-# =============================================================================
+# Brewfile.playground - Tools being evaluated
+# Uncomment to install: brew bundle --file=Brewfile.playground
 
-cask_args appdir: "/Applications"
+# Editors
+# brew "kakoune"
+# brew "helix"
+# cask "lapce"
 
-# =============================================================================
-# Network & Security
-# =============================================================================
-# brew "goaccess"               # Real-time web log analyzer
-# cask "tunnelblick"            # OpenVPN client
-# cask "linkliar"               # MAC address spoofer
+# HTTP/API
+# brew "hurl"                    # Declarative HTTP testing
+# brew "aria2"                   # Multi-protocol download utility
 
-# =============================================================================
-# Kubernetes Extended
-# =============================================================================
-# brew "skaffold"               # K8s local dev workflow
-# brew "kail"                   # K8s multi-pod log tailer
-# brew "kubefwd"                # K8s bulk port-forward
+# Kubernetes
+# brew "skaffold"
+# brew "kail"                    # Multi-pod log tailer
+# brew "kubefwd"                 # Bulk port-forward
 
-# =============================================================================
-# Currently Testing
-# =============================================================================
-# Uncomment to install, then run: brew bundle --file=Brewfile.playground
+# Network
+# brew "goaccess"                # Real-time web log analyzer
+# cask "tunnelblick"             # OpenVPN client
+# cask "linkliar"                # MAC address spoofer

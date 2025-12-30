@@ -48,6 +48,7 @@ brew "ncdu"
 
 # HTTP tools
 brew "httpie"
+brew "xh"
 
 # Languages and runtimes
 brew "mise"                     # Runtime version manager (replaces asdf, nvm, pyenv)
@@ -56,7 +57,7 @@ brew "pipenv"
 brew "pipx"
 brew "go"
 brew "ruby"
-brew "rust"
+brew "rustup"
 brew "lua"
 brew "luajit"
 brew "luarocks"
@@ -95,6 +96,7 @@ cask "visual-studio-code"
 cask "postman"
 
 # Database
+brew "redis"
 cask "dbeaver-community"
 
 # Design
@@ -103,8 +105,12 @@ cask "figma"
 # Documentation
 cask "dash"                     # Offline documentation browser
 
+# Diagram tools
+brew "d2"                       # Modern diagram scripting language
+
 # Misc dev tools
 brew "autoconf"
 brew "pandoc"
 brew "prettyping"
-brew "rich-cli"                 # Rich text in terminal
+brew "rich-cli"                 # Rich text CLI output
+brew "watchexec"

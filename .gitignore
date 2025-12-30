@@ -12,3 +12,6 @@ alacritty/themes
 *.key
 *.pem
 credentials*
+
+# AI
+.claude

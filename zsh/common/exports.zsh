@@ -2,6 +2,7 @@
 # Shared across all frameworks
 
 # Editor
+export NVIM_APPNAME="nvim/lazyvim"
 export EDITOR=nvim
 export VISUAL=nvim
 

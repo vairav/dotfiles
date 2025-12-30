@@ -1,13 +1,9 @@
-# Brewfile.apps.work - Work machine specific apps
+# Brewfile.apps.work - Work machine apps
 # Usage: brew bundle --file=Brewfile.apps.work
-#
-# Only install on work machines with appropriate licenses
 
 cask_args appdir: "/Applications"
 
-# =============================================================================
-# Microsoft Office (requires license)
-# =============================================================================
+# Microsoft Office
 cask "microsoft-excel"
 cask "microsoft-word"
 cask "microsoft-powerpoint"
@@ -16,7 +12,5 @@ cask "microsoft-onenote"
 cask "microsoft-teams"
 cask "microsoft-defender"
 
-# =============================================================================
-# Work/Enterprise
-# =============================================================================
+# Enterprise
 cask "intune-company-portal"

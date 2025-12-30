@@ -1,7 +1,5 @@
-# Brewfile.font - Nerd Fonts for terminal/development
+# Brewfile.font - Nerd Fonts
 # Usage: brew bundle --file=Brewfile.font
-
-# Nerd Fonts - patched fonts with icons for terminal/dev use
 # https://www.nerdfonts.com/
 
 cask "font-0xproto-nerd-font"

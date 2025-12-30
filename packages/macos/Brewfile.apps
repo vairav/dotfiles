@@ -3,37 +3,27 @@
 
 cask_args appdir: "/Applications"
 
-# =============================================================================
 # Browsers
-# =============================================================================
 cask "google-chrome"
 cask "firefox"
 cask "firefox-developer-edition"
-cask "zen"                      # Privacy-focused browser
-# Note: Tridactyl must be installed manually via Firefox Add-ons
-# https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/
+cask "zen"
 
-# =============================================================================
 # Communication
-# =============================================================================
 cask "discord"
-cask "legcord"                  # Discord client
+cask "legcord"                  # Discord client with custom themes
 cask "slack"
 cask "rocket-chat"
 cask "signal"
 cask "whatsapp"
 cask "zoom"
 
-# =============================================================================
 # Notes & Knowledge
-# =============================================================================
 cask "logseq"
 cask "notion"
 cask "obsidian"
 
-# =============================================================================
 # System Utilities
-# =============================================================================
 cask "1password"
 cask "adguard"
 cask "aldente"                  # Battery charge limiter
@@ -42,37 +32,36 @@ cask "antigravity"
 cask "antinote"
 cask "betterdisplay"
 cask "bettertouchtool"
-cask "cheatsheet"               # Hold ⌘ to see keyboard shortcuts
+cask "cheatsheet"               # Hold Cmd to see shortcuts
 cask "cleanshot"
 cask "clop"
 cask "hazel"
 cask "homerow"
 cask "keyboard-maestro"
 cask "keymapp"                  # ZSA keyboard configurator
-cask "loop"                     # Window management
+cask "loop"                     # Window manager with mouse gestures
 cask "mouseless"                # Keyboard-driven mouse
 cask "pixelsnap"
 cask "popclip"
-cask "qlcolorcode"              # QuickLook syntax highlighting
+cask "qlcolorcode"              # Syntax highlighting for QuickLook
 cask "rectangle"
+cask "hammerspoon"
+cask "jordanbaird-ice"
+cask "shottr"
 cask "stats"                    # Menu bar system monitor
 cask "superkey"
-cask "suspicious-package"       # Inspect .pkg installers
+cask "suspicious-package"       # Malware scanner for .pkg files
 
-# =============================================================================
 # Cloud & Storage
-# =============================================================================
 cask "box-drive"
 cask "cryptomator"
 cask "dropbox"
-cask "forklift"                 # File manager
+cask "forklift"                 # Finder file manager replacement
 cask "google-drive"
-cask "mountain-duck"            # Mount cloud storage
+cask "mountain-duck"
 cask "onedrive"
 
-# =============================================================================
 # Media & Creative
-# =============================================================================
 cask "affinity-designer"
 cask "affinity-photo"
 cask "affinity-publisher"
@@ -82,28 +71,22 @@ cask "handbrake"                # Video transcoder
 cask "krita"
 cask "open-video-downloader"
 
-# =============================================================================
 # Security & VPN
-# =============================================================================
 cask "bitwarden"
 cask "1password-cli"
 cask "ente-auth"                # 2FA authenticator
 cask "tailscale"
 
-# =============================================================================
 # Finance
-# =============================================================================
+brew "beancount"
+brew "fava"
 cask "tradingview"
 
-# =============================================================================
 # Downloads
-# =============================================================================
 brew "youtube-dl"
 brew "speedtest-cli"
 
-# =============================================================================
-# Mac App Store Apps
-# =============================================================================
+# Mac App Store
 mas "Amphetamine", id: 937984704
 mas "Canary Mail", id: 1236045954
 mas "Dropover", id: 1355679052

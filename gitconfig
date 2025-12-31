@@ -6,6 +6,7 @@
   path = ~/workspace/dotfiles/git/colors.gitconfig
   path = ~/workspace/dotfiles/git/delta.gitconfig
   path = ~/workspace/dotfiles/git/user.default.config
+  path = ~/.gitconfig.vault
   path = ~/.gitconfig.local
 
 # Core

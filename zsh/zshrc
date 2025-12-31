@@ -36,5 +36,8 @@ if [[ -d $DOTFILES/zsh/functions ]]; then
   done
 fi
 
-# Local overrides
+# Vault (private dotfiles)
+[[ -f ~/.zshrc.vault ]] && source ~/.zshrc.vault
+
+# Local overrides (machine-specific, highest priority)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

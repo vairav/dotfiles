@@ -16,8 +16,9 @@
 
 set -e
 
-DOTFILES_REPO="https://github.com/YOUR_USERNAME/dotfiles.git"
+DOTFILES_REPO="https://github.com/vairav/dotfiles.git"
 DOTFILES_DIR="$HOME/workspace/dotfiles"
+BACKUP_DIR="$HOME/.backup/dotfiles-$(date +'%d%b%Y-%I%M%p')"
 
 # Colors
 RED='\033[0;31m'
@@ -28,6 +29,22 @@ NC='\033[0m'
 info() { echo -e "${GREEN}==>${NC} $1"; }
 warn() { echo -e "${YELLOW}==>${NC} $1"; }
 error() { echo -e "${RED}==>${NC} $1"; exit 1; }
+
+# Backup a file or directory before replacing
+# Preserves home folder structure in backup directory
+backup_if_exists() {
+  local target="$1"
+  if [[ -e "$target" && ! -L "$target" ]]; then
+    mkdir -p "$BACKUP_DIR"
+    local backup_path="$BACKUP_DIR${target#$HOME}"
+    mkdir -p "$(dirname "$backup_path")"
+    mv "$target" "$backup_path"
+    warn "Backed up $target"
+  elif [[ -L "$target" ]]; then
+    # Remove existing symlink (will be recreated by rcup)
+    rm -f "$target"
+  fi
+}
 
 # Parse arguments
 PROFILE="desktop"
@@ -173,10 +190,28 @@ setup_tags() {
   echo "TAGS=\"$tags\"" > ~/.rcrc.local
 }
 
+# Backup existing dotfiles before symlinking
+backup_existing() {
+  info "Checking for existing files to backup..."
+
+  # Common dotfiles that might exist
+  backup_if_exists "$HOME/.zshrc"
+  backup_if_exists "$HOME/.gitconfig"
+  backup_if_exists "$HOME/.tmux.conf"
+  backup_if_exists "$HOME/.vimrc"
+  backup_if_exists "$HOME/.config/nvim"
+  backup_if_exists "$HOME/.config/kitty"
+  backup_if_exists "$HOME/.config/alacritty"
+
+  if [[ -d "$BACKUP_DIR" ]]; then
+    info "Existing files backed up to $BACKUP_DIR"
+  fi
+}
+
 # Symlink dotfiles
 link_dotfiles() {
   info "Symlinking dotfiles..."
-  RCRC="$DOTFILES_DIR/rcrc" rcup -v
+  RCRC="$DOTFILES_DIR/rcrc" rcup -f
 }
 
 # Install packages
@@ -215,12 +250,21 @@ main() {
   install_rcm
   setup_dotfiles
   setup_tags
+  backup_existing
   link_dotfiles
   install_packages
   setup_macos
 
   echo ""
   info "Done! Restart your terminal to apply changes."
+
+  # Show backup location if backups were made
+  if [[ -d "$BACKUP_DIR" ]]; then
+    echo ""
+    warn "Your existing dotfiles were backed up to:"
+    warn "  $BACKUP_DIR"
+  fi
+
   echo ""
   echo "Next steps:"
   echo "  - Edit ~/.zshrc.local for API keys and ZSH_FRAMEWORK"

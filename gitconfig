@@ -5,7 +5,7 @@
   path = ~/workspace/dotfiles/git/aliases.gitconfig
   path = ~/workspace/dotfiles/git/colors.gitconfig
   path = ~/workspace/dotfiles/git/delta.gitconfig
-  path = ~/workspace/dotfiles/git/user.default.config
+  path = ~/.config/git-identities/default
   path = ~/.gitconfig.vault
   path = ~/.gitconfig.local
 

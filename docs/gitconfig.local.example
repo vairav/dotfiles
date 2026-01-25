@@ -2,8 +2,8 @@
 # This file is NOT version controlled - create it on each machine
 
 [user]
-  name = Vairav Laxman
-  email = user@organization.com
+  name = Your Name
+  email = your@email.com
   # signingkey = GPG_KEY_ID
 
 # Uncomment to sign commits

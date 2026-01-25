@@ -1,0 +1,5 @@
+# Override ml4w default prompt config
+# Use dotfiles setup (zim + starship) instead of oh-my-zsh + oh-my-posh
+
+# fzf for file finding (atuin handles history)
+source <(fzf --zsh)

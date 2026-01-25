@@ -19,34 +19,7 @@ DOTFILES_DIRS="$HOME/workspace/dotfiles"
 # ml4w-managed configs (sourced/hooked, not symlinked):
 #   - config/hypr - ml4w manages ~/.config/hypr, custom.conf sources our files
 #   - config/kitty - ml4w manages ~/.config/kitty, we use custom.conf hook
-EXCLUDES="
-*.md
-.git
-.gitignore
-.gitmodules
-.brew
-.cask
-.osx
-docs
-packages
-hooks
-setup_mac.sh
-setup_ubuntu.sh
-brew
-prompt
-ls
-ssh
-sublime
-termux
-tridactyl
-vim
-zsh
-tmux
-git
-mise.toml
-config/hypr
-config/kitty
-"
+EXCLUDES="*.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr config/kitty"
 
 # Source machine-specific rcrc settings (tags, hostname)
 # Create ~/.rcrc.local with:

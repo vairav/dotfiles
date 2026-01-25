@@ -237,17 +237,17 @@ EOF
 backup_existing() {
   info "Checking for existing files to backup..."
 
-  backup_if_exists "$HOME/.zshrc"
+  # ml4w manages its own zshrc, kitty, alacritty - don't touch them
+  if [[ "$USE_ML4W" != "yes" ]]; then
+    backup_if_exists "$HOME/.zshrc"
+    backup_if_exists "$HOME/.config/kitty"
+    backup_if_exists "$HOME/.config/alacritty"
+  fi
+
   backup_if_exists "$HOME/.gitconfig"
   backup_if_exists "$HOME/.tmux.conf"
   backup_if_exists "$HOME/.vimrc"
   backup_if_exists "$HOME/.config/nvim"
-
-  # Only backup kitty/alacritty if not using ml4w
-  if [[ "$USE_ML4W" != "yes" ]]; then
-    backup_if_exists "$HOME/.config/kitty"
-    backup_if_exists "$HOME/.config/alacritty"
-  fi
 
   if [[ -d "$BACKUP_DIR" ]]; then
     info "Existing files backed up to $BACKUP_DIR"

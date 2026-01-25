@@ -1,7 +1,7 @@
 # DevOps and infrastructure
 
 # AWS
-aws-cli-v2
+aws-cli-v2-bin
 
 # Terraform
 terraform

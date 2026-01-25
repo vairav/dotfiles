@@ -1,0 +1,23 @@
+# Shell enhancements (some require AUR)
+
+# Prompt
+starship
+
+# History
+atuin
+
+# Navigation
+zoxide
+
+# Multiplexer
+tmux
+
+# Version manager
+mise
+
+# Wayland automation
+ydotool
+wtype
+
+# Cheatsheet
+navi

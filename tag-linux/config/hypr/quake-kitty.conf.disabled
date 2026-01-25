@@ -1,0 +1,18 @@
+# Quake-style terminal using Kitty
+$quake_terminal = kitty --class quake-terminal
+
+# At the top of your config, in the autostart section
+exec-once = $quake_terminal
+
+# Window rule for the quake terminal
+windowrulev2 = float,$quake_terminal
+windowrulev2 = workspace special silent,$quake_terminal
+windowrulev2 = size 100% 60%,$quake_terminal
+windowrulev2 = move 0% 0%,$quake_terminal
+
+# Keybinding for toggling the quake terminal
+bind = $mainMod, F12, togglespecialworkspace
+
+# Replace any existing Alacritty bindings with Kitty
+bind = $mainMod, RETURN, exec, kitty
+bind = $mainMod, Q, exec, kitty

@@ -1,0 +1,19 @@
+# DevOps and infrastructure
+
+# AWS
+aws-cli-v2
+
+# Terraform
+terraform
+terragrunt
+tflint
+
+# Config management
+ansible
+packer
+
+# Secrets
+sops
+
+# VPN
+tailscale

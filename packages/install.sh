@@ -1,7 +1,7 @@
 #!/bin/bash
-# =============================================================================
+#
 # Package Installation Script
-# =============================================================================
+#
 # Installs packages based on OS and role.
 # Does NOT manage dotfiles (use rcm for that).
 #
@@ -14,7 +14,6 @@
 #   ./install.sh --playground # Include testing/evaluation tools
 #   ./install.sh --dry-run    # Show what would be installed
 #   ./install.sh --cleanup    # Remove packages not in Brewfiles
-# =============================================================================
 
 set -euo pipefail
 
@@ -38,9 +37,7 @@ warn()  { echo -e "${YELLOW}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
 debug() { echo -e "${BLUE}[DEBUG]${NC} $1"; }
 
-# -----------------------------------------------------------------------------
 # OS Detection
-# -----------------------------------------------------------------------------
 
 detect_os() {
     case "$(uname -s)" in
@@ -60,9 +57,7 @@ detect_distro() {
     fi
 }
 
-# -----------------------------------------------------------------------------
 # macOS (Homebrew)
-# -----------------------------------------------------------------------------
 
 install_macos() {
     local role="$1"
@@ -150,9 +145,7 @@ cleanup_macos() {
     rm -f "$combined_brewfile"
 }
 
-# -----------------------------------------------------------------------------
 # Linux (apt/pacman)
-# -----------------------------------------------------------------------------
 
 install_linux() {
     local role="$1"
@@ -245,35 +238,143 @@ install_dnf() {
 
 install_pacman() {
     local role="$1"
-    local pkg_file
 
+    # Detect AUR helper first
+    local aur_helper=""
+    if command -v yay &>/dev/null; then
+        aur_helper="yay"
+    elif command -v paru &>/dev/null; then
+        aur_helper="paru"
+    fi
+
+    # Helper to install a package file (skips if file doesn't exist)
+    install_if_exists() {
+        local pkg_file="$1"
+        local manager="${2:-pacman}"
+        [[ -f "$pkg_file" ]] && install_packages_from_file "$pkg_file" "$manager"
+    }
+
+    # Helper for AUR packages (warns if no helper)
+    install_aur_if_exists() {
+        local pkg_file="$1"
+        if [[ ! -f "$pkg_file" ]]; then
+            return
+        fi
+        if [[ -n "$aur_helper" ]]; then
+            install_packages_from_file "$pkg_file" "$aur_helper"
+        else
+            warn "No AUR helper (yay/paru) found. Skipping $(basename "$pkg_file")"
+        fi
+    }
+
+    # Core packages (always)
+    install_if_exists "$SCRIPT_DIR/arch/core.txt"
+
+    if [[ "$role" == "desktop" ]]; then
+        # Standard desktop packages
+        install_if_exists "$SCRIPT_DIR/arch/dev.txt"
+        install_if_exists "$SCRIPT_DIR/arch/apps.txt"
+        install_if_exists "$SCRIPT_DIR/arch/ai.txt"
+        install_if_exists "$SCRIPT_DIR/arch/font.txt"
+        install_if_exists "$SCRIPT_DIR/arch/devops.txt"
+
+        # Shell tools (mostly AUR)
+        install_aur_if_exists "$SCRIPT_DIR/arch/shell.txt"
+    fi
+
+    # Server packages
     if [[ "$role" == "server" ]]; then
-        pkg_file="$SCRIPT_DIR/arch/server.txt"
-    else
-        pkg_file="$SCRIPT_DIR/arch/desktop.txt"
+        install_if_exists "$SCRIPT_DIR/arch/server.txt"
     fi
 
-    if [[ ! -f "$pkg_file" ]]; then
-        error "Package list not found: $pkg_file"
-        exit 1
+    # Optional packages based on flags
+    if [[ "$INCLUDE_WORK" == "true" ]]; then
+        install_aur_if_exists "$SCRIPT_DIR/arch/apps.work.txt"
     fi
 
-    local packages
-    packages=$(grep -v '^#' "$pkg_file" | grep -v '^$' | tr '\n' ' ')
+    if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
+        install_if_exists "$SCRIPT_DIR/arch/apps.personal.txt"
+    fi
 
-    info "Installing packages from $(basename "$pkg_file")..."
-
-    if [[ "$DRY_RUN" == "false" ]]; then
-        # shellcheck disable=SC2086
-        sudo pacman -Syu --noconfirm $packages
-    else
-        debug "Would run: sudo pacman -Syu --noconfirm $packages"
+    if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
+        install_aur_if_exists "$SCRIPT_DIR/arch/playground.txt"
     fi
 }
 
-# -----------------------------------------------------------------------------
+# Install packages from a file with idempotent checks and nice output
+install_packages_from_file() {
+    local pkg_file="$1"
+    local pkg_manager="$2"  # pacman, yay, or paru
+    local file_name
+    file_name=$(basename "$pkg_file" .txt)
+
+    # Read packages from file (ignore comments and empty lines)
+    local packages=()
+    while IFS= read -r line; do
+        # Remove comments (everything after #) and trim whitespace
+        line=$(echo "$line" | sed 's/#.*//' | xargs)
+        [[ -n "$line" ]] && packages+=("$line")
+    done < "$pkg_file"
+
+    if [[ ${#packages[@]} -eq 0 ]]; then
+        return
+    fi
+
+    # Check which packages are already installed
+    local installed=()
+    local to_install=()
+
+    for pkg in "${packages[@]}"; do
+        if pacman -Q "$pkg" &>/dev/null; then
+            installed+=("$pkg")
+        else
+            to_install+=("$pkg")
+        fi
+    done
+
+    # Display status
+    echo ""
+    echo "=== ${file_name^} Packages ==="
+
+    if [[ ${#installed[@]} -gt 0 ]]; then
+        echo "Already installed:"
+        for pkg in "${installed[@]}"; do
+            echo "  • $pkg"
+        done
+    fi
+
+    if [[ ${#to_install[@]} -eq 0 ]]; then
+        echo "Nothing to install."
+        return
+    fi
+
+    echo ""
+    echo "Installing:"
+    for pkg in "${to_install[@]}"; do
+        echo "  • $pkg"
+    done
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo "(dry-run: would install ${#to_install[@]} packages)"
+        return
+    fi
+
+    # Install missing packages
+    echo ""
+    case "$pkg_manager" in
+        pacman)
+            sudo pacman -S --noconfirm --needed "${to_install[@]}"
+            ;;
+        yay)
+            yay -S --noconfirm --needed "${to_install[@]}"
+            ;;
+        paru)
+            paru -S --noconfirm --needed "${to_install[@]}"
+            ;;
+    esac
+}
+
 # Main
-# -----------------------------------------------------------------------------
 
 usage() {
     cat <<EOF
@@ -294,16 +395,26 @@ OPTIONS:
   --check       Alias for --dry-run
   -h, --help    Show this help
 
-BREWFILE STRUCTURE (macOS):
-  Brewfile.core          Essential CLI tools
-  Brewfile.dev           Development tools
-  Brewfile.ai            AI and LLM tools
-  Brewfile.apps          GUI applications
-  Brewfile.font          Nerd Fonts
-  Brewfile.devops        DevOps tools
-  Brewfile.apps.work     Work-specific apps (--work flag)
-  Brewfile.apps.personal Personal-only apps (--personal flag)
-  Brewfile.playground    Testing/evaluation tools (--playground flag)
+PACKAGE STRUCTURE:
+
+  macOS (Brewfiles):
+    Brewfile.core          Essential CLI tools
+    Brewfile.dev           Development tools
+    Brewfile.ai            AI and LLM tools
+    Brewfile.apps          GUI applications
+    Brewfile.font          Nerd Fonts
+    Brewfile.devops        DevOps tools
+    Brewfile.apps.work     Work-specific apps (--work flag)
+    Brewfile.apps.personal Personal-only apps (--personal flag)
+    Brewfile.playground    Testing/evaluation tools (--playground flag)
+
+  Arch Linux:
+    core.txt               Essential CLI tools (always installed)
+    dev.txt                Development tools
+    shell.txt              Shell enhancements (AUR: starship, atuin, etc.)
+    apps.txt               Desktop applications
+    server.txt             Server-specific (minimal)
+    playground.txt         Testing/evaluation tools (--playground flag)
 
 Examples:
   $(basename "$0")                  # Install desktop packages
@@ -389,4 +500,7 @@ main() {
     info "Done!"
 }
 
-main "$@"
+# Only run main if executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi

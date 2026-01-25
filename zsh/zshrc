@@ -17,6 +17,7 @@ source $DOTFILES/zsh/common/history.zsh
 source $DOTFILES/zsh/common/keybindings.zsh
 source $DOTFILES/zsh/common/exports.zsh
 source $DOTFILES/zsh/common/aliases.zsh
+source $DOTFILES/zsh/common/clipboard.zsh
 
 # Framework
 if [[ -f $DOTFILES/zsh/frameworks/${ZSH_FRAMEWORK}/init.zsh ]]; then

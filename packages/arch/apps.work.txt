@@ -1,0 +1,2 @@
+# Work machine apps (--work flag)
+# teams-for-linux is in apps.txt

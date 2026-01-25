@@ -1,0 +1,15 @@
+# Nerd Fonts (synced with macOS)
+
+ttf-0xproto-nerd
+ttf-firacode-nerd
+otf-geist-mono-nerd
+ttf-hack-nerd
+ttf-iosevka-nerd
+ttf-iosevkaterm-nerd
+ttf-iosevkatermslab-nerd
+ttf-jetbrains-mono-nerd
+ttf-meslo-nerd
+otf-monaspace-nerd
+ttf-roboto-mono-nerd
+ttf-sourcecodepro-nerd
+ttf-ubuntu-mono-nerd

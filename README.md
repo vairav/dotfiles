@@ -14,8 +14,12 @@ My personal dotfiles which I use across multiple machines (Mac, Arch and Debian)
 One command to install everything:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/vairav/dotfiles/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/vairav/dotfiles/main/install.sh | bash
 ```
+
+The script will ask a few questions:
+- Work or personal machine (for package selection)
+- Using ml4w for Hyprland (Linux only, to avoid config conflicts)
 
 Options:
 
@@ -29,8 +33,11 @@ curl ... | bash -s -- --personal
 # Server (minimal, no GUI)
 curl ... | bash -s -- --server
 
+# Linux with ml4w
+curl ... | bash -s -- --ml4w
+
 # Skip parts if needed
-curl ... | bash -s -- --skip-packages --skip-macos
+curl ... | bash -s -- --skip-packages --skip-macos --skip-rcup
 ```
 
 The script handles everything: Homebrew, rcm, cloning, symlinking, packages, and macOS defaults.
@@ -56,6 +63,15 @@ echo 'TAGS="desktop linux"' > ~/.rcrc.local
 RCRC=~/workspace/dotfiles/rcrc rcup -v
 ~/workspace/dotfiles/packages/install.sh
 
+# Arch Linux with ml4w
+yay -S rcm
+git clone https://github.com/vairav/dotfiles.git ~/workspace/dotfiles
+cat > ~/.rcrc.local << 'EOF'
+TAGS="desktop linux"
+EXCLUDES="config/kitty config/hypr"
+EOF
+RCRC=~/workspace/dotfiles/rcrc rcup -v
+
 # Server (Debian)
 sudo apt-get install rcm
 git clone https://github.com/vairav/dotfiles.git ~/workspace/dotfiles
@@ -80,17 +96,50 @@ dotfiles/
 ├── config/                              # -> ~/.config/
 │   ├── nvim/
 │   ├── kitty/
-│   └── alacritty/
+│   ├── alacritty/
+│   └── starship.toml
 ├── zsh/, tmux/, git/                    # Support files (sourced, not symlinked)
+├── prompt/starship/                     # Alternative starship themes
+│   └── powerline/                       # Two-line powerline style
 ├── tag-macos/                           # macOS-specific (Karabiner)
-├── tag-linux/                           # Linux-specific (i3)
+├── tag-linux/                           # Linux-specific (i3, hypr reference)
 ├── tag-server/                          # Minimal server configs
 ├── macos/                               # Setup scripts
 │   ├── setup.sh
 │   └── defaults.sh
-└── packages/                            # Brew/apt packages
-    ├── install.sh
-    └── macos/, arch/, debian/
+├── packages/                            # Brew/apt packages
+│   ├── install.sh
+│   └── macos/, arch/, debian/
+└── docs/                                # Documentation
+    ├── ml4w-hyprland-customization.md
+    └── ...
+```
+
+## Linux with ml4w
+
+If you're using [ml4w](https://github.com/mylinuxforwork/dotfiles) for Hyprland, the install script will exclude kitty and hyprland configs from rcm. ml4w manages these itself.
+
+For customization:
+
+- **kitty:** Create `~/.config/kitty/custom.conf` and include our modular configs
+- **hyprland:** Use ml4w's variation system, documented in [ml4w-hyprland-customization.md](docs/ml4w-hyprland-customization.md)
+
+Example `~/.config/kitty/custom.conf`:
+```bash
+# Include our cursor settings (no blinking)
+include ~/workspace/dotfiles/config/kitty/configs/cursor.conf
+include ~/workspace/dotfiles/config/kitty/configs/scrollback.conf
+```
+
+## Starship prompt
+
+Default theme is in `config/starship.toml` (symlinked to `~/.config/`).
+
+To use powerline theme:
+
+```bash
+# In ~/.zshrc.local
+export STARSHIP_CONFIG=~/workspace/dotfiles/prompt/starship/powerline/starship.toml
 ```
 
 ## Packages
@@ -129,11 +178,12 @@ ZSH_FRAMEWORK=plain  # No framework
 
 ## Tags
 
-| Machine | TAGS          | Adds            |
-| ------- | ------------- | --------------- |
-| macOS   | desktop macos | Karabiner       |
-| Linux   | desktop linux | Hyprland, i3    |
-| Server  | server        | Minimal configs |
+| Machine     | TAGS          | Adds                  | Notes                  |
+| ----------- | ------------- | --------------------- | ---------------------- |
+| macOS       | desktop macos | Karabiner             |                        |
+| Linux       | desktop linux | i3, hypr (optional)   |                        |
+| Linux+ml4w  | desktop linux | (excludes kitty/hypr) | ml4w manages these     |
+| Server      | server        | Minimal configs       |                        |
 
 ## Atuin (history sync)
 

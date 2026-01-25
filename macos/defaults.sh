@@ -1,10 +1,9 @@
 #!/bin/bash
-# =============================================================================
+#
 # macOS Defaults
-# =============================================================================
+#
 # My preferred macOS settings. Run after a fresh install.
 # Some changes need a logout/restart.
-# =============================================================================
 
 set -euo pipefail
 
@@ -13,9 +12,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 echo "Applying macOS defaults..."
 
-# =============================================================================
 # General UI/UX
-# =============================================================================
 
 # Skip the "Are you sure you want to open this?" dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -35,9 +32,7 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 # Keep apps running even when inactive
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
-# =============================================================================
 # Keyboard
-# =============================================================================
 
 # Key repeat instead of accent menu (essential for vim)
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
@@ -56,9 +51,7 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 # Tab through all UI controls
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# =============================================================================
 # Trackpad
-# =============================================================================
 
 # Tap to click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
@@ -69,9 +62,7 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # Three-finger drag (uncomment if wanted)
 # defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 
-# =============================================================================
 # Finder
-# =============================================================================
 
 # Show hidden files and extensions
 defaults write com.apple.finder AppleShowAllFiles -bool true
@@ -104,9 +95,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 chflags nohidden ~/Library
 sudo chflags nohidden /Volumes
 
-# =============================================================================
 # Dock
-# =============================================================================
 
 # Icon size
 defaults write com.apple.dock tilesize -int 36
@@ -128,18 +117,14 @@ defaults write com.apple.dock expose-animation-duration -float 0.1
 # No recent apps
 defaults write com.apple.dock show-recents -bool false
 
-# =============================================================================
 # Screenshots
-# =============================================================================
 
 mkdir -p "${HOME}/Pictures/Screenshots"
 defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"
 defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
-# =============================================================================
 # Safari
-# =============================================================================
 
 # Developer tools
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
@@ -152,9 +137,7 @@ defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
 # Do Not Track
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 
-# =============================================================================
 # Mail
-# =============================================================================
 
 # Copy email without name
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
@@ -162,9 +145,7 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 # Show attachment icons
 defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
 
-# =============================================================================
 # Misc Apps
-# =============================================================================
 
 # Time Machine - don't prompt for new drives
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
@@ -183,18 +164,14 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 defaults write com.apple.appstore ShowDebugMenu -bool true
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
-# =============================================================================
 # Code Editors - key repeat
-# =============================================================================
 
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false
 defaults write com.todesktop.230313mzl4w4u92 ApplePressAndHoldEnabled -bool false
 defaults write dev.zed.Zed ApplePressAndHoldEnabled -bool false
 
-# =============================================================================
 # Restart affected apps
-# =============================================================================
 
 echo "Restarting affected apps..."
 

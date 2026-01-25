@@ -7,6 +7,18 @@ DOTFILES_DIRS="$HOME/workspace/dotfiles"
 
 # Files/directories to NEVER symlink
 # These are docs, scripts, support files, or managed separately
+#
+# Note: Platform-specific configs use the tag system:
+#   - tag-macos/  → only symlinked when TAGS includes "macos"
+#   - tag-linux/  → only symlinked when TAGS includes "linux"
+#   - tag-server/ → only symlinked when TAGS includes "server"
+#
+# Examples:
+#   - config/karabiner is in tag-macos/, so Linux won't get it
+#
+# ml4w-managed configs (sourced/hooked, not symlinked):
+#   - config/hypr - ml4w manages ~/.config/hypr, custom.conf sources our files
+#   - config/kitty - ml4w manages ~/.config/kitty, we use custom.conf hook
 EXCLUDES="
 *.md
 .git
@@ -32,6 +44,8 @@ zsh
 tmux
 git
 mise.toml
+config/hypr
+config/kitty
 "
 
 # Source machine-specific rcrc settings (tags, hostname)

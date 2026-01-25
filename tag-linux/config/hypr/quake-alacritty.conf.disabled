@@ -1,0 +1,20 @@
+# Quake style terminal
+
+$quake_terminal = alacritty --class quake-terminal
+
+# Auto start alacritty in quake terminal mode
+exec-once = $quake_terminal
+
+# Window rules to make it appear like quake terminal
+#windowrulev2 = float,$quake_terminal
+#windowrulev2 = workspace special silent,$quake_terminal
+#windowrulev2 = size 100% 60%,$quake_terminal
+#windowrulev2 = move 0% 0%,$quake_terminal
+
+windowrulev2 = float,$quake_terminal
+windowrulev2 = workspace special silent,$quake_terminal
+windowrulev2 = size 100% 60%,$quake_terminal
+windowrulev2 = move 0% 0%,$quake_terminal
+
+# Keybinding
+bind = $mainMod, F12, togglespecialworkspace

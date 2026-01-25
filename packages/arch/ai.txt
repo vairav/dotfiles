@@ -1,0 +1,22 @@
+# AI and LLM tools
+
+# Desktop / IDEs
+lmstudio
+cursor-bin
+windsurf
+antigravity
+
+# Local LLM
+ollama
+
+# CLI agents
+claude-code
+gemini-cli
+opencode-bin
+openai-codex-git
+qwen-code
+codename-goose-bin
+
+# TUI libraries
+charm
+gum

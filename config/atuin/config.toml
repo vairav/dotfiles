@@ -4,9 +4,7 @@
 # Where to store the database (default: ~/.local/share/atuin/history.db)
 # db_path = "~/.local/share/atuin/history.db"
 
-# =============================================================================
 # Sync Settings (requires: atuin register && atuin login)
-# =============================================================================
 # Atuin stores unlimited history in SQLite - no size limits like traditional shells.
 # Sync is end-to-end encrypted; Atuin servers cannot read your commands.
 
@@ -19,9 +17,7 @@ sync_frequency = "5m"
 # Sync server (default is Atuin's hosted service)
 sync_address = "https://api.atuin.sh"
 
-# =============================================================================
 # Search Settings
-# =============================================================================
 
 # Search mode: prefix, fulltext, fuzzy, skim
 search_mode = "fuzzy"
@@ -47,9 +43,7 @@ max_preview_height = 4
 # Show help banner at the bottom
 show_help = true
 
-# =============================================================================
 # History Settings
-# =============================================================================
 
 # What to store in history
 ## When to save commands to history:
@@ -61,26 +55,20 @@ store_failed = true
 # (like bash's HISTCONTROL=ignorespace)
 secrets_filter = true
 
-# =============================================================================
 # Key Bindings
-# =============================================================================
 
 # Which keys to use for cycling through search results
 # Available: tab, up-arrow
 [keys]
 scroll_exits = false
 
-# =============================================================================
 # Stats
-# =============================================================================
 
 # Number of most common commands to show in stats
 [stats]
 common_subcommands = ["cargo", "go", "git", "npm", "yarn", "pnpm", "kubectl", "docker"]
 common_prefix = ["sudo"]
 
-# =============================================================================
 # Daemon (optional - reduces shell startup time)
-# =============================================================================
 # Run `atuin daemon` in background for faster shell startup
 # daemon = { enabled = true }

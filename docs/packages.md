@@ -78,10 +78,21 @@ Tools under evaluation. Uncomment to test, then decide to keep or remove.
 
 ## Linux
 
-Arch and Debian have their own package lists:
+Arch package lists mirror the Brewfile naming:
 
-- `packages/arch/desktop.txt`
-- `packages/arch/server.txt`
+- `packages/arch/core.txt` - CLI essentials
+- `packages/arch/dev.txt` - Dev tools, languages
+- `packages/arch/ai.txt` - AI/LLM tools
+- `packages/arch/apps.txt` - GUI apps
+- `packages/arch/apps.work.txt` - Work-only
+- `packages/arch/apps.personal.txt` - Personal-only
+- `packages/arch/shell.txt` - Shell enhancements
+- `packages/arch/font.txt` - Nerd Fonts
+- `packages/arch/devops.txt` - Terraform, AWS, etc
+- `packages/arch/server.txt` - Minimal server
+
+Debian uses simpler lists:
+
 - `packages/debian/desktop.txt`
 - `packages/debian/server.txt`
 

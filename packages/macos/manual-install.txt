@@ -1,6 +1,5 @@
 # Manual Install Apps
 # These apps are not available via Homebrew and must be installed manually
-# =============================================================================
 
 # ScreenSage Pro
 # Download: https://apps.apple.com/app/screensage-pro (if available) or developer website
@@ -14,9 +13,7 @@
 # thinkorswim (TD Ameritrade)
 # Download: https://www.tdameritrade.com/tools-and-platforms/thinkorswim.html
 
-# =============================================================================
 # Post-Install Steps
-# =============================================================================
 
 # Firefox Tridactyl Extension
 # Install manually: https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/

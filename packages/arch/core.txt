@@ -1,0 +1,30 @@
+# Core packages - essential tools for every machine
+
+# Dotfiles
+rcm
+
+# Shell
+zsh
+
+# Version control
+git
+git-lfs
+
+# Search
+fzf
+ripgrep
+fd
+
+# Utilities
+curl
+wget
+jq
+yq
+tree
+rsync
+
+# Modern replacements
+bat
+eza
+duf
+btop

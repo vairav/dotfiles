@@ -247,57 +247,45 @@ install_pacman() {
         aur_helper="paru"
     fi
 
-    # Helper to install a package file (skips if file doesn't exist)
-    install_if_exists() {
-        local pkg_file="$1"
-        local manager="${2:-pacman}"
-        [[ -f "$pkg_file" ]] && install_packages_from_file "$pkg_file" "$manager"
-    }
+    # Use AUR helper for everything if available (can install both official and AUR)
+    local pkg_manager="${aur_helper:-pacman}"
 
-    # Helper for AUR packages (warns if no helper)
-    install_aur_if_exists() {
+    if [[ -z "$aur_helper" ]]; then
+        warn "No AUR helper (yay/paru) found. Some packages may fail."
+    fi
+
+    # Helper to install a package file
+    install_pkg_file() {
         local pkg_file="$1"
-        if [[ ! -f "$pkg_file" ]]; then
-            return
-        fi
-        if [[ -n "$aur_helper" ]]; then
-            install_packages_from_file "$pkg_file" "$aur_helper"
-        else
-            warn "No AUR helper (yay/paru) found. Skipping $(basename "$pkg_file")"
-        fi
+        [[ -f "$pkg_file" ]] && install_packages_from_file "$pkg_file" "$pkg_manager"
     }
 
     # Core packages (always)
-    install_if_exists "$SCRIPT_DIR/arch/core.txt"
+    install_pkg_file "$SCRIPT_DIR/arch/core.txt"
 
     if [[ "$role" == "desktop" ]]; then
-        # Standard desktop packages
-        install_if_exists "$SCRIPT_DIR/arch/dev.txt"
-        install_if_exists "$SCRIPT_DIR/arch/apps.txt"
-        install_if_exists "$SCRIPT_DIR/arch/ai.txt"
-        install_if_exists "$SCRIPT_DIR/arch/font.txt"
-        install_if_exists "$SCRIPT_DIR/arch/devops.txt"
-
-        # Shell tools (mostly AUR)
-        install_aur_if_exists "$SCRIPT_DIR/arch/shell.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/dev.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/apps.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/ai.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/font.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/devops.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/shell.txt"
     fi
 
-    # Server packages
     if [[ "$role" == "server" ]]; then
-        install_if_exists "$SCRIPT_DIR/arch/server.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/server.txt"
     fi
 
-    # Optional packages based on flags
     if [[ "$INCLUDE_WORK" == "true" ]]; then
-        install_aur_if_exists "$SCRIPT_DIR/arch/apps.work.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/apps.work.txt"
     fi
 
     if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
-        install_if_exists "$SCRIPT_DIR/arch/apps.personal.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/apps.personal.txt"
     fi
 
     if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
-        install_aur_if_exists "$SCRIPT_DIR/arch/playground.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/playground.txt"
     fi
 }
 

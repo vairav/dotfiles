@@ -13,7 +13,7 @@ ollama
 claude-code
 gemini-cli
 opencode-bin
-openai-codex-git
+# openai-codex-git  # AUR build issues, install manually if needed
 qwen-code
 codename-goose-bin
 

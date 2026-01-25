@@ -7,7 +7,7 @@ alacritty
 # Browsers
 firefox
 google-chrome
-zen-browser-bin
+# zen-browser-bin  # mirror sync issues, install manually: yay -S zen-browser-bin
 
 # Communication
 discord

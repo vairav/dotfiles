@@ -1,4 +1,4 @@
-# Development packages
+# Development packages (essentials)
 
 # Build
 base-devel
@@ -9,64 +9,24 @@ neovim
 # Git tools
 lazygit
 tig
-git-delta
 difftastic
+git-delta
 git-extras
-pre-commit
 github-cli
 
 # Languages
 python
 python-pip
-go
-ruby
-lua
-rustup
-jdk17-openjdk
 
 # Linting
 shellcheck
 
-# Containers
-docker
-docker-compose
-lazydocker
-podman
-lima-bin
-nerdctl
-
-# Kubernetes
-kubectl
-helm
-k9s
-kubectx
-kustomize
-minikube
-
 # HTTP
 xh
-
-# Network
-nmap
-mitmproxy
-wireshark-qt
-wireguard-tools
-
-# Diff
-meld
 
 # Media
 imagemagick
 ffmpeg
-perl-image-exiftool
 
 # File management
 yazi
-feh
-
-# Monitoring
-nvtop
-nmon
-
-# Database
-pgmodeler

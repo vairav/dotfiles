@@ -1,0 +1,47 @@
+# Development packages (workstation)
+
+# Git tools (extended)
+pre-commit
+
+# Languages (extended)
+go
+ruby
+lua
+rustup
+jdk17-openjdk
+
+# Containers
+docker
+docker-compose
+lazydocker
+podman
+lima-bin
+nerdctl
+
+# Kubernetes
+kubectl
+helm
+k9s
+kubectx
+kustomize
+minikube
+
+# Network
+nmap
+mitmproxy
+wireshark-qt
+wireguard-tools
+
+# Diff
+meld
+
+# Media (extended)
+perl-image-exiftool
+feh
+
+# Monitoring
+nvtop
+nmon
+
+# Database
+pgmodeler

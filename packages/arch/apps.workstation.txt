@@ -1,0 +1,35 @@
+# Desktop applications (workstation)
+
+# Browsers (extended)
+google-chrome
+
+# Communication (extended)
+discord
+legcord-bin
+signal-desktop
+telegram-desktop-bin
+ferdium-bin
+
+# Notes
+logseq-desktop
+obsidian
+
+# Passwords (extended)
+bitwarden
+ente-auth-bin
+
+# Cloud
+cryptomator
+rclone
+onedrive-abraunegg
+syncthing
+
+# Editors (extended)
+dbeaver
+
+# Finance
+tradingview
+
+# Input devices
+vial-appimage
+solaar

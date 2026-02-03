@@ -1,4 +1,4 @@
-# Desktop applications
+# Desktop applications (essentials)
 
 # Terminals
 kitty
@@ -6,42 +6,20 @@ alacritty
 
 # Browsers
 firefox
-google-chrome
 # zen-browser-bin  # mirror sync issues, install manually: yay -S zen-browser-bin
 
 # Communication
-discord
 slack-desktop
-legcord-bin
-signal-desktop
 zoom
 teams-for-linux
-telegram-desktop-bin
-ferdium-bin
-
-# Notes
-logseq-desktop
-obsidian
 
 # Passwords
 1password
 1password-cli
-bitwarden
-ente-auth-bin
-
-# Cloud
-cryptomator
-rclone
-onedrive-abraunegg
-syncthing
 
 # Editors
 code
 zed
-dbeaver
-
-# Finance
-tradingview
 
 # Files
 ranger
@@ -49,10 +27,6 @@ ranger
 # Media
 vlc
 mpv
-
-# Input devices
-vial-appimage
-solaar
 
 # Archives
 p7zip

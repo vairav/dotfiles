@@ -1,19 +1,4 @@
-# DevOps and infrastructure
-
-# AWS
-aws-cli-v2-bin
-
-# Terraform
-terraform
-terragrunt
-tflint
-
-# Config management
-ansible
-packer
-
-# Secrets
-sops
+# DevOps and infrastructure (essentials)
 
 # VPN
 tailscale

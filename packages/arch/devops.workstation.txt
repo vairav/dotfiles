@@ -1,0 +1,16 @@
+# DevOps and infrastructure (workstation)
+
+# AWS
+aws-cli-v2-bin
+
+# Terraform
+terraform
+terragrunt
+tflint
+
+# Config management
+ansible
+packer
+
+# Secrets
+sops

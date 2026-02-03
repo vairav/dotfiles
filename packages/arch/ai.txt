@@ -1,22 +1,5 @@
-# AI and LLM tools
-
-# Desktop / IDEs
-lmstudio
-cursor-bin
-windsurf
-antigravity
-
-# Local LLM
-ollama
+# AI and LLM tools (essentials)
 
 # CLI agents
 claude-code
-gemini-cli
 opencode-bin
-# openai-codex-git  # AUR build issues, install manually if needed
-qwen-code
-codename-goose-bin
-
-# TUI libraries
-charm
-gum

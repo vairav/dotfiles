@@ -23,6 +23,11 @@ yq
 bc
 tree
 rsync
+socat
+
+# Secret service (for credential persistence)
+gnome-keyring
+libsecret
 
 # Modern replacements
 bat

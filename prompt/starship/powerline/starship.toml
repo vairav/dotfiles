@@ -213,7 +213,7 @@ style = 'fg:current_line'
 
 [cmd_duration]
 min_time = 500
-format = '[─](fg:current_line)[](fg:peach) (fg:primary bg:peach)[](fg:peach bg:box)[$duration](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:peach)[ ](fg:primary bg:peach)[](fg:peach bg:box)[$duration](fg:foreground bg:box)[](fg:box)'
 
 [shell]
 format = '[─](fg:current_line)[](fg:mauve)[ ](fg:primary bg:mauve)[](fg:mauve bg:box)[$indicator](fg:foreground bg:box)[](fg:box)'
@@ -228,7 +228,7 @@ time_format = '%H:%M'
 disabled = false
 
 [username]
-format = '[─](fg:current_line)[](fg:yellow) (fg:primary bg:yellow)[](fg:yellow bg:box)[$user](fg:foreground bg:box)[](fg:box) '
+format = '[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[$user](fg:foreground bg:box)[](fg:box) '
 show_always = false
 
 [character]

@@ -13,6 +13,7 @@ fi
 # Zoxide (smart cd)
 if command -v zoxide &>/dev/null; then
   export _ZO_DATA_DIR=$HOME/.config/zoxide
+  export _ZO_DOCTOR=0
   eval "$(zoxide init --cmd cd zsh)"
 fi
 

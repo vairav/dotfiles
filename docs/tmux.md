@@ -33,6 +33,7 @@ tmux anyway. Every command below means: press `Ctrl-b`, release, then the key.
 | `prefix 1..9` | Go to window N |
 | `prefix \|` / `prefix -` | Split pane right / down |
 | `Ctrl-h/j/k/l` | **Move between panes — no prefix needed** (vim-tmux-navigator) |
+| `Alt-o` (Option-o) | **Cycle to next pane — no prefix needed** |
 | `prefix q` | Flash pane numbers; press a number to jump there |
 | `prefix ;` | Toggle between current and last pane |
 | `prefix h/j/k/l` | Move between panes (prefixed variant) |

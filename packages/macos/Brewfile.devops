@@ -1,4 +1,6 @@
-# Brewfile.devops - DevOps and Infrastructure tools
+# Brewfile.devops - DevOps and Infrastructure tools (workstation only)
+# Tailscale is NOT here - the cask in Brewfile.apps covers every machine
+# (formula + cask together would run two daemons).
 # Usage: brew bundle --file=Brewfile.devops
 
 # AWS
@@ -19,6 +21,3 @@ brew "packer"                   # Image builder for multiple platforms
 
 # Secrets
 brew "sops"                     # Secrets management - Encrypt / decrypt files
-
-# VPN
-brew "tailscale"

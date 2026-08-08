@@ -1,0 +1,21 @@
+# Brewfile.ai.workstation - Heavy AI tools (workstation only)
+# Local model managers and AI editors/IDEs beyond the essentials.
+# Usage: brew bundle --file=Brewfile.ai.workstation
+
+# AI editors / IDEs
+cask "cursor"
+cask "windsurf"
+cask "trae"
+cask "repo-prompt"  # Repo level AI chat tool
+
+# Local models
+brew "ollama"
+cask "lm-studio"    # Local only LLM model manager
+cask "msty"         # Local AI model manager (multi-provider)
+
+# Block Goose (desktop)
+cask "block-goose"
+
+# MCP
+# brew "github-mcp-server"      # Install manually if needed
+# brew "terraform-mcp-server"   # Install manually if needed

@@ -3,3 +3,4 @@
 # CLI agents
 claude-code
 opencode-bin
+# kimi-code          # TODO: verify AUR package name before enabling

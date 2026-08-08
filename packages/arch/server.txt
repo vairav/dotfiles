@@ -2,3 +2,6 @@
 
 tmux
 neovim
+
+# Remote filesystems
+sshfs

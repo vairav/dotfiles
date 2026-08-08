@@ -60,6 +60,10 @@ brew "netcat"
 brew "telnet"
 brew "sshpass"              # SSH password automation
 
+# Remote filesystems
+cask "macfuse"              # FUSE support for macOS
+brew "sshfs"                # Mount remote filesystems via SSH
+
 # OCR
 brew "tesseract"            # OCR engine
 

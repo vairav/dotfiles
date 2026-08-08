@@ -1,101 +1,41 @@
-# Brewfile.apps - GUI applications
+# Brewfile.apps - Essential GUI applications (every Mac, incl. laptop)
+# The long tail (extra browsers, cloud sync, creative suite, automation
+# utilities) lives in Brewfile.apps.workstation.
 # Usage: brew bundle --file=Brewfile.apps
 
 cask_args appdir: "/Applications"
 
 # Browsers
-cask "google-chrome"
 cask "firefox"
-cask "firefox-developer-edition"
 cask "zen"
 
 # Communication
-cask "discord"
-cask "legcord"                  # Discord client with custom themes
 cask "slack"
-cask "rocket-chat"
+cask "zoom"
 cask "signal"
 cask "whatsapp"
-cask "zoom"
 
-# Notes & Knowledge
-cask "logseq"
-cask "notion"
+# Notes
 cask "obsidian"
 
 # System Utilities
 cask "1password"
-cask "adguard"
-cask "aldente"                  # Battery charge limiter
+cask "1password-cli"
 cask "alfred"
-cask "antigravity"
-cask "antinote"
-cask "betterdisplay"
-cask "bettertouchtool"
-cask "cheatsheet"               # Hold Cmd to see shortcuts
-cask "cleanshot"
-cask "clop"
-cask "hazel"
-cask "homerow"
-cask "keyboard-maestro"
-cask "keymapp"                  # ZSA keyboard configurator
-cask "loop"                     # Window manager with mouse gestures
-cask "mouseless"                # Keyboard-driven mouse
-cask "pixelsnap"
-cask "popclip"
-cask "qlcolorcode"              # Syntax highlighting for QuickLook
+cask "aldente"                  # Battery charge limiter
 cask "rectangle"
-cask "hammerspoon"
-cask "jordanbaird-ice"
-cask "shottr"
 cask "stats"                    # Menu bar system monitor
-cask "superkey"
-cask "suspicious-package"       # Malware scanner for .pkg files
-
-# Cloud & Storage
-cask "box-drive"
-cask "cryptomator"
-cask "dropbox"
-cask "forklift"                 # Finder file manager replacement
-cask "google-drive"
-cask "mountain-duck"
-cask "onedrive"
-
-# Media & Creative
-cask "affinity-designer"
-cask "affinity-photo"
-cask "affinity-publisher"
-cask "bloom"
-cask "comet"
-cask "handbrake"                # Video transcoder
-cask "krita"
-cask "open-video-downloader"
+cask "shottr"
 
 # Security & VPN
 cask "bitwarden"
-cask "1password-cli"
 cask "ente-auth"                # 2FA authenticator
 cask "tailscale"
 
-# Finance
-brew "beancount"
-brew "fava"
-cask "tradingview"
-
-# Downloads
-brew "youtube-dl"
-brew "speedtest-cli"
-
 # Mac App Store
 mas "Amphetamine", id: 937984704
-mas "Canary Mail", id: 1236045954
 mas "Dropover", id: 1355679052
-mas "GarageBand", id: 682658836
-mas "Grila", id: 6444335028
-mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePal", id: 1503446680
-mas "TestFlight", id: 899247664
-mas "Xcode", id: 497799835

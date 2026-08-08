@@ -1,30 +1,24 @@
-# Brewfile.ai - AI and LLM tools
+# Brewfile.ai - AI essentials: all CLI agents + light desktop apps
+# Local-model tools (LM Studio, Ollama, Msty) and extra AI editors live in
+# Brewfile.ai.workstation - they need RAM/disk a 16GB laptop doesn't have.
 # Usage: brew bundle --file=Brewfile.ai
 
-# Desktop Apps
-cask "chatgpt"
-cask "claude"
-cask "cursor"
-cask "windsurf"
-cask "zed"
-cask "trae"
-cask "msty"         # Local AI model manager (multi-provider)
-cask "lm-studio"    # Local only LLM model manager
-cask "repo-prompt"  # Repo level AI chat tool
-
-# CLI Tools
+# CLI agents
+cask "claude-code"  # or: npm install -g @anthropic-ai/claude-code
+brew "opencode"
+brew "gemini-cli"
+cask "codex"
 brew "qwen-code"
+brew "kimi-code"
 
-# Block Goose
+# Block Goose (CLI)
 tap "block/goose"
 brew "block/goose/goose"
-cask "block-goose"
 
 # MCP
 brew "mcp-toolbox"
-# brew "github-mcp-server"      # Install manually if needed
-# brew "terraform-mcp-server"   # Install manually if needed
 
-# Manual installs:
-# claude-code: npm install -g @anthropics/claude-code
-# ollama: brew install ollama
+# Desktop apps (light)
+cask "claude"
+cask "chatgpt"
+cask "zed"

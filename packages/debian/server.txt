@@ -27,3 +27,6 @@ ncdu
 # Modern replacements (may need manual install on older distros)
 bat
 eza
+
+# Remote filesystems
+sshfs

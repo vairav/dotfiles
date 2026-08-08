@@ -1,0 +1,52 @@
+# Brewfile.server - Mac running as an always-on server (e.g. old M1 MacBooks)
+# Self-contained minimal set: everything needed to SSH in and feel at home,
+# nothing else. No GUI apps except Tailscale.
+# Usage: brew bundle --file=Brewfile.server
+
+# Shell & core
+brew "zsh"
+brew "git"
+brew "coreutils"
+brew "curl"
+brew "wget"
+brew "jq"
+brew "tree"
+brew "watch"
+
+# Modern replacements (ll, cat, cd, history all behave like everywhere else)
+brew "bat"
+brew "eza"
+brew "fd"
+brew "ripgrep"
+brew "fzf"
+brew "zoxide"
+brew "atuin"
+
+# Prompt
+brew "starship"
+
+# Monitoring
+brew "htop"
+brew "ncdu"
+
+# Editor
+brew "neovim"
+
+# Multiplexer & remote access
+brew "tmux"
+brew "reattach-to-user-namespace"
+brew "mosh"
+brew "sesh"                     # tmux session manager (fzf picker)
+
+# Git tools
+brew "gh"
+tap "jesseduffield/lazygit"
+brew "jesseduffield/lazygit/lazygit"
+
+# AI CLI agents
+cask "claude-code"  # or: npm install -g @anthropic-ai/claude-code
+brew "opencode"
+brew "kimi-code"
+
+# VPN (GUI cask - Mac servers still run a desktop session)
+cask "tailscale"

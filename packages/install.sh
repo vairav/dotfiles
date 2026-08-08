@@ -76,14 +76,25 @@ install_macos() {
     fi
 
     # Build list of Brewfiles to install
+    # laptop      = essentials of every category
+    # workstation = essentials + *.workstation tiers (desktop is an alias)
+    # server      = self-contained minimal set only
     local brewfiles=()
-    brewfiles+=("$SCRIPT_DIR/macos/Brewfile.core")
-    brewfiles+=("$SCRIPT_DIR/macos/Brewfile.dev")
-    brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai")
 
-    if [[ "$role" == "desktop" ]]; then
+    if [[ "$role" == "server" ]]; then
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.server")
+    else
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.core")
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.dev")
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.font")
+    fi
+
+    if [[ "$role" == "workstation" || "$role" == "desktop" ]]; then
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.dev.workstation")
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai.workstation")
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.workstation")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.devops")
     fi
 
@@ -263,13 +274,23 @@ install_pacman() {
     # Core packages (always)
     install_pkg_file "$SCRIPT_DIR/arch/core.txt"
 
-    if [[ "$role" == "desktop" ]]; then
+    # laptop      = essentials of every category
+    # workstation = essentials + *.workstation tiers (desktop is an alias)
+    # server      = core + server.txt only
+    if [[ "$role" != "server" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/dev.txt"
         install_pkg_file "$SCRIPT_DIR/arch/apps.txt"
         install_pkg_file "$SCRIPT_DIR/arch/ai.txt"
         install_pkg_file "$SCRIPT_DIR/arch/font.txt"
         install_pkg_file "$SCRIPT_DIR/arch/devops.txt"
         install_pkg_file "$SCRIPT_DIR/arch/shell.txt"
+    fi
+
+    if [[ "$role" == "workstation" || "$role" == "desktop" ]]; then
+        install_pkg_file "$SCRIPT_DIR/arch/dev.workstation.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/apps.workstation.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/ai.workstation.txt"
+        install_pkg_file "$SCRIPT_DIR/arch/devops.workstation.txt"
     fi
 
     if [[ "$role" == "server" ]]; then
@@ -371,8 +392,10 @@ Usage: $(basename "$0") [OPTIONS] [ROLE]
 Install packages based on OS and role.
 
 ROLE:
-  desktop     Full desktop packages (default)
-  server      Minimal server packages
+  laptop      Essentials of every category (light machines, e.g. MacBook Air)
+  workstation Essentials + heavy *.workstation tiers (docker, k8s, local AI, ...)
+  desktop     Alias for workstation (default)
+  server      Self-contained minimal set (headless / always-on machines)
 
 OPTIONS:
   --work        Include work-specific apps (MS Office, etc.)
@@ -386,26 +409,31 @@ OPTIONS:
 PACKAGE STRUCTURE:
 
   macOS (Brewfiles):
-    Brewfile.core          Essential CLI tools
-    Brewfile.dev           Development tools
-    Brewfile.ai            AI and LLM tools
-    Brewfile.apps          GUI applications
-    Brewfile.font          Nerd Fonts
-    Brewfile.devops        DevOps tools
-    Brewfile.apps.work     Work-specific apps (--work flag)
-    Brewfile.apps.personal Personal-only apps (--personal flag)
-    Brewfile.playground    Testing/evaluation tools (--playground flag)
+    Brewfile.core             Essential CLI tools
+    Brewfile.dev              Development essentials
+    Brewfile.dev.workstation  Heavy dev tools (docker, k8s, languages)
+    Brewfile.ai               AI CLI agents + light apps
+    Brewfile.ai.workstation   Local models, AI editors
+    Brewfile.apps             Essential GUI apps
+    Brewfile.apps.workstation Full GUI app suite
+    Brewfile.font             Nerd Fonts
+    Brewfile.devops           DevOps tools (workstation only)
+    Brewfile.server           Minimal server set (server role only)
+    Brewfile.apps.work        Work-specific apps (--work flag)
+    Brewfile.apps.personal    Personal-only apps (--personal flag)
+    Brewfile.playground       Testing/evaluation tools (--playground flag)
 
   Arch Linux:
-    core.txt               Essential CLI tools (always installed)
-    dev.txt                Development tools
-    shell.txt              Shell enhancements (AUR: starship, atuin, etc.)
-    apps.txt               Desktop applications
-    server.txt             Server-specific (minimal)
-    playground.txt         Testing/evaluation tools (--playground flag)
+    core.txt                  Essential CLI tools (always installed)
+    dev.txt / *.workstation   Development tools (essentials / heavy)
+    shell.txt                 Shell enhancements (AUR: starship, atuin, etc.)
+    apps.txt / *.workstation  Desktop applications
+    server.txt                Server-specific (minimal)
+    playground.txt            Testing/evaluation tools (--playground flag)
 
 Examples:
-  $(basename "$0")                  # Install desktop packages
+  $(basename "$0") laptop           # Essentials only (light machine)
+  $(basename "$0") workstation      # Everything
   $(basename "$0") server           # Install server packages
   $(basename "$0") --work           # Include work apps (work machine)
   $(basename "$0") --personal       # Include personal apps (personal machine)
@@ -438,8 +466,12 @@ main() {
                 CLEANUP=true
                 shift
                 ;;
-            desktop|server)
+            desktop|laptop|workstation|server)
                 ROLE="$1"
+                shift
+                ;;
+            --laptop|--workstation|--server)
+                ROLE="${1#--}"
                 shift
                 ;;
             -h|--help)

@@ -1,0 +1,76 @@
+# Brewfile.dev.workstation - Heavy development tools (workstation only)
+# Usage: brew bundle --file=Brewfile.dev.workstation
+
+# Taps
+tap "jesseduffield/lazydocker"
+
+# Shell prompt (alternative)
+brew "oh-my-posh"
+
+# Git tools (heavy/rare)
+brew "git-flow"
+brew "git-secrets"
+brew "git-filter-repo"
+brew "bfg"
+brew "hub"
+
+# Git GUI
+cask "gitbutler"
+cask "sourcetree"
+cask "meld"                     # Diff tool
+
+# Languages and runtimes (heavy)
+brew "pipenv"
+brew "go"
+brew "ruby"
+brew "rustup"
+brew "lua"
+brew "luajit"
+brew "luarocks"
+brew "lua-language-server"
+brew "stylua"                   # Lua formatter
+brew "ccls"                     # C/C++ language server
+
+# Container tools
+brew "jesseduffield/lazydocker/lazydocker"
+cask "podman-desktop"
+cask "docker"
+
+# Kubernetes
+brew "kubernetes-cli"
+brew "helm"
+brew "kustomize"
+brew "kubectx"
+brew "k9s"
+
+# Network tools
+brew "nmap"
+brew "mitmproxy"                # HTTP/HTTPS proxy for debugging
+cask "proxyman"                 # Native macOS HTTP debugging proxy
+cask "wireshark"                # Network protocol analyzer
+
+# Image/Media tools
+brew "imagemagick"
+brew "exiftool"
+brew "ffmpeg"
+
+# API tools
+cask "postman"
+
+# Database
+brew "redis"
+cask "dbeaver-community"
+
+# Design
+cask "figma"
+
+# Documentation
+cask "dash"                     # Offline documentation browser
+
+# Diagram tools
+brew "d2"                       # Modern diagram scripting language
+
+# Misc dev tools
+brew "autoconf"
+brew "pandoc"
+brew "rich-cli"                 # Rich text CLI output

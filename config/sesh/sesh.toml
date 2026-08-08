@@ -1,0 +1,24 @@
+# sesh — tmux session manager
+# Docs: https://github.com/joshmedeski/sesh
+#
+# Open the picker with `t` in the shell, or prefix+s inside tmux.
+# The picker lists: running tmux sessions, the sessions below, and zoxide dirs
+# (picking a zoxide dir auto-creates a session named after it).
+
+[[session]]
+name = "daily"
+path = "~/workspace"
+startup_command = "~/workspace/dotfiles/tmux/layouts/daily.sh"
+
+[[session]]
+name = "project-a"
+path = "~/workspace/project-a"
+startup_command = "~/workspace/dotfiles/tmux/layouts/project-a.sh"
+
+[[session]]
+name = "dotfiles"
+path = "~/workspace/dotfiles"
+
+[[session]]
+name = "vault"
+path = "~/workspace/dotfiles-vault"

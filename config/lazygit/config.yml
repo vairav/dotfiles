@@ -1,0 +1,8 @@
+## LazyGit config
+## https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+git:
+  pagers:
+    - # Use delta for diffs (unified view — side-by-side is too cramped in lazygit panels)
+      colorArg: always
+      pager: delta --paging=never

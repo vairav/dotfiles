@@ -28,6 +28,8 @@ alias tabsort jsb browser.tabs.query({}).then(tabs => tabs.sort((t1, t2) => t1.u
 " Close all tabs matching a keyword, e.g. :closetabs youtube
 command closetabs jsb -p browser.tabs.query({}).then(tabs => { let count = 0; tabs.forEach(t => { if(t.url.includes(JS_ARG)) { browser.tabs.remove(t.id); count++; } }); tri.excmds.fillcmdline_tmp(3000, "# Closed " + count + " tab(s)"); })
 
+" Count all windows and tabs
+command tabstats jsb Promise.all([browser.tabs.query({}), browser.windows.getAll()]).then(([tabs, windows]) => tri.excmds.fillcmdline(`Windows: ${windows.length}, Tabs: ${tabs.length}`)).catch(e => tri.excmds.fillcmdline(`tabstats error: ${e.message}`))
 
 " Bindings
 

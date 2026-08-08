@@ -8,6 +8,8 @@
 #   curl -fsSL ... | bash -s -- --server
 #
 # Options:
+#   --laptop         Light setup: essentials only (e.g. MacBook Air)
+#   --workstation    Full setup: essentials + heavy workstation tiers
 #   --server         Minimal server setup (no GUI apps)
 #   --work           Include work packages (MS Office)
 #   --personal       Include personal packages (Rogue Amoeba)
@@ -61,6 +63,8 @@ NON_INTERACTIVE=false
 while [[ $# -gt 0 ]]; do
   case $1 in
     --server) PROFILE="server"; shift ;;
+    --laptop) PROFILE="laptop"; shift ;;
+    --workstation) PROFILE="workstation"; shift ;;
     --work) MACHINE_TYPE="work"; shift ;;
     --personal) MACHINE_TYPE="personal"; shift ;;
     --ml4w) USE_ML4W="yes"; shift ;;
@@ -185,7 +189,11 @@ setup_rcrc_local() {
   # Determine tags
   case $OS in
     macos)
-      tags="desktop macos"
+      if [[ "$PROFILE" == "server" ]]; then
+        tags="server macos"
+      else
+        tags="desktop macos"
+      fi
       ;;
     arch|debian)
       if [[ "$PROFILE" == "server" ]]; then
@@ -296,6 +304,21 @@ install_packages() {
   "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras
 }
 
+# Install TPM and tmux plugins (desktop/laptop only - server config has no plugins)
+setup_tmux_plugins() {
+  [[ "$PROFILE" == "server" ]] && return
+  command -v tmux &>/dev/null || return
+
+  local tpm="$HOME/.tmux/plugins/tpm"
+  if [[ ! -d "$tpm" ]]; then
+    info "Installing TPM (tmux plugin manager)..."
+    git clone --depth 1 https://github.com/tmux-plugins/tpm "$tpm"
+  fi
+
+  info "Installing tmux plugins..."
+  "$tpm/bin/install_plugins" || warn "tmux plugin install failed (run prefix+I inside tmux later)"
+}
+
 # macOS-specific setup
 setup_macos() {
   if [[ "$OS" != "macos" ]] || [[ "$SKIP_MACOS" == true ]]; then
@@ -340,11 +363,13 @@ main() {
 
   ask_questions
   install_git              # Only true bootstrap dependency
+  [[ "$OS" == "macos" ]] && install_homebrew
   setup_dotfiles           # Clone/update repo (now we have package lists)
   install_packages         # Install packages (rcm comes from core.txt)
   setup_rcrc_local         # Configure rcm
   backup_existing          # Backup existing dotfiles
   link_dotfiles            # Run rcup (rcm now installed)
+  setup_tmux_plugins       # TPM + plugins (needs ~/.tmux.conf symlinked)
   setup_macos
 
   echo ""

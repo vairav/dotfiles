@@ -12,12 +12,23 @@
   navigate = true
   side-by-side = false
   line-numbers = true
-  syntax-theme = Dracula
-  file-style = bold yellow ul
+  syntax-theme = OneHalfDark
+  file-style = bold "#7aa2f7" ul
   hunk-header-style = omit
 
   # Word-level diff highlighting
   word-diff-regex = "."
+
+  # TokyoNight-inspired diff colors (subtle tinted backgrounds)
+  minus-style = syntax "#3f2d3d"
+  minus-emph-style = syntax "#763842"
+  plus-style = syntax "#283b4d"
+  plus-emph-style = syntax "#316172"
+
+  # Line number colors
+  line-numbers-minus-style = "#f7768e"
+  line-numbers-plus-style = "#9ece6a"
+  line-numbers-zero-style = "#565f89"
 
   # Better merge conflict display
   conflict-style = diff3

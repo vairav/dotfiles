@@ -1,7 +1,9 @@
 [window]
 #decorations = "Buttonless"
 decorations = "None"
-dynamic_padding = false
+# Distribute leftover cell-remainder space evenly on all sides,
+# so right/bottom padding matches left/top (important inside tmux)
+dynamic_padding = true
 startup_mode = "Windowed"
 option_as_alt = "Both"
 

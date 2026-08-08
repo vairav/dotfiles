@@ -11,12 +11,12 @@ alias c='clear'
 
 # Modern replacements
 command -v bat &>/dev/null && alias cat='bat'
-if command -v eza &>/dev/null; then
-  alias ls='eza --icons'
-  alias ll='eza -al --icons'
-  alias lt='eza -a --tree --level=1 --icons'
-  alias la='eza -a --icons'
-fi
+# eza is a baseline package on every machine (core/server lists) - no fallbacks,
+# so ls/ll/la behave identically everywhere
+alias ls='eza --icons'
+alias ll='eza -al --icons'
+alias lt='eza -a --tree --level=1 --icons'
+alias la='eza -a --icons'
 
 # Power commands
 if [[ "$OSTYPE" == "darwin"* ]]; then

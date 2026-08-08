@@ -28,7 +28,10 @@ export VISUAL=nvim
 alias vi="nvim"
 alias vim="nvim"
 command -v bat &>/dev/null && alias cat='bat'
-command -v eza &>/dev/null && alias ls='eza'
+# eza is a baseline package on every machine (server lists include it)
+alias ls='eza'
+alias ll='eza -al'
+alias la='eza -a'
 
 # Tools
 if command -v zoxide &>/dev/null; then

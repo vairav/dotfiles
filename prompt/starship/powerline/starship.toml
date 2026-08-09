@@ -229,7 +229,7 @@ fish_indicator = 'fish'
 disabled = false
 
 [time]
-format = '[─](fg:current_line)[](fg:mauve)[ ](fg:primary bg:mauve)[](fg:mauve bg:box)[ $time](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:mauve)[ ](fg:primary bg:mauve)[](fg:mauve bg:box)[ $time ](fg:foreground bg:box)[](fg:box)'
 time_format = '%H:%M'
 disabled = false
 

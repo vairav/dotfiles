@@ -69,7 +69,7 @@ primary = "#45475a"
 box = "#585b70"
 
 [os]
-format = '[](fg:peach)[$symbol](fg:primary bg:peach)[](fg:peach)'
+format = '[](fg:peach)[$symbol ](fg:primary bg:peach)[](fg:peach)'
 disabled = false
 
 [os.symbols]
@@ -134,12 +134,12 @@ read_only_style = ''
 "dotfiles" = ""
 
 [git_branch]
-format = '[─](fg:current_line)[](fg:teal)[$symbol ](fg:primary bg:teal)[](fg:teal bg:box)[$branch](fg:foreground bg:box)[](fg:box bg:yellow)'
-symbol = ''
+format = '[─](fg:current_line)[](fg:teal)[$symbol](fg:primary bg:teal)[](fg:teal bg:box)[ $branch](fg:foreground bg:box)[](fg:box bg:yellow)'
+symbol = ''
 
 [git_status]
 disabled = false
-format = '[($all_status$ahead_behind)](fg:primary bg:yellow)[](fg:yellow bg:pink)'
+format = '[ ($all_status$ahead_behind)](fg:primary bg:yellow)[](fg:yellow bg:pink)'
 conflicted = ' '
 stashed = ' '
 deleted = ' '
@@ -156,7 +156,7 @@ up_to_date = ' '
 [git_commit]
 commit_hash_length = 5
 tag_symbol = ' '
-format = '[ $hash$tag](fg:primary bg:pink)[](fg:pink bg:background)'
+format = '[ #$hash$tag](fg:primary bg:pink)[](fg:pink bg:background)'
 disabled = false
 only_detached = false
 tag_disabled = false
@@ -211,7 +211,7 @@ symbol = ' Zig'
 # Only renders when AWS env is active (AWS_PROFILE via mise dir scoping etc.)
 [aws]
 format = '[─](fg:current_line)[](fg:sapphire)[$symbol ](fg:primary bg:sapphire)[](fg:sapphire bg:box)[ $profile( $region)](fg:foreground bg:box)[](fg:box)'
-symbol = ''
+symbol = ''
 
 [fill]
 symbol = '─'

@@ -22,6 +22,7 @@ $golang\
 $c\
 $rust\
 $zig\
+$aws\
 $cmd_duration\
 $shell\
 $time\
@@ -206,6 +207,11 @@ symbol = ' Rust'
 [zig]
 format = '[─](fg:current_line)[](fg:yellow)[$symbol ](fg:primary bg:yellow)[](fg:yellow bg:box)[$version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Zig'
+
+# Only renders when AWS env is active (AWS_PROFILE via mise dir scoping etc.)
+[aws]
+format = '[─](fg:current_line)[](fg:sapphire)[$symbol ](fg:primary bg:sapphire)[](fg:sapphire bg:box)[$profile( ($region))](fg:foreground bg:box)[](fg:box)'
+symbol = ' AWS'
 
 [fill]
 symbol = '─'

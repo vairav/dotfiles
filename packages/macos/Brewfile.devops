@@ -8,18 +8,20 @@ brew "awscli"
 cask "aws-vault"                # AWS credentials manager
 
 # Terraform
-brew "terraform"
 brew "terraform-docs"           # Terraform documentation generator
 brew "terragrunt"               # Terraform workflow tool
-brew "tflint"                   # Terraform linter
-# Terraform version switching is handled by mise (Brewfile.dev), which already
-# replaces asdf/nvm/pyenv here. Dropped tfswitch + its warrensbox/tap: it is the
-# only one of these tools not in homebrew-core, and under Homebrew 6 tap trust
-# an untrusted tap aborts the entire Brewfile.
+#
+# terraform, tflint and packer are NOT here. HashiCorp's BUSL relicensing got
+# them removed from homebrew-core, and brew only ever gave us one version at a
+# time anyway - which is the wrong shape for consulting, where different
+# clients pin different versions.
+#
+# They are managed by mise instead (see scripts/setup-mise-tools.sh), which
+# already replaces asdf/nvm/pyenv here and can pin per-project versions from a
+# repo's own mise.toml. tfswitch went the same way.
 
 # Configuration Management
 brew "ansible"
-brew "packer"                   # Image builder for multiple platforms
 
 # Secrets
 brew "sops"                     # Secrets management - Encrypt / decrypt files

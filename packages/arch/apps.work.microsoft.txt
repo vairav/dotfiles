@@ -1,0 +1,6 @@
+# Work machine apps - Microsoft-house clients (--work --vendor microsoft)
+#
+# Vendor tier: consulting clients differ, so vendor stacks only land on a
+# machine that asked for them, and never on a personal machine.
+
+teams-for-linux

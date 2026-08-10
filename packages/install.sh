@@ -24,6 +24,7 @@ INCLUDE_WORK=false
 INCLUDE_PERSONAL=false
 INCLUDE_PLAYGROUND=false
 CLEANUP=false
+VENDORS=()
 
 # Colors
 RED='\033[0;31m'
@@ -106,6 +107,20 @@ install_macos() {
     if [[ "$INCLUDE_WORK" == "true" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work")
         [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work.workstation")
+
+        # Vendor stacks: client-specific, opt-in per machine, work-only.
+        # Length-guarded: /bin/bash on macOS is 3.2, where expanding an empty
+        # array under `set -u` is a fatal "unbound variable".
+        if [[ ${#VENDORS[@]} -gt 0 ]]; then
+            for vendor in "${VENDORS[@]}"; do
+                local vendor_file="$SCRIPT_DIR/macos/Brewfile.apps.work.$vendor"
+                if [[ -f "$vendor_file" ]]; then
+                    brewfiles+=("$vendor_file")
+                else
+                    warn "Unknown vendor '$vendor' (no $(basename "$vendor_file"))"
+                fi
+            done
+        fi
     fi
 
     if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
@@ -318,6 +333,18 @@ install_pacman() {
     if [[ "$INCLUDE_WORK" == "true" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/apps.work.txt"
         [[ "$heavy" == "true" ]] && install_pkg_file "$SCRIPT_DIR/arch/apps.work.workstation.txt"
+
+        # Vendor stacks - see the macOS branch for the bash 3.2 length guard.
+        if [[ ${#VENDORS[@]} -gt 0 ]]; then
+            for vendor in "${VENDORS[@]}"; do
+                local vendor_file="$SCRIPT_DIR/arch/apps.work.$vendor.txt"
+                if [[ -f "$vendor_file" ]]; then
+                    install_pkg_file "$vendor_file"
+                else
+                    warn "Unknown vendor '$vendor' (no $(basename "$vendor_file"))"
+                fi
+            done
+        fi
     fi
 
     if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
@@ -418,7 +445,9 @@ ROLE:
   server      Self-contained minimal set (headless / always-on machines)
 
 OPTIONS:
-  --work        Include work-specific apps (MS Office, etc.)
+  --work        Include work-specific apps
+  --vendor NAME Include a client vendor stack (repeatable, implies --work):
+                microsoft, google, apple
   --personal    Include personal-only apps (Rogue Amoeba, etc.)
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
@@ -484,6 +513,11 @@ main() {
                 INCLUDE_PLAYGROUND=true
                 shift
                 ;;
+            --vendor)
+                [[ -z "${2:-}" ]] && { error "--vendor needs a name (microsoft, google, apple)"; exit 1; }
+                VENDORS+=("$2")
+                shift 2
+                ;;
             --cleanup)
                 CLEANUP=true
                 shift
@@ -519,6 +553,7 @@ main() {
     echo "Include work:     $INCLUDE_WORK"
     echo "Include personal: $INCLUDE_PERSONAL"
     echo "Include playground: $INCLUDE_PLAYGROUND"
+    echo "Vendors:          ${VENDORS[*]:-none}"
     echo "Cleanup:          $CLEANUP"
     echo "Dry-run:          $DRY_RUN"
     echo "============================================="
@@ -536,6 +571,15 @@ main() {
             macos) install_macos "$ROLE" ;;
             linux) install_linux "$ROLE" ;;
         esac
+
+        # Global mise-managed tools (workstation only - laptops do no IaC work)
+        if [[ "$ROLE" == "workstation" || "$ROLE" == "desktop" ]]; then
+            if [[ "$DRY_RUN" == "false" ]]; then
+                "$SCRIPT_DIR/../scripts/setup-mise-tools.sh" || warn "mise tool setup incomplete"
+            else
+                debug "Would run: scripts/setup-mise-tools.sh"
+            fi
+        fi
     fi
 
     echo ""

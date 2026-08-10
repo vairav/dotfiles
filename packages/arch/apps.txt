@@ -11,7 +11,9 @@ firefox
 # Communication
 slack-desktop
 zoom
-teams-for-linux
+# teams-for-linux moved to apps.work.microsoft.txt - it is a client stack
+# choice, not something every machine should carry. It is also an npm/Electron
+# source build, so keeping it off personal machines saves real time.
 
 # Passwords
 1password

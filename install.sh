@@ -54,6 +54,8 @@ backup_if_exists() {
 # Parse arguments
 PROFILE="desktop"
 MACHINE_TYPE=""
+MACHINE_NAME=""
+VENDORS=()
 USE_ML4W=""
 SKIP_PACKAGES=false
 SKIP_MACOS=false
@@ -67,6 +69,8 @@ while [[ $# -gt 0 ]]; do
     --workstation) PROFILE="workstation"; shift ;;
     --work) MACHINE_TYPE="work"; shift ;;
     --personal) MACHINE_TYPE="personal"; shift ;;
+    --vendor) VENDORS+=("$2"); shift 2 ;;
+    --name) MACHINE_NAME="$2"; shift 2 ;;
     --ml4w) USE_ML4W="yes"; shift ;;
     --skip-packages) SKIP_PACKAGES=true; shift ;;
     --skip-macos) SKIP_MACOS=true; shift ;;
@@ -131,6 +135,50 @@ ask_questions() {
     fi
   fi
 }
+
+# Acquire sudo ONCE, up front, and hold it for the whole run.
+#
+# Several later steps need root: the login shell change, macOS defaults, Mac
+# App Store installs, and a few casks with pkg payloads. Asking once here is
+# what makes this a single unattended command rather than a setup that stops
+# halfway and hands you a list of commands to run by hand.
+SUDO_OK=false
+SUDO_KEEPALIVE_PID=""
+
+request_sudo() {
+  if sudo -n true 2>/dev/null; then
+    SUDO_OK=true
+    return 0
+  fi
+
+  if [[ ! -t 0 ]]; then
+    warn "No terminal attached - steps needing administrator access will be skipped."
+    return 0
+  fi
+
+  echo ""
+  prompt "Some steps need administrator access (login shell, macOS defaults,"
+  prompt "App Store installs). You will be asked for your password once."
+  echo ""
+
+  if sudo -v; then
+    SUDO_OK=true
+    # Refresh the timestamp until this script exits, so nothing re-prompts.
+    while true; do
+      sudo -n true
+      sleep 60
+      kill -0 "$$" 2>/dev/null || exit
+    done 2>/dev/null &
+    SUDO_KEEPALIVE_PID=$!
+  else
+    warn "Could not obtain sudo - steps needing it will be skipped."
+  fi
+}
+
+cleanup_sudo() {
+  [[ -n "$SUDO_KEEPALIVE_PID" ]] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+}
+trap cleanup_sudo EXIT
 
 # Install Homebrew (macOS only)
 install_homebrew() {
@@ -302,14 +350,35 @@ install_packages() {
     extras="--personal"
   fi
 
+  # Client vendor stacks (repeatable). Length-guarded for bash 3.2.
+  local vendor_args=""
+  if [[ ${#VENDORS[@]} -gt 0 ]]; then
+    for v in "${VENDORS[@]}"; do
+      vendor_args="$vendor_args --vendor $v"
+    done
+  fi
+
   info "Installing packages..."
-  "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras
+  "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras $vendor_args
 }
 
 # Note: tmux plugins are handled by the rcm post-up hook
 # (hooks/post-up/10-tmux-plugins), not here. The hook runs after every rcup,
 # so plugins stay in sync no matter who does the symlinking - this script, the
 # private setup script, or a bare `rcup`.
+
+# Hostname - cross-OS, so it lives outside setup_macos.
+#
+# macOS needs ComputerName/HostName/LocalHostName (+ NetBIOS) set together;
+# Linux needs hostnamectl plus the /etc/hosts entry. scripts/set-hostname.sh
+# owns both. Only runs when --name is passed - otherwise the machine keeps
+# whatever it is already called.
+setup_machine_name() {
+  [[ -z "$MACHINE_NAME" ]] && return 0
+
+  info "Setting machine name to: $MACHINE_NAME"
+  "$DOTFILES_DIR/scripts/set-hostname.sh" "$MACHINE_NAME" || warn "Could not set hostname"
+}
 
 # macOS-specific setup
 setup_macos() {
@@ -356,6 +425,7 @@ main() {
   info "Detected OS: $OS"
 
   ask_questions
+  request_sudo             # Ask for the password once, up front
   install_git              # Only true bootstrap dependency
   [[ "$OS" == "macos" ]] && install_homebrew
   setup_dotfiles           # Clone/update repo (now we have package lists)
@@ -363,6 +433,7 @@ main() {
   setup_rcrc_local         # Configure rcm
   backup_existing          # Backup existing dotfiles
   link_dotfiles            # Run rcup (rcm now installed); post-up hook syncs tmux plugins
+  setup_machine_name       # Cross-OS hostname, only when --name was passed
   setup_macos
 
   echo ""

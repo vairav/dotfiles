@@ -1,0 +1,12 @@
+# Brewfile.apps.work.apple - Apple-house client tooling (iWork)
+#
+# Vendor tier: only installed with --work --vendor apple.
+#
+# These used to sit in Brewfile.apps, which put a document suite on every
+# machine including personal ones. Client document formats are a work concern.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.apple
+
+mas "Keynote", id: 361285480
+mas "Numbers", id: 361304891
+mas "Pages", id: 361309726

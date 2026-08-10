@@ -1,0 +1,14 @@
+# Brewfile.apps.work.google - Google-house client tooling
+#
+# Vendor tier: only installed with --work --vendor google.
+#
+# Chrome and Drive also appear in Brewfile.apps.workstation. That overlap is
+# intentional and harmless (brew bundle is idempotent) - a Google-house work
+# LAPTOP needs them, and the workstation tier would not deliver them.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.google
+
+cask_args appdir: "/Applications"
+
+cask "google-drive"
+cask "google-chrome"

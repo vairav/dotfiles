@@ -48,16 +48,30 @@ setup_zsh() {
         return 0
     fi
 
+    # Prefer cached sudo: the caller acquires it once up front, so this runs
+    # without a second password prompt. `sudo chsh -s <shell> <user>` avoids
+    # chsh's own interactive prompt entirely.
+    if sudo -n true 2>/dev/null; then
+        info "Setting Homebrew zsh as default shell..."
+        if ! grep -q "$brew_zsh" /etc/shells; then
+            echo "$brew_zsh" | sudo tee -a /etc/shells >/dev/null \
+                || { warn "Could not add $brew_zsh to /etc/shells"; return 0; }
+        fi
+        sudo chsh -s "$brew_zsh" "$USER" || warn "chsh failed - login shell unchanged"
+        info "Login shell set - takes effect in new terminals"
+        return 0
+    fi
+
     if [[ ! -t 0 ]]; then
-        warn "No terminal attached - skipping login shell change."
-        warn "Run this yourself:"
+        warn "No administrator access - skipping login shell change."
+        warn "To do it later:"
         warn "  sudo sh -c 'echo $brew_zsh >> /etc/shells' && chsh -s $brew_zsh"
         return 0
     fi
 
     info "Setting Homebrew zsh as default shell..."
     if ! grep -q "$brew_zsh" /etc/shells; then
-        echo "$brew_zsh" | sudo tee -a /etc/shells || { warn "Could not edit /etc/shells"; return 0; }
+        echo "$brew_zsh" | sudo tee -a /etc/shells >/dev/null || { warn "Could not edit /etc/shells"; return 0; }
     fi
     chsh -s "$brew_zsh" || warn "chsh failed - login shell unchanged"
     info "Done"
@@ -92,15 +106,26 @@ setup_zim() {
 }
 
 # Set hostname
+#
+# Delegates to scripts/set-hostname.sh, which owns this for every OS - macOS
+# needs ComputerName/HostName/LocalHostName/NetBIOS set together, Linux needs
+# hostnamectl plus /etc/hosts. One implementation, not two.
+#
+# Only runs when --hostname is passed. Omitted means "keep whatever this
+# machine is already called", which is the right default for a re-run.
 setup_hostname() {
     local name="$1"
     [[ -z "$name" ]] && return 0
 
-    info "Setting hostname to: $name"
-    sudo scutil --set ComputerName "$name"
-    sudo scutil --set HostName "$name"
-    sudo scutil --set LocalHostName "$name"
-    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$name"
+    local script
+    script="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/scripts/set-hostname.sh"
+
+    if [[ ! -x "$script" ]]; then
+        warn "scripts/set-hostname.sh not found - skipping hostname change"
+        return 0
+    fi
+
+    "$script" "$name" || warn "Could not set hostname"
 }
 
 print_next_steps() {

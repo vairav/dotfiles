@@ -1,17 +1,13 @@
-# Brewfile.apps.work - Work machine apps
+# Brewfile.apps.work - Work machine apps, vendor-neutral
+#
+# Anything every work machine needs regardless of which stack the client runs.
+# Vendor-specific software lives in Brewfile.apps.work.<vendor> and is selected
+# with --vendor (repeatable), e.g.:
+#
+#   ./packages/install.sh laptop --work --vendor microsoft --vendor google
+#
+# Empty for now - everything that was here turned out to be Microsoft-specific.
+#
 # Usage: brew bundle --file=Brewfile.apps.work
 
 cask_args appdir: "/Applications"
-
-# Microsoft Office
-cask "microsoft-excel"
-cask "microsoft-word"
-cask "microsoft-powerpoint"
-cask "microsoft-outlook"
-cask "microsoft-onenote"
-cask "microsoft-teams"
-# microsoft-defender is no longer in Homebrew - it is delivered by the org
-# through Intune Company Portal, so let the MDM install it.
-
-# Enterprise
-cask "intune-company-portal"

@@ -32,6 +32,21 @@ The bare file is the light set any such machine gets; `.workstation` adds the
 heavy tier that only belongs on a desk. Some cells are legitimately near-empty -
 that is a real answer, not a gap to pad out.
 
+### Vendor stacks
+
+Client environments differ, so vendor-specific software is opt-in and work-only:
+
+```bash
+./packages/install.sh laptop --work --vendor microsoft --vendor google
+```
+
+Each `--vendor NAME` pulls in `Brewfile.apps.work.NAME` (or
+`apps.work.NAME.txt` on Linux). Available: `microsoft`, `google`, `apple`.
+Adding a new one means adding a file - no code change.
+
+Nothing vendor-specific belongs in a shared tier. A personal machine never
+receives any of it.
+
 ## Quick Reference
 
 ```bash
@@ -62,8 +77,11 @@ that is a real answer, not a gap to pad out.
 | Brewfile.font             | Nerd Fonts                              | laptop, workstation |
 | Brewfile.devops           | Terraform, AWS, Ansible                 | workstation        |
 | Brewfile.server           | Minimal CLI set + Tailscale + AI CLIs   | server             |
-| Brewfile.apps.work        | MS Office                               | --work             |
+| Brewfile.apps.work        | Vendor-neutral work apps                | --work             |
 | Brewfile.apps.work.workstation | Heavy work apps (empty for now)    | --work + workstation |
+| Brewfile.apps.work.microsoft | Office, Teams, Intune                | --vendor microsoft |
+| Brewfile.apps.work.google | Drive, Chrome                           | --vendor google    |
+| Brewfile.apps.work.apple  | iWork (Keynote, Numbers, Pages)         | --vendor apple     |
 | Brewfile.apps.personal    | Light personal apps (SoundSource)       | --personal         |
 | Brewfile.apps.personal.workstation | Rogue Amoeba suite, FreeCAD    | --personal + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |

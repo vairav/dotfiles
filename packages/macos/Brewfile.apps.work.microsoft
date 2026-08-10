@@ -1,0 +1,24 @@
+# Brewfile.apps.work.microsoft - Microsoft-house client tooling
+#
+# Vendor tier: only installed with --work --vendor microsoft. Consulting
+# clients differ - some are Microsoft houses, some Google, some mixed - so
+# vendor stacks never land on a machine that did not ask for them, and never
+# on a personal machine.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.microsoft
+
+cask_args appdir: "/Applications"
+
+# Office
+cask "microsoft-excel"
+cask "microsoft-word"
+cask "microsoft-powerpoint"
+cask "microsoft-outlook"
+cask "microsoft-onenote"
+cask "microsoft-teams"
+
+# Enterprise
+cask "intune-company-portal"
+
+# microsoft-defender is not in Homebrew - the org pushes it through Intune.
+# Nothing to install here; the MDM enrolment does it.

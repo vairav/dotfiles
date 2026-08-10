@@ -1,0 +1,5 @@
+# Work machine apps - workstation tier (--work on a workstation)
+#
+# Empty on purpose. teams-for-linux is in apps.txt and the rest of the work
+# tooling is as useful on a laptop as on a desk. Add anything here that a work
+# desk needs but a work laptop should not carry.

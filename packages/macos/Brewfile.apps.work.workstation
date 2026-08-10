@@ -1,0 +1,9 @@
+# Brewfile.apps.work.workstation - Heavy work software (workstation only)
+#
+# Empty on purpose. The Office suite in Brewfile.apps.work is if anything MORE
+# useful on a portable than on a desk, so it stays in the essentials tier.
+# Add anything here that a work desk needs but a work laptop should not carry.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.workstation
+
+cask_args appdir: "/Applications"

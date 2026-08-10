@@ -1,0 +1,5 @@
+# Personal machine apps - workstation tier (--personal on a workstation)
+#
+# Heavy creative/CAD software. Kept off laptops deliberately.
+
+freecad-assembly3-appimage

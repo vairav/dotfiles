@@ -98,12 +98,19 @@ install_macos() {
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.devops")
     fi
 
+    # Ownership tiers the same way roles do: the bare file is the essentials
+    # set for any machine, *.workstation adds the heavy tier on a desk.
+    local heavy=false
+    [[ "$role" == "workstation" || "$role" == "desktop" ]] && heavy=true
+
     if [[ "$INCLUDE_WORK" == "true" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work")
+        [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work.workstation")
     fi
 
     if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal")
+        [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal.workstation")
     fi
 
     if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
@@ -304,12 +311,18 @@ install_pacman() {
         install_pkg_file "$SCRIPT_DIR/arch/server.txt"
     fi
 
+    # Ownership tiers like roles do - see the macOS branch for the rationale.
+    local heavy=false
+    [[ "$role" == "workstation" || "$role" == "desktop" ]] && heavy=true
+
     if [[ "$INCLUDE_WORK" == "true" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/apps.work.txt"
+        [[ "$heavy" == "true" ]] && install_pkg_file "$SCRIPT_DIR/arch/apps.work.workstation.txt"
     fi
 
     if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/apps.personal.txt"
+        [[ "$heavy" == "true" ]] && install_pkg_file "$SCRIPT_DIR/arch/apps.personal.workstation.txt"
     fi
 
     if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
@@ -427,7 +440,9 @@ PACKAGE STRUCTURE:
     Brewfile.devops           DevOps tools (workstation only)
     Brewfile.server           Minimal server set (server role only)
     Brewfile.apps.work        Work-specific apps (--work flag)
+    Brewfile.apps.work.workstation        Heavy work apps (--work on workstation)
     Brewfile.apps.personal    Personal-only apps (--personal flag)
+    Brewfile.apps.personal.workstation    Heavy personal apps (--personal on workstation)
     Brewfile.playground       Testing/evaluation tools (--playground flag)
 
   Arch Linux:

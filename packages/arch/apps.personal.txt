@@ -1,3 +1,7 @@
-# Personal machine apps (--personal flag)
-
-freecad-assembly3-appimage
+# Personal machine apps - essentials tier (--personal, any role)
+#
+# Ownership tiers like roles do: this is the light set every personal machine
+# gets. Heavy creative/CAD software lives in apps.personal.workstation.txt.
+#
+# Nothing light-tier yet on Linux - that is a real answer, not a gap. Do not
+# add filler just to populate the file.

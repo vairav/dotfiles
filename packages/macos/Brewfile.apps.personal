@@ -1,15 +1,12 @@
-# Brewfile.apps.personal - Personal machine only
+# Brewfile.apps.personal - Personal-machine essentials (laptop + workstation)
+#
+# Ownership tiers the same way roles do: this file is the light set that any
+# personal machine gets, and Brewfile.apps.personal.workstation holds the heavy
+# creative/production software that only belongs on a desk.
+#
 # Usage: brew bundle --file=Brewfile.apps.personal
 
 cask_args appdir: "/Applications"
 
-# Rogue Amoeba Audio (https://rogueamoeba.com/)
-cask "audio-hijack"             # Record any audio
-cask "loopback"                 # Virtual audio routing
-cask "soundsource"              # Per-app volume control
-cask "farrago"                  # Soundboard for audio clips
-cask "fission"                  # Fast audio editor
-cask "piezo"                    # Simple audio recording
-
-# 3D/CAD
-cask "freecad"
+# Audio
+cask "soundsource"              # Per-app volume control (menu bar utility)

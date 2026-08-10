@@ -18,6 +18,20 @@ Every machine picks one role (macOS and Linux alike):
 | `desktop` | Alias for `workstation` (default) | |
 | `server` | Self-contained minimal set, CLI-focused | old M1 MacBooks |
 
+## Ownership
+
+Independent of role, a machine can also be personal or work. Ownership tiers
+the same way roles do, so all four combinations are meaningful:
+
+|                 | `--personal`                          | `--work`                     |
+| --------------- | ------------------------------------- | ---------------------------- |
+| **laptop**      | `apps.personal`                       | `apps.work`                  |
+| **workstation** | `apps.personal` + `.workstation`      | `apps.work` + `.workstation` |
+
+The bare file is the light set any such machine gets; `.workstation` adds the
+heavy tier that only belongs on a desk. Some cells are legitimately near-empty -
+that is a real answer, not a gap to pad out.
+
 ## Quick Reference
 
 ```bash
@@ -27,8 +41,8 @@ Every machine picks one role (macOS and Linux alike):
 ./packages/install.sh server       # Minimal always-on machine
 
 # Extras
-./packages/install.sh --work       # + MS Office
-./packages/install.sh --personal   # + Rogue Amoeba
+./packages/install.sh --work       # + work apps (tiered by role)
+./packages/install.sh --personal   # + personal apps (tiered by role)
 ./packages/install.sh --playground # + Testing tools
 ./packages/install.sh --dry-run    # Preview
 ./packages/install.sh --cleanup    # Remove unlisted packages (macOS)
@@ -49,7 +63,9 @@ Every machine picks one role (macOS and Linux alike):
 | Brewfile.devops           | Terraform, AWS, Ansible                 | workstation        |
 | Brewfile.server           | Minimal CLI set + Tailscale + AI CLIs   | server             |
 | Brewfile.apps.work        | MS Office                               | --work             |
-| Brewfile.apps.personal    | Rogue Amoeba                            | --personal         |
+| Brewfile.apps.work.workstation | Heavy work apps (empty for now)    | --work + workstation |
+| Brewfile.apps.personal    | Light personal apps (SoundSource)       | --personal         |
+| Brewfile.apps.personal.workstation | Rogue Amoeba suite, FreeCAD    | --personal + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
 | manual-install.txt        | Not in brew                             | -                  |
 

@@ -1,6 +1,7 @@
 # Server packages (minimal)
 
 tmux
+sesh-bin
 neovim
 
 # Remote filesystems

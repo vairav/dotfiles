@@ -11,6 +11,7 @@ zoxide
 
 # Multiplexer
 tmux
+sesh-bin
 
 # Version manager
 mise

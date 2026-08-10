@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# rcm post-up hook: keep tmux plugins in sync with the config.
+#
+# Runs after rcup has finished symlinking (see rcup(1), ALGORITHM step 6), so
+# ~/.tmux.conf is guaranteed to be in place by the time TPM reads it.
+
+set -uo pipefail
+
+DOTFILES="${DOTFILES:-$HOME/workspace/dotfiles}"
+
+exec "$DOTFILES/scripts/setup-tmux-plugins.sh"

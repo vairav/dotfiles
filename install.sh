@@ -304,20 +304,10 @@ install_packages() {
   "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras
 }
 
-# Install TPM and tmux plugins (desktop/laptop only - server config has no plugins)
-setup_tmux_plugins() {
-  [[ "$PROFILE" == "server" ]] && return
-  command -v tmux &>/dev/null || return
-
-  local tpm="$HOME/.tmux/plugins/tpm"
-  if [[ ! -d "$tpm" ]]; then
-    info "Installing TPM (tmux plugin manager)..."
-    git clone --depth 1 https://github.com/tmux-plugins/tpm "$tpm"
-  fi
-
-  info "Installing tmux plugins..."
-  "$tpm/bin/install_plugins" || warn "tmux plugin install failed (run prefix+I inside tmux later)"
-}
+# Note: tmux plugins are handled by the rcm post-up hook
+# (hooks/post-up/10-tmux-plugins), not here. The hook runs after every rcup,
+# so plugins stay in sync no matter who does the symlinking - this script, the
+# private setup script, or a bare `rcup`.
 
 # macOS-specific setup
 setup_macos() {
@@ -368,8 +358,7 @@ main() {
   install_packages         # Install packages (rcm comes from core.txt)
   setup_rcrc_local         # Configure rcm
   backup_existing          # Backup existing dotfiles
-  link_dotfiles            # Run rcup (rcm now installed)
-  setup_tmux_plugins       # TPM + plugins (needs ~/.tmux.conf symlinked)
+  link_dotfiles            # Run rcup (rcm now installed); post-up hook syncs tmux plugins
   setup_macos
 
   echo ""

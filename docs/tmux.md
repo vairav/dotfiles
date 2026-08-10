@@ -83,3 +83,20 @@ only (a plain local terminal, then `mosh host -- tmux new -A -s main`).
 `install.sh` handles all of it: tmux + sesh from packages, `.tmux.conf`
 symlinked by rcm, TPM cloned and plugins installed. On servers the minimal
 plugin-free config from `tag-server/` is used instead.
+
+## Adding a plugin
+
+Add the `set -g @plugin` line to `tmux/conf/plugins.conf`, commit, push. On
+every other machine, the next `rcup` installs it automatically - the rcm
+post-up hook (`hooks/post-up/10-tmux-plugins`) runs
+`scripts/setup-tmux-plugins.sh` after each sync. That holds however the
+machine is updated, including a bare `rcup`.
+
+For a session that is already running, reload it to pick the plugin up:
+
+```bash
+tmux source-file ~/.tmux.conf
+```
+
+Plugins dropped from the config are left on disk on purpose. Remove them
+deliberately with `prefix + alt + u`, or `~/.tmux/plugins/tpm/bin/clean_plugins`.

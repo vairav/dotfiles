@@ -173,7 +173,9 @@ install_git() {
 setup_dotfiles() {
   if [[ -d "$DOTFILES_DIR/.git" ]]; then
     info "Updating dotfiles..."
-    git -C "$DOTFILES_DIR" pull --rebase
+    # Non-fatal: a machine with local edits (or no network) must still be able
+    # to run setup, and callers run under `set -e`.
+    git -C "$DOTFILES_DIR" pull --rebase || warn "Could not update (offline or local changes) - continuing"
   else
     info "Cloning dotfiles..."
     mkdir -p "$(dirname "$DOTFILES_DIR")"
@@ -315,11 +317,13 @@ setup_macos() {
     return
   fi
 
+  # Both of these want a password. Neither is worth aborting the run over -
+  # the dotfile symlinking that matters has already happened by this point.
   info "Running macOS setup..."
-  "$DOTFILES_DIR/macos/setup.sh"
+  "$DOTFILES_DIR/macos/setup.sh" || warn "macOS setup incomplete (see above)"
 
   info "Applying macOS defaults..."
-  "$DOTFILES_DIR/macos/defaults.sh"
+  "$DOTFILES_DIR/macos/defaults.sh" || warn "macOS defaults not applied (see above)"
 }
 
 # Print next steps based on configuration

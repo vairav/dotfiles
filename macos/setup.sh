@@ -31,12 +31,16 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Set Homebrew zsh as default
+#
+# This step needs a password, so it must never be fatal: it runs before zim and
+# TPM, and an abort here used to take the whole install chain down with it
+# (the calling install scripts run under `set -e`).
 setup_zsh() {
     local brew_zsh="/opt/homebrew/bin/zsh"
 
     if [[ ! -x "$brew_zsh" ]]; then
         warn "Homebrew zsh not found. Run: brew install zsh"
-        return 1
+        return 0
     fi
 
     if [[ "$SHELL" == "$brew_zsh" ]]; then
@@ -44,11 +48,18 @@ setup_zsh() {
         return 0
     fi
 
+    if [[ ! -t 0 ]]; then
+        warn "No terminal attached - skipping login shell change."
+        warn "Run this yourself:"
+        warn "  sudo sh -c 'echo $brew_zsh >> /etc/shells' && chsh -s $brew_zsh"
+        return 0
+    fi
+
     info "Setting Homebrew zsh as default shell..."
     if ! grep -q "$brew_zsh" /etc/shells; then
-        echo "$brew_zsh" | sudo tee -a /etc/shells
+        echo "$brew_zsh" | sudo tee -a /etc/shells || { warn "Could not edit /etc/shells"; return 0; }
     fi
-    chsh -s "$brew_zsh"
+    chsh -s "$brew_zsh" || warn "chsh failed - login shell unchanged"
     info "Done"
 }
 

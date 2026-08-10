@@ -7,6 +7,15 @@
 
 set -euo pipefail
 
+# Needs sudo. Exit 0 rather than failing when there is no terminal to prompt
+# on, so an unattended run does not abort the caller (install.sh runs under
+# `set -e` and this used to take the whole setup down with it).
+if ! sudo -n true 2>/dev/null && [[ ! -t 0 ]]; then
+    echo "Skipping macOS defaults: sudo needs a password and no terminal is attached."
+    echo "Run it yourself: ~/workspace/dotfiles/macos/defaults.sh"
+    exit 0
+fi
+
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 

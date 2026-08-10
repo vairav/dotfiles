@@ -4,9 +4,11 @@
 " These isolate cookies/sessions so you can have separate logins
 set auconcreatecontainer true
 
+" Org-specific containers name real organisations - keep those in a private
+" config, not here. This file is public.
 containercreate Personal blue fingerprint
 containercreate Trading green dollar
-containercreate Org-g purple briefcase
+" containercreate MyOrg purple briefcase
 
 " Uncomment to auto-open specific sites in containers
 " autocontain -s simplertrading\.com Trading

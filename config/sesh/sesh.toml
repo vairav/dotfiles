@@ -1,9 +1,14 @@
-# sesh — tmux session manager
+# sesh - tmux session manager
 # Docs: https://github.com/joshmedeski/sesh
 #
 # Open the picker with `t` in the shell, or prefix+s inside tmux.
 # The picker lists: running tmux sessions, the sessions below, and zoxide dirs
 # (picking a zoxide dir auto-creates a session named after it).
+#
+# Keep project- and client-specific sessions OUT of this file - it is public.
+# sesh has no import mechanism, so for private sessions copy this file into
+# your private dotfiles repo and add them there; rcm will give that copy
+# precedence at ~/.config/sesh/sesh.toml.
 
 [[session]]
 name = "daily"
@@ -11,14 +16,13 @@ path = "~/workspace"
 startup_command = "~/workspace/dotfiles/tmux/layouts/daily.sh"
 
 [[session]]
-name = "project-a"
-path = "~/workspace/project-a"
-startup_command = "~/workspace/dotfiles/tmux/layouts/project-a.sh"
-
-[[session]]
 name = "dotfiles"
 path = "~/workspace/dotfiles"
 
-[[session]]
-name = "vault"
-path = "~/workspace/dotfiles-vault"
+# Example of a multi-window project session. The layout script builds the
+# windows once, when sesh first creates the session:
+#
+# [[session]]
+# name = "myproject"
+# path = "~/workspace/myproject"
+# startup_command = "~/workspace/dotfiles/tmux/layouts/myproject.sh"

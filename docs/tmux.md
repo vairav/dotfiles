@@ -55,9 +55,14 @@ tmux anyway. Every command below means: press `Ctrl-b`, release, then the key.
 - Predefined sessions live in `config/sesh/sesh.toml`:
   - `daily` — one `main` window in `~/workspace` (grow it over time in
     `tmux/layouts/daily.sh`)
-  - `project-a` — windows: main, quake, iac, identity under
-    `~/workspace/project-a` (`tmux/layouts/project-a.sh`)
-  - `dotfiles` / `vault`
+  - `dotfiles` — this repo
+- A session can build several windows at once via a layout script in
+  `tmux/layouts/`. The script runs only when sesh first creates the session
+  (it exits early if the session already has more than one window), so
+  recreate the session to test changes: `tmux kill-session -t <name>`.
+- Project- and client-specific sessions do not belong in this public file.
+  sesh has no import mechanism, so keep a full copy of `sesh.toml` in a private
+  dotfiles repo and let rcm give it precedence.
 
 ## Remote use (MacBook Air → servers / workstation)
 

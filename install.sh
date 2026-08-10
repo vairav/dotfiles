@@ -18,6 +18,16 @@
 #   --skip-macos     Skip macOS defaults and setup
 #   --skip-rcup      Skip rcup (just configure, don't symlink)
 #   --non-interactive  Skip all prompts, use defaults
+#   --private-repo URL  Clone a private overlay repo and hand off to its
+#                       setup.sh. Installs Homebrew, git and gh first, and
+#                       runs `gh auth login` if the clone needs credentials.
+#   --private-dir DIR   Where to clone it (default: ~/workspace/<repo-name>)
+#
+# Bootstrapping a machine that uses a private overlay - note the download to a
+# file, so the GitHub login prompt has a terminal to talk to:
+#
+#   curl -fsSL https://raw.githubusercontent.com/vairav/dotfiles/main/install.sh -o /tmp/install.sh
+#   bash /tmp/install.sh --laptop --personal --private-repo <url>
 
 set -e
 
@@ -57,6 +67,9 @@ MACHINE_TYPE=""
 MACHINE_NAME=""
 VENDORS=()
 USE_ML4W=""
+PRIVATE_REPO=""
+PRIVATE_DIR=""
+FORWARD_ARGS=()
 SKIP_PACKAGES=false
 SKIP_MACOS=false
 SKIP_RCUP=false
@@ -64,13 +77,15 @@ NON_INTERACTIVE=false
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --server) PROFILE="server"; shift ;;
-    --laptop) PROFILE="laptop"; shift ;;
-    --workstation) PROFILE="workstation"; shift ;;
-    --work) MACHINE_TYPE="work"; shift ;;
-    --personal) MACHINE_TYPE="personal"; shift ;;
-    --vendor) VENDORS+=("$2"); shift 2 ;;
-    --name) MACHINE_NAME="$2"; shift 2 ;;
+    --server) PROFILE="server"; FORWARD_ARGS+=("$1"); shift ;;
+    --laptop) PROFILE="laptop"; FORWARD_ARGS+=("$1"); shift ;;
+    --workstation) PROFILE="workstation"; FORWARD_ARGS+=("$1"); shift ;;
+    --work) MACHINE_TYPE="work"; FORWARD_ARGS+=("$1"); shift ;;
+    --personal) MACHINE_TYPE="personal"; FORWARD_ARGS+=("$1"); shift ;;
+    --vendor) VENDORS+=("$2"); FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
+    --name) MACHINE_NAME="$2"; FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
+    --private-repo) PRIVATE_REPO="$2"; shift 2 ;;
+    --private-dir) PRIVATE_DIR="$2"; shift 2 ;;
     --ml4w) USE_ML4W="yes"; shift ;;
     --skip-packages) SKIP_PACKAGES=true; shift ;;
     --skip-macos) SKIP_MACOS=true; shift ;;
@@ -194,6 +209,85 @@ install_homebrew() {
   else
     info "Homebrew already installed"
   fi
+}
+
+# Bootstrap a private overlay repo and hand off to its setup script.
+#
+# Solves a real chicken-and-egg problem: a PRIVATE overlay repo cannot be
+# cloned (or curl'd) without GitHub credentials, but the credential tooling
+# itself normally arrives with the dotfiles. So this installs just enough -
+# Homebrew, git, gh - authenticates, clones, and hands over.
+#
+# The overlay URL is a parameter, never hardcoded here: this repo is public and
+# has no business knowing what private repos exist.
+#
+# No recursion risk: the overlay's setup script calls this one WITHOUT
+# --private-repo, so this path runs exactly once.
+setup_private_overlay() {
+  [[ -z "$PRIVATE_REPO" ]] && return 0
+
+  local dir="$PRIVATE_DIR"
+  if [[ -z "$dir" ]]; then
+    local repo_name
+    repo_name="$(basename "$PRIVATE_REPO" .git)"
+    dir="$HOME/workspace/$repo_name"
+  fi
+
+  info "Bootstrapping private overlay: $PRIVATE_REPO"
+
+  if [[ -d "$dir/.git" ]]; then
+    info "Overlay already cloned at $dir"
+  else
+    # gh gives us a browser device-flow login, which beats hand-managing a PAT.
+    if ! command -v gh &>/dev/null; then
+      info "Installing GitHub CLI..."
+      if command -v brew &>/dev/null; then
+        brew install gh || warn "Could not install gh"
+      fi
+    fi
+
+    # Try an unauthenticated clone first - credentials may already exist
+    # (SSH agent, keychain, an existing gh login).
+    if ! git clone "$PRIVATE_REPO" "$dir" 2>/dev/null; then
+      if ! command -v gh &>/dev/null; then
+        warn "Cannot clone the private overlay and gh is unavailable."
+        echo "  Authenticate manually, then re-run:"
+        echo "    git clone $PRIVATE_REPO $dir"
+        exit 1
+      fi
+
+      if ! gh auth status &>/dev/null; then
+        if [[ ! -t 0 ]]; then
+          warn "GitHub authentication needed but there is no terminal to prompt on."
+          echo ""
+          echo "  This happens with 'curl ... | bash', which uses stdin for the script."
+          echo "  Download it first so the login prompt has a terminal:"
+          echo ""
+          echo "    curl -fsSL <this-script-url> -o /tmp/install.sh"
+          echo "    bash /tmp/install.sh $*"
+          echo ""
+          exit 1
+        fi
+
+        info "GitHub login required for the private overlay."
+        gh auth login || error "GitHub authentication failed"
+      fi
+
+      # gh's credential helper makes the retry work over HTTPS.
+      gh auth setup-git 2>/dev/null || true
+      git clone "$PRIVATE_REPO" "$dir" || error "Could not clone $PRIVATE_REPO"
+    fi
+    info "Cloned overlay to $dir"
+  fi
+
+  local overlay_setup="$dir/setup.sh"
+  if [[ ! -x "$overlay_setup" ]]; then
+    error "No executable setup.sh in $dir - nothing to hand off to"
+  fi
+
+  info "Handing off to $overlay_setup"
+  echo ""
+  exec "$overlay_setup" ${FORWARD_ARGS[@]+"${FORWARD_ARGS[@]}"}
 }
 
 # Install git if needed
@@ -428,6 +522,7 @@ main() {
   request_sudo             # Ask for the password once, up front
   install_git              # Only true bootstrap dependency
   [[ "$OS" == "macos" ]] && install_homebrew
+  setup_private_overlay    # If --private-repo: clone it and exec its setup (no return)
   setup_dotfiles           # Clone/update repo (now we have package lists)
   install_packages         # Install packages (rcm comes from core.txt)
   setup_rcrc_local         # Configure rcm

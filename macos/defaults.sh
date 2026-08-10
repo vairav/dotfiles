@@ -180,6 +180,54 @@ defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false
 defaults write com.todesktop.230313mzl4w4u92 ApplePressAndHoldEnabled -bool false
 defaults write dev.zed.Zed ApplePressAndHoldEnabled -bool false
 
+# Terminal.app - use a Nerd Font
+#
+# Terminal.app is the BOOTSTRAP terminal: it is what you have before kitty or
+# ghostty exist, and it is what opens right after setup. Its default
+# SFMonoTerminal-Regular has no Nerd Font glyphs, so the starship powerline
+# prompt and eza's file icons all render as boxes - which looks exactly like a
+# failed font install even though the fonts are fine.
+#
+# AppleScript rather than `defaults write`: Terminal stores the font as an
+# NSKeyedArchiver blob that cannot be written as a plain plist value.
+configure_terminal_font() {
+    # PostScript name, NOT the filename. The file is
+    # JetBrainsMonoNerdFontMono-Regular.ttf but the PostScript name is
+    # JetBrainsMonoNFM-Regular, and AppleScript silently accepts a wrong name -
+    # it reports success and changes nothing. Hence the read-back below.
+    local font="JetBrainsMonoNFM-Regular"
+    local font_file="JetBrainsMonoNerdFontMono-Regular.ttf"
+    local size=13
+
+    if [[ ! -f "$HOME/Library/Fonts/$font_file" ]]; then
+        echo "Nerd Font not installed yet - skipping Terminal.app font"
+        return 0
+    fi
+
+    local profile
+    profile="$(osascript -e 'tell application "Terminal" to get name of default settings' 2>/dev/null || true)"
+
+    if [[ -z "$profile" ]]; then
+        echo "Could not query Terminal.app - skipping font (automation permission?)"
+        return 0
+    fi
+
+    osascript -e "tell application \"Terminal\" to set font name of settings set \"$profile\" to \"$font\"" >/dev/null 2>&1 || true
+    osascript -e "tell application \"Terminal\" to set font size of settings set \"$profile\" to $size" >/dev/null 2>&1 || true
+
+    # Verify: a silent no-op is the failure mode here, not an error.
+    local applied
+    applied="$(osascript -e "tell application \"Terminal\" to get font name of settings set \"$profile\"" 2>/dev/null || true)"
+
+    if [[ "$applied" == "$font" ]]; then
+        echo "Terminal.app font set to $font ${size}pt (profile: $profile)"
+    else
+        echo "Terminal.app font is still '$applied' - set it by hand in Terminal > Settings > Profiles"
+    fi
+}
+
+configure_terminal_font
+
 # Restart affected apps
 
 echo "Restarting affected apps..."

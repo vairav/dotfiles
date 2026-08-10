@@ -18,8 +18,13 @@ DOTFILES_DIRS="$HOME/workspace/dotfiles"
 #
 # ml4w-managed configs (sourced/hooked, not symlinked):
 #   - config/hypr - ml4w manages ~/.config/hypr, custom.conf sources our files
-#   - config/kitty - ml4w manages ~/.config/kitty, we use custom.conf hook
-EXCLUDES="*.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr config/kitty"
+#
+# config/kitty is NOT excluded here. It used to be, which meant NO machine ever
+# got a kitty config - including macOS, where ml4w does not exist. kitty then
+# fell back to its default font and every Nerd Font glyph in the prompt and in
+# eza's icons rendered as a box. The exclusion is ml4w-specific, so it belongs
+# in ~/.rcrc.local where the ml4w flag is handled, not in this base config.
+EXCLUDES="*.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr"
 
 # Source machine-specific rcrc settings (tags, hostname)
 # Create ~/.rcrc.local with:

@@ -4,7 +4,8 @@
 # Usage: brew bundle --file=Brewfile.dev
 
 # Taps
-tap "jesseduffield/lazygit"
+# None - lazygit is in homebrew-core. See the note in Brewfile.core about
+# Homebrew 6 tap trust.
 
 # Terminal emulators
 cask "kitty"
@@ -31,7 +32,7 @@ brew "difftastic"
 brew "tig"
 brew "pre-commit"
 brew "gh"                       # GitHub CLI
-brew "jesseduffield/lazygit/lazygit"
+brew "lazygit"
 
 # File management
 brew "ranger"

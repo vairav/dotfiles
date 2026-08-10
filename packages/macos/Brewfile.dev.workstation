@@ -2,7 +2,8 @@
 # Usage: brew bundle --file=Brewfile.dev.workstation
 
 # Taps
-tap "jesseduffield/lazydocker"
+# None - lazydocker is in homebrew-core. See the note in Brewfile.core about
+# Homebrew 6 tap trust.
 
 # Shell prompt (alternative)
 brew "oh-my-posh"
@@ -32,7 +33,7 @@ brew "stylua"                   # Lua formatter
 brew "ccls"                     # C/C++ language server
 
 # Container tools
-brew "jesseduffield/lazydocker/lazydocker"
+brew "lazydocker"
 cask "podman-desktop"
 cask "docker"
 
@@ -45,7 +46,7 @@ brew "k9s"
 
 # Network tools
 brew "nmap"
-brew "mitmproxy"                # HTTP/HTTPS proxy for debugging
+cask "mitmproxy"                # HTTP/HTTPS proxy for debugging (now a cask)
 cask "proxyman"                 # Native macOS HTTP debugging proxy
 cask "wireshark"                # Network protocol analyzer
 
@@ -69,6 +70,13 @@ cask "dash"                     # Offline documentation browser
 
 # Diagram tools
 brew "d2"                       # Modern diagram scripting language
+
+# Remote filesystems (moved out of Brewfile.core)
+# macfuse is a kernel extension: Apple Silicon needs Reduced Security enabled
+# from Recovery plus a reboot before it will load. Workstation-only for that
+# reason - laptops use plain ssh/mosh instead.
+cask "macfuse"                  # FUSE support for macOS
+brew "sshfs"                    # Mount remote filesystems via SSH
 
 # Misc dev tools
 brew "autoconf"

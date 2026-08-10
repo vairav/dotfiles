@@ -40,8 +40,7 @@ brew "sesh"                     # tmux session manager (fzf picker)
 
 # Git tools
 brew "gh"
-tap "jesseduffield/lazygit"
-brew "jesseduffield/lazygit/lazygit"
+brew "lazygit"
 
 # AI CLI agents
 cask "claude-code"  # or: npm install -g @anthropic-ai/claude-code
@@ -49,4 +48,4 @@ brew "opencode"
 brew "kimi-code"
 
 # VPN (GUI cask - Mac servers still run a desktop session)
-cask "tailscale"
+cask "tailscale-app"            # renamed upstream from "tailscale"

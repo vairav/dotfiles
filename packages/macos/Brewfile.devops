@@ -12,8 +12,10 @@ brew "terraform"
 brew "terraform-docs"           # Terraform documentation generator
 brew "terragrunt"               # Terraform workflow tool
 brew "tflint"                   # Terraform linter
-tap "warrensbox/tap"            # tap for tfswitch
-brew "tfswitch"                 # Terraform version manager
+# Terraform version switching is handled by mise (Brewfile.dev), which already
+# replaces asdf/nvm/pyenv here. Dropped tfswitch + its warrensbox/tap: it is the
+# only one of these tools not in homebrew-core, and under Homebrew 6 tap trust
+# an untrusted tap aborts the entire Brewfile.
 
 # Configuration Management
 brew "ansible"

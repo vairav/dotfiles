@@ -12,8 +12,9 @@ brew "qwen-code"
 brew "kimi-code"
 
 # Block Goose (CLI)
-tap "block/goose"
-brew "block/goose/goose"
+# Was tap "block/goose" - that tap is gone (the clone 404s) and the CLI now
+# ships in homebrew-core under a different name.
+brew "block-goose-cli"
 
 # MCP
 brew "mcp-toolbox"

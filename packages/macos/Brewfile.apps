@@ -30,12 +30,20 @@ cask "shottr"
 # Security & VPN
 cask "bitwarden"
 cask "ente-auth"                # 2FA authenticator
-cask "tailscale"
+cask "tailscale-app"            # renamed upstream from "tailscale"
 
 # Mac App Store
+#
+# mas can only install apps already associated with your Apple ID - it cannot
+# accept the "Get" for a free app you have never obtained. If one of these
+# fails with "Installing <app> has failed!", open the App Store once, get the
+# app, and re-run. Verify an ID with `mas info <id>` before adding it here.
+#
+# The iWork IDs were stale (409183694/409203825/409201541 no longer resolve in
+# the store) - these are the current ones.
 mas "Amphetamine", id: 937984704
 mas "Dropover", id: 1355679052
-mas "Keynote", id: 409183694
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
+mas "Keynote", id: 361285480
+mas "Numbers", id: 361304891
+mas "Pages", id: 361309726
 mas "PastePal", id: 1503446680

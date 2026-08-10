@@ -124,11 +124,18 @@ install_macos() {
     done
 
     # Show manual install instructions
+    # Note: `|| true` is load-bearing. Under `set -o pipefail` a grep that
+    # matches nothing returns 1 and aborts the whole run - which is exactly
+    # what happened when this file held only comments.
     if [[ -f "$SCRIPT_DIR/macos/manual-install.txt" ]]; then
-        echo ""
-        info "Manual installation required for some apps:"
-        grep -v '^#' "$SCRIPT_DIR/macos/manual-install.txt" | grep -v '^$' | head -10
-        echo "  See: $SCRIPT_DIR/macos/manual-install.txt"
+        local manual
+        manual="$(grep -v '^#' "$SCRIPT_DIR/macos/manual-install.txt" | grep -v '^$' | head -10 || true)"
+        if [[ -n "$manual" ]]; then
+            echo ""
+            info "Manual installation required for some apps:"
+            echo "$manual"
+            echo "  See: $SCRIPT_DIR/macos/manual-install.txt"
+        fi
     fi
 }
 

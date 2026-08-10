@@ -2,9 +2,15 @@
 # Usage: brew bundle --file=Brewfile.core
 
 # Taps
-tap "homebrew/services"
-tap "buo/cask-upgrade"
-tap "yqrashawn/goku"
+# None. Everything here is in homebrew-core.
+#
+# Homebrew 6 requires explicit trust for third-party taps, and an untrusted or
+# failed tap aborts the ENTIRE Brewfile - this file silently installed nothing
+# on a fresh machine because of it. Prefer core formulae; if unavoidable,
+# `brew trust` it in a setup script, never rely on the bundle to do it.
+#   - homebrew/services : deprecated, `brew services` is built in
+#   - buo/cask-upgrade  : superseded by native `brew upgrade --cask`
+#   - yqrashawn/goku    : goku is in core now
 
 # System libraries
 brew "openssl"
@@ -25,7 +31,7 @@ brew "curl"
 # Compression
 brew "p7zip"
 brew "xz"
-brew "unrar"
+brew "unar"                 # replaces unrar, which was removed from core
 
 # Dotfile management (install.sh runs rcup - without this nothing symlinks)
 brew "rcm"
@@ -63,12 +69,13 @@ brew "netcat"
 brew "telnet"
 brew "sshpass"              # SSH password automation
 
-# Remote filesystems
-cask "macfuse"              # FUSE support for macOS
-brew "sshfs"                # Mount remote filesystems via SSH
+# Remote filesystems: see Brewfile.dev.workstation.
+# macfuse is a kernel extension - on Apple Silicon it needs Reduced Security
+# enabled from Recovery plus a reboot, which is not an acceptable default for
+# a laptop that just wants to ssh into things.
 
 # OCR
 brew "tesseract"            # OCR engine
 
 # Karabiner
-brew "yqrashawn/goku/goku"  # Karabiner config manager (uses EDN format)
+brew "goku"                 # Karabiner config manager (uses EDN format)

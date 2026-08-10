@@ -10,7 +10,8 @@ cask "microsoft-powerpoint"
 cask "microsoft-outlook"
 cask "microsoft-onenote"
 cask "microsoft-teams"
-cask "microsoft-defender"
+# microsoft-defender is no longer in Homebrew - it is delivered by the org
+# through Intune Company Portal, so let the MDM install it.
 
 # Enterprise
 cask "intune-company-portal"

@@ -16,7 +16,6 @@ export DOTFILES="$HOME/workspace/dotfiles"
 source $DOTFILES/zsh/common/history.zsh
 source $DOTFILES/zsh/common/keybindings.zsh
 source $DOTFILES/zsh/common/exports.zsh
-source $DOTFILES/zsh/common/aliases.zsh
 source $DOTFILES/zsh/common/clipboard.zsh
 
 # Framework
@@ -26,6 +25,10 @@ else
   echo "Warning: Unknown ZSH_FRAMEWORK '${ZSH_FRAMEWORK}', falling back to plain"
   source $DOTFILES/zsh/frameworks/plain/init.zsh
 fi
+
+# Aliases (after framework - zim's utility module defines ls/ll and would
+# otherwise clobber the eza aliases)
+source $DOTFILES/zsh/common/aliases.zsh
 
 # Tools (after framework for proper integration)
 source $DOTFILES/zsh/common/tools.zsh

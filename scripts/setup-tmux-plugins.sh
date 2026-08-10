@@ -45,18 +45,32 @@ fi
 # cloning TPM onto a machine that will never use it. Follows `source-file`
 # directives, since plugins live in a sourced conf/plugins.conf.
 declares_plugins() {
-  local conf="$1" depth="${2:-0}" src
+  local conf="$1" depth="${2:-0}" line src
   [[ -f "$conf" && "$depth" -le 5 ]] || return 1
 
   grep -qE '^[[:space:]]*set(-option)?[[:space:]].*@plugin' "$conf" && return 0
 
-  while IFS= read -r src; do
+  # Parsed in plain bash rather than sed: BSD (macOS) and GNU sed differ enough
+  # on -E and capture groups that this is not worth the portability risk.
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"        # trim leading whitespace
+    case "$line" in
+      source-file[[:space:]]*) src="${line#source-file}" ;;
+      source[[:space:]]*)      src="${line#source}" ;;
+      *) continue ;;
+    esac
+    src="${src#"${src%%[![:space:]]*}"}"           # trim leading whitespace
+    src="${src#-q}"                                # optional -q flag
+    src="${src#"${src%%[![:space:]]*}"}"
+    src="${src%"${src##*[![:space:]]}"}"           # trim trailing whitespace
+    src="${src%\"}"; src="${src#\"}"
+    src="${src%\'}"; src="${src#\'}"
     [[ -n "$src" ]] || continue
     src="${src/#\~/$HOME}"
     src="${src//\$HOME/$HOME}"
     [[ "$src" == /* ]] || src="$HOME/$src"
     declares_plugins "$src" $((depth + 1)) && return 0
-  done < <(sed -nE "s/^[[:space:]]*source(-file)?[[:space:]]+(-q[[:space:]]+)?['\"]?([^'\"]+)['\"]?[[:space:]]*$/\3/p" "$conf")
+  done < "$conf"
 
   return 1
 }
@@ -80,7 +94,7 @@ status=$?
 
 # The server profile (tag-server/tmux.conf) deliberately declares no plugins.
 # TPM reports that as a FATAL, which is not an error for us.
-if grep -qi "not configured\|TMUX_PLUGIN_MANAGER_PATH" <<<"$output"; then
+if grep -qiE "not configured|TMUX_PLUGIN_MANAGER_PATH" <<<"$output"; then
   info "tmux config declares no plugins - nothing to sync."
   exit 0
 fi

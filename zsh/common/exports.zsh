@@ -1,5 +1,9 @@
 # Environment variables
 
+# Locale
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # Editor
 export NVIM_APPNAME="nvim/lazyvim"
 export EDITOR=nvim

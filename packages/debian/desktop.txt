@@ -1,6 +1,9 @@
 # Debian/Ubuntu Desktop - Full packages
 # Usage: sudo apt-get install -y $(grep -v '^#' desktop.txt | grep -v '^$' | tr '\n' ' ')
 
+# Dotfile management (install.sh runs rcup - without this nothing symlinks)
+rcm
+
 # Shell
 zsh
 

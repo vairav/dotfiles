@@ -27,6 +27,9 @@ brew "p7zip"
 brew "xz"
 brew "unrar"
 
+# Dotfile management (install.sh runs rcup - without this nothing symlinks)
+brew "rcm"
+
 # Essential CLI tools
 brew "git"
 brew "git-lfs"

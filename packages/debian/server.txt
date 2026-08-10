@@ -1,6 +1,9 @@
 # Debian/Ubuntu Server - Minimal packages
 # Usage: sudo apt-get install -y $(grep -v '^#' server.txt | grep -v '^$' | tr '\n' ' ')
 
+# Dotfile management (install.sh runs rcup - without this nothing symlinks)
+rcm
+
 # Shell
 zsh
 

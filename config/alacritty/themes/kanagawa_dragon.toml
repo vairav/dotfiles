@@ -2,7 +2,16 @@
 # Source https//github.com/rebelot/kanagawa.nvim
 
 [colors.primary]
-background = '#181616'
+# Deliberately NOT upstream kanagawa dragon's #181616 (dragonBlack3). This is
+# dragonBlack2 from the same palette, one step lighter: L* 10.3 vs 7.5.
+#
+# It was picked as the tmux active-pane colour first and liked enough to become
+# the terminal's own background, so the surface you work on reads the same
+# whether or not tmux is running. tmux/conf/plugins.conf now dims INACTIVE
+# panes to #181616 rather than lifting the active one - changing this value
+# without reading that file will collapse the two into one colour and destroy
+# the focus cue.
+background = '#1d1c19'
 foreground = '#c5c9c5'
 
 [colors.normal]

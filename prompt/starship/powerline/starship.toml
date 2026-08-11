@@ -139,19 +139,19 @@ symbol = ''
 
 [git_status]
 disabled = false
-format = '[($all_status$ahead_behind)](bg:box)[](fg:box bg:pink)'
-conflicted = '[ ](fg:overlay1 bg:box)[  ](fg:red bg:box)'
-stashed = '[ ](fg:overlay1 bg:box)[  ](fg:mauve bg:box)'
-deleted = '[ ](fg:overlay1 bg:box)[  ](fg:red bg:box)'
-renamed = '[ ](fg:overlay1 bg:box)[  ](fg:teal bg:box)'
-modified = '[ ](fg:overlay1 bg:box)[  ](fg:peach bg:box)'
-typechanged = '[ ](fg:overlay1 bg:box)[  ](fg:peach bg:box)'
-staged = '[ ](fg:overlay1 bg:box)[  $count ](fg:green bg:box)'
-untracked = '[ ](fg:overlay1 bg:box)[  $count ](fg:sky bg:box)'
-diverged = '[ ](fg:overlay1 bg:box)[  $ahead_count  $behind_count ](fg:maroon bg:box)'
-ahead = '[ ](fg:overlay1 bg:box)[  $count ](fg:green bg:box)'
-behind = '[ ](fg:overlay1 bg:box)[  $count ](fg:red bg:box)'
-up_to_date = '[ ](fg:overlay1 bg:box)[  ](fg:green bg:box)'
+format = '[($all_status$ahead_behind )](bg:box)[](fg:box bg:pink)'
+conflicted = '[ ](fg:overlay1 bg:box)[  $count](fg:red bg:box)'
+stashed = '[ ](fg:overlay1 bg:box)[  $count](fg:mauve bg:box)'
+deleted = '[ ](fg:overlay1 bg:box)[  $count](fg:red bg:box)'
+renamed = '[ ](fg:overlay1 bg:box)[  $count](fg:teal bg:box)'
+modified = '[ ](fg:overlay1 bg:box)[  $count](fg:peach bg:box)'
+typechanged = '[ ](fg:overlay1 bg:box)[  $count](fg:peach bg:box)'
+staged = '[ ](fg:overlay1 bg:box)[  $count](fg:green bg:box)'
+untracked = '[ ](fg:overlay1 bg:box)[  $count](fg:sky bg:box)'
+diverged = '[ ](fg:overlay1 bg:box)[  $ahead_count  $behind_count](fg:maroon bg:box)'
+ahead = '[ ](fg:overlay1 bg:box)[  $count](fg:green bg:box)'
+behind = '[ ](fg:overlay1 bg:box)[  $count](fg:red bg:box)'
+up_to_date = '[ ](fg:overlay1 bg:box)[ ](fg:green bg:box)'
 
 [git_commit]
 commit_hash_length = 5

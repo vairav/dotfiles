@@ -13,10 +13,21 @@ alias c='clear'
 command -v bat &>/dev/null && alias cat='bat'
 # eza is a baseline package on every machine (core/server lists) - no fallbacks,
 # so ls/ll/la behave identically everywhere
-alias ls='eza --icons'
-alias ll='eza -al --icons'
-alias lt='eza -a --tree --level=1 --icons'
-alias la='eza -a --icons'
+#
+# `--icons=auto`, NOT a bare `--icons`. In current eza the flag takes an
+# OPTIONAL value (always|auto|never), so a bare `--icons` immediately followed
+# by a path swallows the path as its value and eza exits 2:
+#     ls ~/.tmux/plugins  ->  error: invalid value '/Users/...' for '--icons'
+# Bare `ls` worked, and so did `ls -la <path>` (the flag stops at the next
+# `-`), so this only broke the bare `<alias> <path>` form - the most common one
+# there is. It reads as an empty or missing directory rather than an error,
+# which is exactly how it cost a wrong conclusion here: a check for TPM
+# reported "never installed" for a directory that had been fully populated for
+# three hours. Attaching the value with `=` removes the ambiguity entirely.
+alias ls='eza --icons=auto'
+alias ll='eza -al --icons=auto'
+alias lt='eza -a --tree --level=1 --icons=auto'
+alias la='eza -a --icons=auto'
 
 # Power commands
 if [[ "$OSTYPE" == "darwin"* ]]; then

@@ -1,0 +1,18 @@
+# Per-machine overrides
+#
+# Imported LAST in alacritty.toml, so anything here wins over every other
+# config file. Intentionally empty by default.
+#
+# Screens differ: a laptop panel and a large high-DPI desktop monitor want
+# different point sizes for the same apparent size. Rather than edit the shared
+# fonts.toml - which would change EVERY machine - a machine that needs a
+# different value ships its own copy of this file via rcm's host-specific
+# directory (host-<hostname>/config/alacritty/configs/local.toml).
+#
+# That keeps the delta tiny: shared changes to fonts.toml still reach every
+# machine, and only the overridden keys diverge.
+#
+# Example (do not uncomment here - put it in the host-specific copy):
+#
+#   [font]
+#   size = 13

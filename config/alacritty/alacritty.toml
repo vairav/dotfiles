@@ -4,5 +4,9 @@ TERM = "alacritty"
 
 [general]
 live_config_reload = true
-import = ["./configs/general.toml", "./configs/window.toml", "./configs/mouse.toml", "./configs/fonts.toml", "./themes/kanagawa_dragon.toml"]
+# local.toml is LAST on purpose: later imports win, so a machine can override
+# any of the above (font size for a different screen, etc.) without touching
+# the shared files. It is an empty placeholder unless a host-specific copy
+# replaces it.
+import = ["./configs/general.toml", "./configs/window.toml", "./configs/mouse.toml", "./configs/fonts.toml", "./themes/kanagawa_dragon.toml", "./configs/local.toml"]
 

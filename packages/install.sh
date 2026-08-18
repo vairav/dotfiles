@@ -90,12 +90,27 @@ install_brewfile_individually() {
     # swallows the remaining entries and the loop just ends early. It cost 8
     # packages here and looked exactly like a file with fewer lines in it: no
     # error, no warning, the loop simply stopped after 1password-cli.
+    #
+    # The `brew list` guard is LOAD-BEARING. `brew install` on an ALREADY
+    # INSTALLED cask exits non-zero ("Cask 'x' is already installed"), so
+    # without this every package the batch had already handled was recorded as
+    # a failure: the first version of this reported 39 broken packages when
+    # only 5 were, naming Chrome, Discord and Dropbox as failed while they sat
+    # installed on disk. A verification that cries wolf is worse than none.
     while read -r kind name rest; do
         case "$kind" in
-            brew) name="${name//\"/}"; brew install --formula "$name" </dev/null >/dev/null 2>&1 \
-                      || FAILED_PKGS+=("formula $name") ;;
-            cask) name="${name//\"/}"; brew install --cask "$name" </dev/null >/dev/null 2>&1 \
-                      || FAILED_PKGS+=("cask $name") ;;
+            brew)
+                name="${name//\"/}"
+                brew list --formula "$name" >/dev/null 2>&1 && continue
+                brew install --formula "$name" </dev/null >/dev/null 2>&1 \
+                    || FAILED_PKGS+=("formula $name") ;;
+            cask)
+                name="${name//\"/}"
+                # match on the bare token: a fully-qualified name like
+                # homebrew/cask/onedrive is listed by brew as just "onedrive"
+                brew list --cask "${name##*/}" >/dev/null 2>&1 && continue
+                brew install --cask "$name" </dev/null >/dev/null 2>&1 \
+                    || FAILED_PKGS+=("cask $name") ;;
         esac
     done < <(grep -E '^[[:space:]]*(brew|cask) "' "$brewfile" | tr -d ',')
 

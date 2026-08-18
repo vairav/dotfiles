@@ -1,0 +1,19 @@
+# Brewfile.stack.finance - Trading platforms and plain-text accounting
+#
+# Stack tier: opt-in per machine with --stack finance, on any role and under
+# either ownership.
+#
+# tradingview, beancount and fava moved here out of Brewfile.apps.workstation,
+# where they rode along with the creative suite on every workstation.
+#
+# Usage: brew bundle --file=Brewfile.stack.finance
+
+cask_args appdir: "/Applications"
+
+# Charting & trading
+cask "tradingview"
+cask "thinkorswim"              # Schwab (ex-TD Ameritrade) trading platform
+
+# Plain-text accounting
+brew "beancount"
+brew "fava"                     # Web UI for beancount

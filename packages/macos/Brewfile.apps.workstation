@@ -6,6 +6,7 @@ cask_args appdir: "/Applications"
 # Browsers
 cask "google-chrome"
 cask "firefox@developer-edition"    # renamed upstream
+cask "comet"                    # Perplexity's AI browser
 
 # Communication
 cask "discord"
@@ -48,20 +49,14 @@ cask "google-drive"
 cask "mountain-duck"
 cask "onedrive"
 
-# Media & Creative
-cask "affinity-designer"
-cask "affinity-photo"
-cask "affinity-publisher"
-cask "bloom"
-cask "comet"
+# Media
+# The editing suite (affinity*, krita, bloom, GarageBand, iMovie) moved to
+# Brewfile.stack.creative - see --stack. These two stay: they transcode and
+# download rather than edit, and a machine that skips creative still wants them.
 cask "handbrake"                # Video transcoder
-cask "krita"
 cask "open-video-downloader"
 
-# Finance
-brew "beancount"
-brew "fava"
-cask "tradingview"
+# Finance moved to Brewfile.stack.finance (--stack finance)
 
 # Downloads
 brew "yt-dlp"                   # youtube-dl is dead upstream; yt-dlp is the fork
@@ -69,8 +64,6 @@ brew "speedtest-cli"
 
 # Mac App Store
 mas "Canary Mail", id: 1236045954
-mas "GarageBand", id: 682658836
 mas "Grila", id: 6444335028
-mas "iMovie", id: 408981434
 mas "TestFlight", id: 899247664
 mas "Xcode", id: 497799835

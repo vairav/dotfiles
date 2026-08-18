@@ -47,6 +47,41 @@ Adding a new one means adding a file - no code change.
 Nothing vendor-specific belongs in a shared tier. A personal machine never
 receives any of it.
 
+### Interest stacks
+
+A third axis, independent of BOTH role and ownership. Where a vendor stack
+answers "which client is this machine for", a stack answers "what does this
+machine actually get used for":
+
+```bash
+./packages/install.sh workstation --personal --stack finance
+```
+
+Each `--stack NAME` pulls in `Brewfile.stack.NAME` (or `stack.NAME.txt` on
+Linux, none of which exist yet). Repeatable. Available:
+
+| Stack      | Contents                                                     |
+| ---------- | ------------------------------------------------------------ |
+| `creative` | Affinity suite, Krita, Bloom, Rogue Amoeba audio, FreeCAD, GarageBand, iMovie |
+| `finance`  | TradingView, thinkorswim, beancount, fava                    |
+| `localai`  | Ollama, LM Studio, Msty, Cursor, Windsurf, Trae, Block Goose  |
+
+**Why this axis exists.** These clusters used to live inside the shared
+`*.workstation` files, which made them a function of screen size. They are not.
+A workstation that wants Docker and BetterDisplay but not Affinity and Ollama
+had no flag combination that expressed it - `--workstation` was all-or-nothing
+on a `Brewfile.apps.workstation` that mixed window managers, cloud sync,
+a creative suite and trading software into one file.
+
+Local AI is the clearest case: it is a poor fit for an Intel Mac (no
+Metal-class GPU, so inference is CPU-only), and that has nothing to do with
+whether the machine sits on a desk.
+
+Adding a stack means adding a file - no code change. Existing machines keep
+whatever they already installed: `brew bundle` never uninstalls, so the carve-up
+only changes what a FUTURE run installs. Pass the stacks you want on the next
+run to keep them arriving.
+
 ## Quick Reference
 
 ```bash
@@ -58,6 +93,7 @@ receives any of it.
 # Extras
 ./packages/install.sh --work       # + work apps (tiered by role)
 ./packages/install.sh --personal   # + personal apps (tiered by role)
+./packages/install.sh --stack finance   # + an interest stack (repeatable)
 ./packages/install.sh --playground # + Testing tools
 ./packages/install.sh --dry-run    # Preview
 ./packages/install.sh --cleanup    # Remove unlisted packages (macOS)
@@ -71,9 +107,8 @@ receives any of it.
 | Brewfile.dev              | Dev essentials (nvim, tmux, git, mise)  | laptop, workstation |
 | Brewfile.dev.workstation  | Docker, k8s, languages, debug proxies   | workstation        |
 | Brewfile.ai               | AI CLI agents + Claude/ChatGPT/Zed      | laptop, workstation |
-| Brewfile.ai.workstation   | Local models (Ollama, LM Studio), IDEs  | workstation        |
 | Brewfile.apps             | Essential GUI apps                      | laptop, workstation |
-| Brewfile.apps.workstation | Full GUI suite (creative, cloud, autos) | workstation        |
+| Brewfile.apps.workstation | Full GUI suite (browsers, cloud, autos) | workstation        |
 | Brewfile.font             | Nerd Fonts                              | laptop, workstation |
 | Brewfile.devops           | Terraform, AWS, Ansible                 | workstation        |
 | Brewfile.server           | Minimal CLI set + Tailscale + AI CLIs   | server             |
@@ -83,8 +118,11 @@ receives any of it.
 | Brewfile.apps.work.google | Drive, Chrome                           | --vendor google    |
 | Brewfile.apps.work.apple  | iWork (Keynote, Numbers, Pages)         | --vendor apple     |
 | Brewfile.apps.personal    | Light personal apps (SoundSource)       | --personal         |
-| Brewfile.apps.personal.workstation | Rogue Amoeba suite, FreeCAD    | --personal + workstation |
+| Brewfile.apps.personal.workstation | (deliberately empty)           | --personal + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
+| Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, FreeCAD  | --stack creative   |
+| Brewfile.stack.finance    | TradingView, thinkorswim, beancount     | --stack finance    |
+| Brewfile.stack.localai    | Ollama, LM Studio, Cursor, Windsurf     | --stack localai    |
 | manual-install.txt        | Not in brew                             | -                  |
 
 ## What's in each Brewfile
@@ -100,18 +138,20 @@ lazygit, gh, mise, python, VS Code.
 Workstation adds: docker, k8s tools, go/rust/ruby/lua, wireshark, postman,
 dbeaver, figma, media tools.
 
-### ai / ai.workstation
+### ai
 
-Essentials: claude-code, opencode, gemini-cli, codex, qwen-code, kimi-code,
-goose CLI, plus Claude, ChatGPT, and Zed apps.
-Workstation adds: Cursor, Windsurf, Trae, Ollama, LM Studio, Msty.
+claude-code, opencode, gemini-cli, codex, qwen-code, kimi-code, goose CLI, plus
+Claude, ChatGPT, and Zed apps. Every machine gets these.
+The heavy AI tier is now `--stack localai`, not a role tier.
 
 ### apps / apps.workstation
 
 Essentials: Firefox, Zen, Slack, Zoom, Signal, WhatsApp, Obsidian, 1Password,
-Alfred, Rectangle, Stats, Tailscale, iWork.
-Workstation adds: Chrome, Discord, Notion, cloud sync clients, Affinity suite,
-automation utilities (BTT, Hazel, Keyboard Maestro), Xcode.
+Alfred, Rectangle, Stats, Tailscale.
+Workstation adds: Chrome, Comet, Discord, Notion, cloud sync clients,
+automation utilities (BTT, Hazel, Keyboard Maestro), HandBrake, yt-dlp, Xcode.
+The creative suite and the trading/accounting tools moved out to
+`--stack creative` and `--stack finance`.
 
 ### server
 

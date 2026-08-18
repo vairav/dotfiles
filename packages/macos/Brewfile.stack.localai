@@ -1,0 +1,32 @@
+# Brewfile.stack.localai - Local model runners and AI editors/IDEs
+#
+# Stack tier: opt-in per machine with --stack localai, on any role and under
+# either ownership.
+#
+# This was Brewfile.ai.workstation, which every workstation got automatically.
+# But local inference is a per-machine choice, not a function of having a big
+# screen: it is a poor fit for Intel Macs in particular, which have no
+# Metal-class GPU, so ollama and lm-studio run CPU-only there.
+#
+# The AI CLI agents (claude-code, opencode, kimi-code, gemini-cli, ...) are NOT
+# here - they are essentials and live in Brewfile.ai on every machine.
+#
+# Usage: brew bundle --file=Brewfile.stack.localai
+
+# AI editors / IDEs
+cask "cursor"
+cask "windsurf"
+cask "trae"
+cask "repo-prompt"  # Repo level AI chat tool
+
+# Local models
+brew "ollama"
+cask "lm-studio"    # Local only LLM model manager
+cask "msty"         # Local AI model manager (multi-provider)
+
+# Block Goose (desktop)
+cask "block-goose"
+
+# MCP
+# brew "github-mcp-server"      # Install manually if needed
+# brew "terraform-mcp-server"   # Install manually if needed

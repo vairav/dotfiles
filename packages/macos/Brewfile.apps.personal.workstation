@@ -1,20 +1,17 @@
 # Brewfile.apps.personal.workstation - Heavy personal software (workstation only)
 #
-# Audio production and CAD. Multi-GB installs that want a big screen and a
-# power cable - deliberately kept off laptops.
+# DELIBERATELY EMPTY.
+#
+# Everything that was here - the Rogue Amoeba audio production suite and
+# freecad - moved to Brewfile.stack.creative, because wanting a big screen and
+# wanting to edit audio are different questions. A personal workstation that
+# does no creative work was installing multi-GB apps it never opened.
+#
+# This cell of the ownership x role matrix is kept rather than deleted: it is a
+# real combination (--personal on a workstation), packages/install.sh looks for
+# the file by name, and an empty file is a cheaper answer than a warning. Per
+# CLAUDE.md, a near-empty tier is an answer, not a gap to fill with filler.
 #
 # Usage: brew bundle --file=Brewfile.apps.personal.workstation
 
 cask_args appdir: "/Applications"
-
-# Rogue Amoeba audio production suite (https://rogueamoeba.com/)
-# SoundSource is NOT here - it is a light menu-bar utility, so it lives in
-# Brewfile.apps.personal and follows you onto laptops.
-cask "audio-hijack"             # Record any audio
-cask "loopback"                 # Virtual audio routing
-cask "farrago"                  # Soundboard for audio clips
-cask "fission"                  # Fast audio editor
-cask "piezo"                    # Simple audio recording
-
-# 3D/CAD
-cask "freecad"

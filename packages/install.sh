@@ -25,6 +25,7 @@ INCLUDE_PERSONAL=false
 INCLUDE_PLAYGROUND=false
 CLEANUP=false
 VENDORS=()
+STACKS=()
 
 # Colors
 RED='\033[0;31m'
@@ -94,7 +95,6 @@ install_macos() {
 
     if [[ "$role" == "workstation" || "$role" == "desktop" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.dev.workstation")
-        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai.workstation")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.workstation")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.devops")
     fi
@@ -130,6 +130,29 @@ install_macos() {
 
     if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.playground")
+    fi
+
+    # Interest stacks: opt-in per machine, independent of BOTH role and
+    # ownership. Third axis alongside role and ownership, and a sibling of the
+    # vendor axis - the difference is that vendors are work-only, while a stack
+    # is a personal-interest cluster that any machine may want.
+    #
+    # These exist because clusters like the creative suite and local AI were
+    # buried inside the shared *.workstation files, so a workstation that
+    # wanted docker and betterdisplay but not Affinity and ollama had no flag
+    # combination that expressed it.
+    #
+    # Length-guarded: /bin/bash on macOS is 3.2, where expanding an empty array
+    # under `set -u` is a fatal "unbound variable".
+    if [[ ${#STACKS[@]} -gt 0 ]]; then
+        for stack in "${STACKS[@]}"; do
+            local stack_file="$SCRIPT_DIR/macos/Brewfile.stack.$stack"
+            if [[ -f "$stack_file" ]]; then
+                brewfiles+=("$stack_file")
+            else
+                warn "Unknown stack '$stack' (no $(basename "$stack_file"))"
+            fi
+        done
     fi
 
     for brewfile in "${brewfiles[@]}"; do
@@ -355,6 +378,20 @@ install_pacman() {
     if [[ "$INCLUDE_PLAYGROUND" == "true" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/playground.txt"
     fi
+
+    # Interest stacks - see the macOS branch for the rationale and the bash 3.2
+    # length guard. No arch stack lists exist yet; --stack on Linux warns
+    # rather than silently installing nothing.
+    if [[ ${#STACKS[@]} -gt 0 ]]; then
+        for stack in "${STACKS[@]}"; do
+            local stack_file="$SCRIPT_DIR/arch/stack.$stack.txt"
+            if [[ -f "$stack_file" ]]; then
+                install_pkg_file "$stack_file"
+            else
+                warn "Unknown stack '$stack' (no $(basename "$stack_file"))"
+            fi
+        done
+    fi
 }
 
 # Install packages from a file with idempotent checks and nice output
@@ -448,7 +485,9 @@ OPTIONS:
   --work        Include work-specific apps
   --vendor NAME Include a client vendor stack (repeatable, implies --work):
                 microsoft, google, apple
-  --personal    Include personal-only apps (Rogue Amoeba, etc.)
+  --stack NAME  Include an interest stack (repeatable, any role/ownership):
+                creative, finance, localai
+  --personal    Include personal-only apps (SoundSource, etc.)
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
   --dry-run     Show what would be installed without installing
@@ -462,7 +501,6 @@ PACKAGE STRUCTURE:
     Brewfile.dev              Development essentials
     Brewfile.dev.workstation  Heavy dev tools (docker, k8s, languages)
     Brewfile.ai               AI CLI agents + light apps
-    Brewfile.ai.workstation   Local models, AI editors
     Brewfile.apps             Essential GUI apps
     Brewfile.apps.workstation Full GUI app suite
     Brewfile.font             Nerd Fonts
@@ -473,6 +511,9 @@ PACKAGE STRUCTURE:
     Brewfile.apps.personal    Personal-only apps (--personal flag)
     Brewfile.apps.personal.workstation    Heavy personal apps (--personal on workstation)
     Brewfile.playground       Testing/evaluation tools (--playground flag)
+    Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)
+    Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
+    Brewfile.stack.localai    ollama, lm-studio, cursor, windsurf (--stack localai)
 
   Arch Linux:
     core.txt                  Essential CLI tools (always installed)
@@ -489,6 +530,7 @@ Examples:
   $(basename "$0") --work           # Include work apps (work machine)
   $(basename "$0") --personal       # Include personal apps (personal machine)
   $(basename "$0") --playground     # Include testing tools
+  $(basename "$0") workstation --personal --stack finance   # No creative, no local AI
   $(basename "$0") --dry-run        # Preview installation
   $(basename "$0") --cleanup        # Remove unlisted packages
 EOF
@@ -516,6 +558,11 @@ main() {
             --vendor)
                 [[ -z "${2:-}" ]] && { error "--vendor needs a name (microsoft, google, apple)"; exit 1; }
                 VENDORS+=("$2")
+                shift 2
+                ;;
+            --stack)
+                [[ -z "${2:-}" ]] && { error "--stack needs a name (creative, finance, localai)"; exit 1; }
+                STACKS+=("$2")
                 shift 2
                 ;;
             --cleanup)
@@ -554,6 +601,7 @@ main() {
     echo "Include personal: $INCLUDE_PERSONAL"
     echo "Include playground: $INCLUDE_PLAYGROUND"
     echo "Vendors:          ${VENDORS[*]:-none}"
+    echo "Stacks:           ${STACKS[*]:-none}"
     echo "Cleanup:          $CLEANUP"
     echo "Dry-run:          $DRY_RUN"
     echo "============================================="

@@ -1,0 +1,41 @@
+# Brewfile.stack.creative - Image, video, audio and CAD production
+#
+# Stack tier: opt-in per machine with --stack creative, on any role and under
+# either ownership.
+#
+# Carved out of Brewfile.apps.workstation and Brewfile.apps.personal.workstation,
+# which mixed this multi-GB creative suite in with the utilities every
+# workstation wants (betterdisplay, keyboard-maestro, cloud sync, ...). There
+# was no flag combination that took one without the other, which is what
+# forced this axis into existence - see docs/packages.md.
+#
+# NOT here: handbrake, open-video-downloader and yt-dlp. Those transcode and
+# download rather than edit, they are small, and a machine that skips the
+# creative suite still wants them - so they stay in Brewfile.apps.workstation.
+#
+# Usage: brew bundle --file=Brewfile.stack.creative
+
+cask_args appdir: "/Applications"
+
+# Image & layout
+cask "affinity-designer"
+cask "affinity-photo"
+cask "affinity-publisher"
+cask "bloom"
+cask "krita"
+
+# Rogue Amoeba audio production suite (https://rogueamoeba.com/)
+# SoundSource is NOT here - it is a light menu-bar utility, so it lives in
+# Brewfile.apps.personal and follows you onto laptops.
+cask "audio-hijack"             # Record any audio
+cask "loopback"                 # Virtual audio routing
+cask "farrago"                  # Soundboard for audio clips
+cask "fission"                  # Fast audio editor
+cask "piezo"                    # Simple audio recording
+
+# 3D/CAD
+cask "freecad"
+
+# Mac App Store
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434

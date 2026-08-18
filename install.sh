@@ -66,6 +66,7 @@ PROFILE="desktop"
 MACHINE_TYPE=""
 MACHINE_NAME=""
 VENDORS=()
+STACKS=()
 USE_ML4W=""
 PRIVATE_REPO=""
 PRIVATE_DIR=""
@@ -83,6 +84,7 @@ while [[ $# -gt 0 ]]; do
     --work) MACHINE_TYPE="work"; FORWARD_ARGS+=("$1"); shift ;;
     --personal) MACHINE_TYPE="personal"; FORWARD_ARGS+=("$1"); shift ;;
     --vendor) VENDORS+=("$2"); FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
+    --stack) STACKS+=("$2"); FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
     --name) MACHINE_NAME="$2"; FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
     --private-repo) PRIVATE_REPO="$2"; shift 2 ;;
     --private-dir) PRIVATE_DIR="$2"; shift 2 ;;
@@ -452,8 +454,16 @@ install_packages() {
     done
   fi
 
+  # Interest stacks (repeatable, independent of role and ownership).
+  local stack_args=""
+  if [[ ${#STACKS[@]} -gt 0 ]]; then
+    for st in "${STACKS[@]}"; do
+      stack_args="$stack_args --stack $st"
+    done
+  fi
+
   info "Installing packages..."
-  "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras $vendor_args
+  "$DOTFILES_DIR/packages/install.sh" $PROFILE $extras $vendor_args $stack_args
 }
 
 # Note: tmux plugins are handled by the rcm post-up hook

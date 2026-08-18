@@ -97,9 +97,14 @@ fix_brew_prefix_permissions() {
     local d
     # Only the share/ tree: that is where third-party pkg payloads collide with
     # Homebrew. Deliberately NOT a blanket chown of the whole prefix.
+    #
+    # Test writability with `[ -w ]`, NOT `find -writable`: -writable is a GNU
+    # extension and BSD find rejects it with "unknown primary or operator",
+    # returning nothing. That made this whole function a silent no-op - it
+    # found zero bad directories and returned 0 while man8 stayed root-owned.
     while IFS= read -r d; do
-        [[ -n "$d" ]] && bad+=("$d")
-    done < <(find "$prefix/share" -type d ! -writable 2>/dev/null || true)
+        [[ -n "$d" && ! -w "$d" ]] && bad+=("$d")
+    done < <(find "$prefix/share" -type d 2>/dev/null || true)
 
     [[ ${#bad[@]} -eq 0 ]] && return 0
 

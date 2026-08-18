@@ -13,7 +13,11 @@ cask "zen"
 cask "slack"
 cask "zoom"
 cask "signal"
-cask "whatsapp"
+# cask "whatsapp"               # DISABLED: the cask's download URL returns a
+                                # hard 500 (checked repeatedly, not transient),
+                                # and one failed download aborts this WHOLE file.
+                                # App Store alternative if you want it back:
+                                #   mas "WhatsApp Messenger", id: 310633997
 
 # Notes
 cask "obsidian"

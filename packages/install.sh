@@ -99,8 +99,25 @@ install_brewfile_individually() {
         esac
     done < <(grep -E '^[[:space:]]*(brew|cask) "' "$brewfile" | tr -d ',')
 
-    # mas entries are handled separately: they need an Apple ID association and
-    # fail for reasons no retry can fix (see CLAUDE.md).
+    # Mac App Store entries. These MUST be retried here too: when brew bundle
+    # aborts a file, it aborts before reaching them, so leaving them out of the
+    # fallback meant a file with one bad cask never installed ANY of its App
+    # Store apps either.
+    #
+    # mas needs sudo (the caller holds it) and can only install apps already
+    # associated with the Apple ID - a failure here is usually "open the App
+    # Store and Get it once", not something a retry fixes.
+    command -v mas >/dev/null 2>&1 || return 0
+    local mas_id mas_name mas_line
+    while read -r mas_line; do
+        mas_id="${mas_line##*id:}"
+        mas_id="$(echo "$mas_id" | tr -cd '0-9')"
+        [[ -z "$mas_id" ]] && continue
+        mas_name="$(echo "$mas_line" | sed -E 's/^[[:space:]]*mas "([^"]+)".*/\1/')"
+        mas list 2>/dev/null | grep -q "^$mas_id " && continue
+        mas install "$mas_id" </dev/null >/dev/null 2>&1 \
+            || FAILED_PKGS+=("app $mas_name ($mas_id) - may need a one-time 'Get' in the App Store")
+    done < <(grep -E '^[[:space:]]*mas ' "$brewfile")
 }
 
 install_macos() {
@@ -111,6 +128,13 @@ install_macos() {
         echo '  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
         exit 1
     fi
+
+    # Adopt apps that are already in /Applications rather than failing on them.
+    # A hand-installed app (1Password here) otherwise blocks its cask on EVERY
+    # run forever - brew refuses to overwrite an artifact it does not own, so
+    # the machine can never converge. --adopt only takes over an artifact that
+    # is identical to the one being installed, so it cannot clobber anything.
+    export HOMEBREW_CASK_OPTS="${HOMEBREW_CASK_OPTS:-} --adopt"
 
     info "Updating Homebrew..."
     if [[ "$DRY_RUN" == "false" ]]; then

@@ -114,8 +114,8 @@ fix_brew_prefix_permissions() {
         debug "Would chown them to $USER"
         return 0
     fi
-    if sudo -n true 2>/dev/null; then
-        sudo chown -R "$USER" "${bad[@]}" \
+    if [[ -n "${SUDO_ASKPASS:-}" ]] || sudo -n true 2>/dev/null; then
+        sudo ${SUDO_ASKPASS:+-A} chown -R "$USER" "${bad[@]}" \
             && info "Ownership repaired - continuing" \
             || warn "chown failed; some packages will not install"
     else

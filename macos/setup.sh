@@ -76,13 +76,14 @@ setup_zsh() {
     # Prefer cached sudo: the caller acquires it once up front, so this runs
     # without a second password prompt. `sudo chsh -s <shell> <user>` avoids
     # chsh's own interactive prompt entirely.
-    if sudo -n true 2>/dev/null; then
+    if [[ -n "${SUDO_ASKPASS:-}" ]] || sudo -n true 2>/dev/null; then
         info "Setting Homebrew zsh as default shell..."
         if ! grep -q "$brew_zsh" /etc/shells; then
-            echo "$brew_zsh" | sudo tee -a /etc/shells >/dev/null \
+            echo "$brew_zsh" | sudo ${SUDO_ASKPASS:+-A} tee -a /etc/shells >/dev/null \
                 || { warn "Could not add $brew_zsh to /etc/shells"; return 0; }
         fi
-        sudo chsh -s "$brew_zsh" "$USER" || warn "chsh failed - login shell unchanged"
+        sudo ${SUDO_ASKPASS:+-A} chsh -s "$brew_zsh" "$USER" \
+            || warn "chsh failed - login shell unchanged"
         info "Login shell set - takes effect in new terminals"
         return 0
     fi

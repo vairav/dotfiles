@@ -10,7 +10,7 @@ set -euo pipefail
 # Needs sudo. Exit 0 rather than failing when there is no terminal to prompt
 # on, so an unattended run does not abort the caller (install.sh runs under
 # `set -e` and this used to take the whole setup down with it).
-if ! sudo -n true 2>/dev/null && [[ ! -t 0 ]]; then
+if [[ -z "${SUDO_ASKPASS:-}" ]] && ! sudo -n true 2>/dev/null && [[ ! -t 0 ]]; then
     echo "Skipping macOS defaults: sudo needs a password and no terminal is attached."
     echo "Run it yourself: ~/workspace/dotfiles/macos/defaults.sh"
     exit 0
@@ -20,15 +20,20 @@ fi
 # `sudo -v` every time, so a run launched from setup.sh - which acquires sudo
 # once up front precisely so nothing re-prompts - asked for the password a
 # second time here.
+# With SUDO_ASKPASS exported by the caller, `sudo -A -v` re-authenticates
+# silently through the helper. Homebrew purges the sudo timestamp on EVERY brew
+# invocation (brew.sh runs `sudo --reset-timestamp`), so by the time this runs
+# the ticket is always gone - the plain `sudo -n true` gate can never pass after
+# a package install, which is why this used to prompt every single run.
 if ! sudo -n true 2>/dev/null; then
-    sudo -v
+    sudo ${SUDO_ASKPASS:+-A} -v
 fi
 
 # Keep the timestamp warm. `|| true` is load-bearing: this subshell inherits
 # `set -e`, so a single transient failure of the refresh used to kill the
 # keepalive outright, after which every later step prompted again.
 while true; do
-    sudo -n -v 2>/dev/null || true
+    sudo ${SUDO_ASKPASS:+-A} -n -v 2>/dev/null || true
     sleep 30
     kill -0 "$$" 2>/dev/null || exit
 done 2>/dev/null &
@@ -116,7 +121,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Show ~/Library and /Volumes
 chflags nohidden ~/Library
-sudo chflags nohidden /Volumes
+sudo ${SUDO_ASKPASS:+-A} chflags nohidden /Volumes
 
 # Dock
 

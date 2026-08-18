@@ -163,6 +163,14 @@ SUDO_OK=false
 SUDO_KEEPALIVE_PID=""
 
 request_sudo() {
+  # The caller may already have set up a SUDO_ASKPASS helper.
+  # If so, every sudo below re-authenticates through it and NOTHING here should
+  # prompt - not even once - so take that path before anything else.
+  if [[ -n "${SUDO_ASKPASS:-}" ]]; then
+    SUDO_OK=true
+    return 0
+  fi
+
   if sudo -n true 2>/dev/null; then
     SUDO_OK=true
     return 0
@@ -186,7 +194,7 @@ request_sudo() {
     # transient failure used to kill the keepalive and every later step then
     # prompted again. `sudo -n -v` is the documented timestamp extension.
     while true; do
-      sudo -n -v 2>/dev/null || true
+      sudo ${SUDO_ASKPASS:+-A} -n -v 2>/dev/null || true
       sleep 30
       kill -0 "$$" 2>/dev/null || exit
     done 2>/dev/null &

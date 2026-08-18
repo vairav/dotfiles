@@ -1,0 +1,13 @@
+# Brewfile.stack.mail - Mail clients
+#
+# Stack tier: opt-in per machine with --stack mail, on any role and under
+# either ownership.
+#
+# Canary Mail moved here out of Brewfile.apps.workstation, where it landed on
+# every workstation automatically. It is a paid client wanted on specific
+# machines, not a function of having a big screen - the same reasoning that
+# pulled the creative and local-AI clusters out of the shared tiers.
+#
+# Usage: brew bundle --file=Brewfile.stack.mail
+
+mas "Canary Mail", id: 1236045954

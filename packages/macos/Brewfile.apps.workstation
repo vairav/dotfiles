@@ -68,7 +68,6 @@ brew "yt-dlp"                   # youtube-dl is dead upstream; yt-dlp is the for
 brew "speedtest-cli"
 
 # Mac App Store
-mas "Canary Mail", id: 1236045954
 mas "Grila", id: 6444335028
 mas "TestFlight", id: 899247664
 mas "Xcode", id: 497799835

@@ -562,7 +562,7 @@ OPTIONS:
   --vendor NAME Include a client vendor stack (repeatable, implies --work):
                 microsoft, google, apple
   --stack NAME  Include an interest stack (repeatable, any role/ownership):
-                creative, finance, localai
+                creative, finance, localai, mail
   --personal    Include personal-only apps (SoundSource, etc.)
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
@@ -590,6 +590,7 @@ PACKAGE STRUCTURE:
     Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)
     Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
     Brewfile.stack.localai    ollama, lm-studio, cursor, windsurf (--stack localai)
+    Brewfile.stack.mail       Canary Mail (--stack mail)
 
   Arch Linux:
     core.txt                  Essential CLI tools (always installed)
@@ -637,7 +638,7 @@ main() {
                 shift 2
                 ;;
             --stack)
-                [[ -z "${2:-}" ]] && { error "--stack needs a name (creative, finance, localai)"; exit 1; }
+                [[ -z "${2:-}" ]] && { error "--stack needs a name (creative, finance, localai, mail)"; exit 1; }
                 STACKS+=("$2")
                 shift 2
                 ;;

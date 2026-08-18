@@ -84,11 +84,17 @@ install_brewfile_individually() {
     local kind name rest
     # Read the file rather than piping into the loop: a pipeline would run the
     # loop in a subshell and FAILED_PKGS would not survive it.
+    #
+    # `< /dev/null` on each brew call is LOAD-BEARING. brew install reads stdin,
+    # and inside a `while read` loop that stdin is the loop's own input - so it
+    # swallows the remaining entries and the loop just ends early. It cost 8
+    # packages here and looked exactly like a file with fewer lines in it: no
+    # error, no warning, the loop simply stopped after 1password-cli.
     while read -r kind name rest; do
         case "$kind" in
-            brew) name="${name//\"/}"; brew install --formula "$name" >/dev/null 2>&1 \
+            brew) name="${name//\"/}"; brew install --formula "$name" </dev/null >/dev/null 2>&1 \
                       || FAILED_PKGS+=("formula $name") ;;
-            cask) name="${name//\"/}"; brew install --cask "$name" >/dev/null 2>&1 \
+            cask) name="${name//\"/}"; brew install --cask "$name" </dev/null >/dev/null 2>&1 \
                       || FAILED_PKGS+=("cask $name") ;;
         esac
     done < <(grep -E '^[[:space:]]*(brew|cask) "' "$brewfile" | tr -d ',')

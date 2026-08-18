@@ -59,7 +59,16 @@ setup_zsh() {
         return 0
     fi
 
-    if [[ "$SHELL" == "$brew_zsh" ]]; then
+    # Ask the directory service what the LOGIN SHELL actually is - do not trust
+    # $SHELL. $SHELL is inherited from the terminal that launched this, so on a
+    # machine already configured it still reports the OLD shell until you open
+    # a new terminal. That made every re-run try to chsh again, which prompted
+    # for a password and then reported "chsh: no changes made".
+    local current_shell
+    current_shell="$(dscl . -read "/Users/$USER" UserShell 2>/dev/null | awk '{print $2}')"
+    [[ -z "$current_shell" ]] && current_shell="$SHELL"
+
+    if [[ "$current_shell" == "$brew_zsh" ]]; then
         info "Already using Homebrew zsh"
         return 0
     fi

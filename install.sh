@@ -181,9 +181,13 @@ request_sudo() {
   if sudo -v; then
     SUDO_OK=true
     # Refresh the timestamp until this script exits, so nothing re-prompts.
+    #
+    # `|| true` is LOAD-BEARING: this subshell inherits `set -e`, so a single
+    # transient failure used to kill the keepalive and every later step then
+    # prompted again. `sudo -n -v` is the documented timestamp extension.
     while true; do
-      sudo -n true
-      sleep 60
+      sudo -n -v 2>/dev/null || true
+      sleep 30
       kill -0 "$$" 2>/dev/null || exit
     done 2>/dev/null &
     SUDO_KEEPALIVE_PID=$!

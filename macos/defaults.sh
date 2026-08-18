@@ -16,8 +16,22 @@ if ! sudo -n true 2>/dev/null && [[ ! -t 0 ]]; then
     exit 0
 fi
 
-sudo -v
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+# Only ask if the caller is not already holding sudo. This used to run a bare
+# `sudo -v` every time, so a run launched from setup.sh - which acquires sudo
+# once up front precisely so nothing re-prompts - asked for the password a
+# second time here.
+if ! sudo -n true 2>/dev/null; then
+    sudo -v
+fi
+
+# Keep the timestamp warm. `|| true` is load-bearing: this subshell inherits
+# `set -e`, so a single transient failure of the refresh used to kill the
+# keepalive outright, after which every later step prompted again.
+while true; do
+    sudo -n -v 2>/dev/null || true
+    sleep 30
+    kill -0 "$$" 2>/dev/null || exit
+done 2>/dev/null &
 
 echo "Applying macOS defaults..."
 

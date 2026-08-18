@@ -134,17 +134,37 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
 # Safari
+#
+# Safari's preferences live in a TCC-protected container, so every write here
+# fails unless the RUNNING TERMINAL has Full Disk Access. `defaults` does not
+# just return non-zero - it prints "Could not write domain ...; exiting", and
+# under `set -euo pipefail` that killed this entire script. In one real run that meant
+# everything BELOW this point silently never ran, including the Terminal.app
+# Nerd Font step ~40 lines down, which left the bootstrap terminal on
+# SFMonoTerminal-Regular and every powerline glyph as a box.
+#
+# So: never let this optional block abort the chain (see CLAUDE.md).
+safari_ok=true
+safari_write() {
+    defaults write com.apple.Safari "$@" 2>/dev/null || safari_ok=false
+}
 
 # Developer tools
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+safari_write IncludeDevelopMenu -bool true
+safari_write WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+safari_write com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 
 # Don't auto-open downloads
-defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+safari_write AutoOpenSafeDownloads -bool false
 
 # Do Not Track
-defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+safari_write SendDoNotTrackHTTPHeader -bool true
+
+if [[ "$safari_ok" != "true" ]]; then
+    echo "Safari preferences skipped - the terminal running this needs Full Disk"
+    echo "Access (System Settings > Privacy & Security > Full Disk Access)."
+    echo "Everything after this point still applied."
+fi
 
 # Mail
 

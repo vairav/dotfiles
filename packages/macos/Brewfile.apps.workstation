@@ -58,7 +58,7 @@ cask "homebrew/cask/onedrive"  # MUST be fully qualified: bare "onedrive" is
 # The editing suite (affinity*, krita, bloom, GarageBand, iMovie) moved to
 # Brewfile.stack.creative - see --stack. These two stay: they transcode and
 # download rather than edit, and a machine that skips creative still wants them.
-cask "handbrake"                # Video transcoder
+cask "handbrake-app"            # Video transcoder (renamed upstream)
 cask "open-video-downloader"
 
 # Finance moved to Brewfile.stack.finance (--stack finance)

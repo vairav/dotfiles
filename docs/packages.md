@@ -82,6 +82,26 @@ whatever they already installed: `brew bundle` never uninstalls, so the carve-up
 only changes what a FUTURE run installs. Pass the stacks you want on the next
 run to keep them arriving.
 
+## Install resilience
+
+`brew bundle` pre-fetches every download in a file **before** installing any of
+it, so one dead upstream URL aborts the whole file having installed nothing -
+while printing a green `✔︎` for each download that did succeed. Those
+checkmarks are downloads, not installs.
+
+`packages/install.sh` therefore retries a failed file **entry by entry**, so a
+single broken package costs exactly itself instead of the other 36 in the file.
+Anything still unreachable is listed once at the end of the run.
+
+Never treat a `brew bundle` run as proof of installation. This is the proof:
+
+```bash
+for f in packages/macos/Brewfile.*; do
+  brew bundle check --file="$f" --verbose 2>&1 | grep -q satisfied \
+    || { echo "### $f"; brew bundle check --file="$f" --verbose; }
+done
+```
+
 ## Quick Reference
 
 ```bash

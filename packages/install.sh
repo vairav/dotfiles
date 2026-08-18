@@ -61,6 +61,42 @@ detect_distro() {
 
 # macOS (Homebrew)
 
+# Per-entry fallback for a Brewfile that `brew bundle` refused as a whole.
+#
+# WHY THIS EXISTS. `brew bundle` pre-fetches every download in a file BEFORE
+# installing any of it. If one download fails, it aborts the entire file and
+# installs NOTHING - while printing a green checkmark for each of the downloads
+# that DID succeed. On an Intel Mac that cost 54 apps: a 500 on the whatsapp cask took
+# down all of Brewfile.apps, and a 404 on cheatsheet took down all of
+# Brewfile.apps.workstation. The log read like success.
+#
+# There is no brew flag for "keep going" (HOMEBREW_BUNDLE_CASK_SKIP only skips
+# names you already know are broken). So when the batch fails, retry the file
+# one entry at a time: a single dead upstream URL then costs exactly that one
+# package instead of the other 36 in the file.
+FAILED_PKGS=()
+
+install_brewfile_individually() {
+    local brewfile="$1"
+    warn "brew bundle aborted on $(basename "$brewfile") - retrying entry by entry"
+    warn "so one broken download cannot take the rest of the file with it"
+
+    local kind name rest
+    # Read the file rather than piping into the loop: a pipeline would run the
+    # loop in a subshell and FAILED_PKGS would not survive it.
+    while read -r kind name rest; do
+        case "$kind" in
+            brew) name="${name//\"/}"; brew install --formula "$name" >/dev/null 2>&1 \
+                      || FAILED_PKGS+=("formula $name") ;;
+            cask) name="${name//\"/}"; brew install --cask "$name" >/dev/null 2>&1 \
+                      || FAILED_PKGS+=("cask $name") ;;
+        esac
+    done < <(grep -E '^[[:space:]]*(brew|cask) "' "$brewfile" | tr -d ',')
+
+    # mas entries are handled separately: they need an Apple ID association and
+    # fail for reasons no retry can fix (see CLAUDE.md).
+}
+
 install_macos() {
     local role="$1"
 
@@ -159,7 +195,10 @@ install_macos() {
         if [[ -f "$brewfile" ]]; then
             info "Installing from $(basename "$brewfile")..."
             if [[ "$DRY_RUN" == "false" ]]; then
-                brew bundle --file="$brewfile" || true
+                # `|| true` keeps a bad file from killing the run, but it is not
+                # enough on its own - see install_brewfile_individually.
+                brew bundle --file="$brewfile" || \
+                    install_brewfile_individually "$brewfile"
             else
                 debug "Would run: brew bundle --file=$brewfile"
             fi
@@ -167,6 +206,13 @@ install_macos() {
             warn "Brewfile not found: $brewfile"
         fi
     done
+
+    if [[ ${#FAILED_PKGS[@]} -gt 0 ]]; then
+        echo ""
+        warn "The following ${#FAILED_PKGS[@]} package(s) could NOT be installed:"
+        printf '       %s\n' "${FAILED_PKGS[@]}"
+        warn "Everything else in those files DID install (per-entry fallback)."
+    fi
 
     # Show manual install instructions
     # Note: `|| true` is load-bearing. Under `set -o pipefail` a grep that

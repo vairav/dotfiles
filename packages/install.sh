@@ -76,6 +76,49 @@ detect_distro() {
 # package instead of the other 36 in the file.
 FAILED_PKGS=()
 
+# Repair directories inside the Homebrew prefix that Homebrew can no longer
+# write to.
+#
+# INTEL-SPECIFIC IN PRACTICE. On Apple Silicon the prefix is /opt/homebrew and
+# belongs to Homebrew alone. On Intel it is /usr/local, which is SHARED with
+# anything else that installs there - so a cask whose pkg payload runs as root
+# (adguard, box-drive, google-drive, onedrive all do) can create a root-owned
+# directory that every later `brew install` then refuses to write to.
+#
+# One such directory, /usr/local/share/man/man8, failed five packages
+# across two Brewfiles. Homebrew prints the chown to run and gives up; since
+# the caller already holds sudo, just do it.
+fix_brew_prefix_permissions() {
+    local prefix=""
+    command -v brew >/dev/null 2>&1 && prefix="$(brew --prefix 2>/dev/null || true)"
+    [[ -z "$prefix" || ! -d "$prefix" ]] && return 0
+
+    local bad=()
+    local d
+    # Only the share/ tree: that is where third-party pkg payloads collide with
+    # Homebrew. Deliberately NOT a blanket chown of the whole prefix.
+    while IFS= read -r d; do
+        [[ -n "$d" ]] && bad+=("$d")
+    done < <(find "$prefix/share" -type d ! -writable 2>/dev/null || true)
+
+    [[ ${#bad[@]} -eq 0 ]] && return 0
+
+    warn "${#bad[@]} directory(ies) in $prefix are not writable by $USER:"
+    printf '       %s\n' "${bad[@]}"
+    if [[ "$DRY_RUN" == "true" ]]; then
+        debug "Would chown them to $USER"
+        return 0
+    fi
+    if sudo -n true 2>/dev/null; then
+        sudo chown -R "$USER" "${bad[@]}" \
+            && info "Ownership repaired - continuing" \
+            || warn "chown failed; some packages will not install"
+    else
+        warn "No cached sudo - fix by hand, then re-run:"
+        printf '       sudo chown -R %s %s\n' "$USER" "${bad[*]}"
+    fi
+}
+
 install_brewfile_individually() {
     local brewfile="$1"
     warn "brew bundle aborted on $(basename "$brewfile") - retrying entry by entry"
@@ -143,6 +186,8 @@ install_macos() {
         echo '  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
         exit 1
     fi
+
+    fix_brew_prefix_permissions
 
     # Adopt apps that are already in /Applications rather than failing on them.
     # A hand-installed app (1Password here) otherwise blocks its cask on EVERY

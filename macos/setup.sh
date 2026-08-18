@@ -36,9 +36,25 @@ done
 # TPM, and an abort here used to take the whole install chain down with it
 # (the calling install scripts run under `set -e`).
 setup_zsh() {
-    local brew_zsh="/opt/homebrew/bin/zsh"
+    # Homebrew's prefix is architecture-dependent: /opt/homebrew on Apple
+    # Silicon, /usr/local on Intel. This used to hardcode the Apple Silicon
+    # path, which made the whole step a SILENT NO-OP on an Intel Mac - it
+    # warned "not found", returned 0, and left the login shell on macOS's own
+    # /bin/zsh while setup still exited 0.
+    #
+    # Probed rather than shelled out to `brew --prefix`: under `set -euo
+    # pipefail` a `command -v brew && ...` list returns 1 when brew is absent,
+    # which aborts the caller.
+    local brew_zsh=""
+    local p
+    for p in "${HOMEBREW_PREFIX:-}" /opt/homebrew /usr/local; do
+        if [[ -n "$p" && -x "$p/bin/zsh" ]]; then
+            brew_zsh="$p/bin/zsh"
+            break
+        fi
+    done
 
-    if [[ ! -x "$brew_zsh" ]]; then
+    if [[ -z "$brew_zsh" ]]; then
         warn "Homebrew zsh not found. Run: brew install zsh"
         return 0
     fi

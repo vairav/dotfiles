@@ -18,7 +18,12 @@ export TFENV_ARCH=amd64
 export TFENV_CONFIG_DIR=${XDG_CACHE_HOME:-$HOME/.cache}/tfenv/${TFENV_ARCH}
 
 # PATH
-[[ -d /opt/homebrew/bin ]] && export PATH="/opt/homebrew/bin:$PATH"
+# Homebrew's prefix is arch-dependent: /opt/homebrew on Apple Silicon,
+# /usr/local on Intel. Probe for the brew BINARY, not just the directory -
+# /usr/local/bin exists on machines with no Homebrew at all (and on Linux),
+# and prepending it there would only duplicate a PATH entry.
+[[ -x /opt/homebrew/bin/brew ]] && export PATH="/opt/homebrew/bin:$PATH"
+[[ -x /usr/local/bin/brew ]] && export PATH="/usr/local/bin:$PATH"
 [[ -d $HOME/.local/bin ]] && export PATH="$HOME/.local/bin:$PATH"
 [[ -d $HOME/.lmstudio/bin ]] && export PATH="$PATH:$HOME/.lmstudio/bin"
 [[ -d $HOME/.codeium/windsurf/bin ]] && export PATH="$HOME/.codeium/windsurf/bin:$PATH"

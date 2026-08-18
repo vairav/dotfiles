@@ -21,7 +21,7 @@ fi
 if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"
 elif command -v oh-my-posh &>/dev/null; then
-  if [[ -x /opt/homebrew/bin/brew ]]; then
+  if command -v brew &>/dev/null; then
     eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/catppuccin_mocha.omp.json)"
   else
     eval "$(oh-my-posh init zsh)"

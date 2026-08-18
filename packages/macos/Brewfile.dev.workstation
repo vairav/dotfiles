@@ -35,7 +35,7 @@ brew "ccls"                     # C/C++ language server
 # Container tools
 brew "lazydocker"
 cask "podman-desktop"
-cask "docker"
+cask "docker-desktop"           # renamed upstream from "docker"
 
 # Kubernetes
 brew "kubernetes-cli"
@@ -48,7 +48,7 @@ brew "k9s"
 brew "nmap"
 cask "mitmproxy"                # HTTP/HTTPS proxy for debugging (now a cask)
 cask "proxyman"                 # Native macOS HTTP debugging proxy
-cask "wireshark"                # Network protocol analyzer
+cask "wireshark-app"            # Network protocol analyzer (renamed upstream)
 
 # Image/Media tools
 brew "imagemagick"
@@ -76,7 +76,10 @@ brew "d2"                       # Modern diagram scripting language
 # from Recovery plus a reboot before it will load. Workstation-only for that
 # reason - laptops use plain ssh/mosh instead.
 cask "macfuse"                  # FUSE support for macOS
-brew "sshfs"                    # Mount remote filesystems via SSH
+# brew "sshfs"                  # Mount remote filesystems via SSH. DISABLED:
+                                # no bottle since 2026, Tier 3 build-from-source
+                                # against libfuse/macFUSE. Use mountain-duck
+                                # (Brewfile.apps.workstation) instead.
 
 # Misc dev tools
 brew "autoconf"

@@ -23,7 +23,9 @@ cask "antigravity"
 cask "antinote"
 cask "betterdisplay"
 cask "bettertouchtool"
-cask "cheatsheet"               # Hold Cmd to see shortcuts
+# cask "cheatsheet"             # Hold Cmd to see shortcuts. DISABLED: upstream
+                                # DMG at mediaatelier.com is a hard 404 as of
+                                # Aug 2026. Re-enable if the vendor returns.
 cask "cleanshot"
 cask "clop"
 cask "hazel"
@@ -47,7 +49,10 @@ cask "dropbox"
 cask "forklift"                 # Finder file manager replacement
 cask "google-drive"
 cask "mountain-duck"
-cask "onedrive"
+cask "homebrew/cask/onedrive"  # MUST be fully qualified: bare "onedrive" is
+                                # also an old name of the onedrive-cli formula,
+                                # and brew bundle resolves it to the formula -
+                                # installing neither. See docs/packages.md.
 
 # Media
 # The editing suite (affinity*, krita, bloom, GarageBand, iMovie) moved to

@@ -5,7 +5,7 @@
 
 # AWS
 brew "awscli"
-cask "aws-vault"                # AWS credentials manager
+cask "aws-vault-binary"         # AWS credentials manager (renamed upstream)
 
 # Terraform
 brew "terraform-docs"           # Terraform documentation generator

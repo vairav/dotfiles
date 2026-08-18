@@ -44,8 +44,11 @@ brew "yq"
 brew "dasel"                # Query JSON/YAML/TOML/XML (multi-format)
 brew "tree"
 brew "watch"
-brew "tldr"
-brew "tealdeer"             # Rust tldr client (faster)
+# brew "tldr"               # REMOVED: collides with tealdeer - both install
+                            # bin/tldr, so whichever loses the race stays
+                            # permanently unlinked and every `brew bundle
+                            # check` reports "needs to be linked" forever.
+brew "tealdeer"             # Rust tldr client (faster); provides `tldr`
 
 # Modern replacements
 brew "bat"                  # cat replacement

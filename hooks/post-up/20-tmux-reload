@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# rcm post-up hook: reload a RUNNING tmux server's config after rcup relinks.
+#
+# tmux reads its config only at server start, so updating the file on disk
+# reaches nothing in memory - rcup cannot touch a running process. Reload only
+# when a server is already alive; never start one from a hook.
+
+set -uo pipefail
+
+if tmux list-sessions >/dev/null 2>&1; then
+  tmux source-file ~/.tmux.conf &&
+    echo "[tmux] Reloaded config on the running server"
+else
+  echo "[tmux] No running server - config loads at next server start"
+fi

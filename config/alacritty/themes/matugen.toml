@@ -1,0 +1,7 @@
+# Wallpaper-fed colors (ml4w Linux machines only).
+#
+# Deliberately empty in the repo: on ml4w machines setup.sh replaces this
+# symlink with a real machine-local file that matugen regenerates from the
+# wallpaper on every change (template: ml4w/matugen-alacritty.toml). On every
+# other machine this empty placeholder keeps the import in alacritty.toml
+# valid with zero effect.

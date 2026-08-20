@@ -8,5 +8,5 @@ live_config_reload = true
 # any of the above (font size for a different screen, etc.) without touching
 # the shared files. It is an empty placeholder unless a host-specific copy
 # replaces it.
-import = ["./configs/general.toml", "./configs/window.toml", "./configs/mouse.toml", "./configs/fonts.toml", "./themes/kanagawa_dragon.toml", "./configs/local.toml"]
+import = ["./configs/general.toml", "./configs/window.toml", "./configs/mouse.toml", "./configs/fonts.toml", "./themes/kanagawa_dragon.toml", "./themes/matugen.toml", "./configs/local.toml"]
 

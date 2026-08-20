@@ -1,6 +1,6 @@
 -- Workspace-to-monitor bindings
--- Only meaningful on multi-monitor machines; the composing file
--- (ml4w/hypr-custom.lua) decides whether to load this.
+-- Only meaningful on multi-monitor machines. A composing file may skip
+-- loading this; rules naming absent outputs are inert either way.
 --
 -- Monitor mapping (from nwg-displays):
 --   DP-3 = Left

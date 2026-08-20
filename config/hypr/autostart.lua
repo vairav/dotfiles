@@ -11,4 +11,9 @@ hl.on("hyprland.start", function()
     -- Zed tiler - watches for Zed windows and tiles them
     -- (Zed ignores windowrule tile directives, so we use IPC)
     hl.exec_cmd(HOME .. "/workspace/dotfiles/scripts/hypr-zed-tiler.sh")
+
+    -- 1Password in the tray - its own "start at login" writes an XDG
+    -- autostart entry, which nothing on Hyprland processes. Needed early:
+    -- the SSH agent and commit signing both go through its socket.
+    hl.exec_cmd("1password --silent")
 end)

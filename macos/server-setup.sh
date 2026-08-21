@@ -12,15 +12,21 @@ set -e
 
 info() { echo -e "\033[0;32m==>\033[0m $1"; }
 
+# ${SUDO_ASKPASS:+-A}: when setup.sh holds a credential, sudo re-authenticates
+# through it and this script runs unattended; standalone it prompts as normal.
 info "Enabling SSH (Remote Login)..."
-sudo systemsetup -setremotelogin on
+sudo ${SUDO_ASKPASS:+-A} systemsetup -setremotelogin on
 
 info "Configuring power management for always-on use..."
-sudo pmset -a sleep 0            # never sleep the system
-sudo pmset -a disksleep 0        # never sleep disks
-sudo pmset -a displaysleep 5     # display can sleep after 5 min
-sudo pmset -a autorestart 1      # restart after power failure
-sudo pmset -a womp 1             # wake on network access
+sudo ${SUDO_ASKPASS:+-A} pmset -a sleep 0            # never sleep the system
+sudo ${SUDO_ASKPASS:+-A} pmset -a disksleep 0        # never sleep disks
+sudo ${SUDO_ASKPASS:+-A} pmset -a displaysleep 5     # display can sleep after 5 min
+sudo ${SUDO_ASKPASS:+-A} pmset -a autorestart 1      # restart after power failure
+sudo ${SUDO_ASKPASS:+-A} pmset -a womp 1             # wake on network access
+sudo ${SUDO_ASKPASS:+-A} pmset -a powernap 0         # no dozing between wakes
+# Clamshell: a MacBook driving external displays with the lid closed sleeps on
+# lid-close without this. Only sane on AC power - servers always are.
+sudo ${SUDO_ASKPASS:+-A} pmset -a disablesleep 1
 
 info "Current power settings:"
 pmset -g | grep -E "sleep|autorestart|womp"

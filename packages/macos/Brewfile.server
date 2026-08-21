@@ -6,6 +6,8 @@
 # Shell & core
 brew "zsh"
 brew "git"
+brew "rcm"                      # dotfile symlinker - without it setup.sh dies at rcup
+                                # and a fresh server gets NO dotfiles at all
 brew "coreutils"
 brew "curl"
 brew "wget"

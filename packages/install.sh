@@ -194,6 +194,23 @@ install_macos() {
 
     fix_brew_prefix_permissions
 
+    # Rosetta 2 on Apple Silicon: some casks still ship x86-64 installer stubs
+    # (thinkorswim's install4j launcher dies with "Bad CPU type in executable"),
+    # and without Rosetta the cask fails, not the app. Probe by
+    # asking the loader itself - `arch -x86_64 true` succeeds only when the
+    # translator is actually installed. Needs root; uses the held askpass
+    # credential when setup.sh provides one, and warns rather than aborting
+    # the chain when it cannot install.
+    if [[ "$(uname -m)" == "arm64" ]] && ! arch -x86_64 /usr/bin/true 2>/dev/null; then
+        info "Installing Rosetta 2 (x86-64 installer stubs need it)..."
+        if [[ "$DRY_RUN" == "false" ]]; then
+            sudo ${SUDO_ASKPASS:+-A} softwareupdate --install-rosetta --agree-to-license \
+                || warn "Rosetta 2 install failed - x86-64 casks (thinkorswim) will fail"
+        else
+            debug "Would run: softwareupdate --install-rosetta --agree-to-license"
+        fi
+    fi
+
     # Adopt apps that are already in /Applications rather than failing on them.
     # A hand-installed app (1Password here) otherwise blocks its cask on EVERY
     # run forever - brew refuses to overwrite an artifact it does not own, so

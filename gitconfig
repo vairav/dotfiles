@@ -18,6 +18,19 @@
 [init]
   defaultBranch = main
 
+# Credentials: gh's device-flow token backs HTTPS remotes on every machine.
+# This must live HERE, repo-tracked: `gh auth setup-git` writes it into
+# ~/.gitconfig, which the bootstrap's backup step moves aside and rcup then
+# replaces with this symlink - so a machine-local helper never survives setup.
+# The bare `helper =` clears any system-level helper (osxkeychain) so a stale
+# cached credential cannot shadow the gh token.
+[credential "https://github.com"]
+  helper =
+  helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+  helper =
+  helper = !gh auth git-credential
+
 [help]
   autocorrect = prompt
 

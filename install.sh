@@ -31,6 +31,20 @@
 
 set -e
 
+# Non-login shells (ssh -t host 'cmd', CI) never run path_helper, so an
+# installed Homebrew can be invisible here - which sent this script back into
+# the Homebrew installer on a machine that already had it. Probe the known
+# prefixes up front instead of shelling out to `brew --prefix` (under set -e
+# a missing brew would abort the probe itself). Arch-dependent: /opt/homebrew
+# on Apple Silicon, /usr/local on Intel.
+for _p in "${HOMEBREW_PREFIX:-}" /opt/homebrew /usr/local; do
+  if [[ -n "$_p" && -x "$_p/bin/brew" ]]; then
+    export PATH="$_p/bin:$_p/sbin:$PATH"
+    break
+  fi
+done
+unset _p
+
 DOTFILES_REPO="https://github.com/vairav/dotfiles.git"
 DOTFILES_DIR="$HOME/workspace/dotfiles"
 BACKUP_DIR="$HOME/.backup/dotfiles-$(date +'%d%b%Y-%I%M%p')"

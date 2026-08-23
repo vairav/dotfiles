@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# rcm post-up hook: re-assert patches to ml4w-owned files after every rcup.
+#
+# ml4w's settings app and ml4w updates rewrite these files, so a one-time
+# patch at install would silently rot - see ml4w/patches.sh for the list of
+# patches and the reason behind each. No-op on machines without ml4w.
+
+set -uo pipefail
+
+DOTFILES="${DOTFILES:-$HOME/workspace/dotfiles}"
+
+exec "$DOTFILES/ml4w/patches.sh"

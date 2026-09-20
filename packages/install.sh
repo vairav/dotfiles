@@ -326,6 +326,18 @@ install_macos() {
         warn "Everything else in those files DID install (per-entry fallback)."
     fi
 
+    # Alacritty comes from its GitHub release, not a cask: Homebrew disabled
+    # the cask on 2026-09-01 (upstream will not notarize), so `cask "alacritty"`
+    # now fails on a fresh machine. Servers get no terminal emulators, same as
+    # Brewfile.dev.
+    if [[ "$role" != "server" ]]; then
+        if [[ "$DRY_RUN" == "false" ]]; then
+            "$SCRIPT_DIR/../scripts/setup-alacritty.sh" || warn "alacritty install incomplete"
+        else
+            debug "Would run: scripts/setup-alacritty.sh"
+        fi
+    fi
+
     # Show manual install instructions
     # Note: `|| true` is load-bearing. Under `set -o pipefail` a grep that
     # matches nothing returns 1 and aborts the whole run - which is exactly

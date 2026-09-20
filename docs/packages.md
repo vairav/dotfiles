@@ -155,8 +155,11 @@ CLI essentials: eza, bat, fd, ripgrep, fzf, zoxide, atuin, jq, yq, etc.
 
 ### dev / dev.workstation
 
-Essentials: neovim, tmux, sesh, terminals (kitty/alacritty/ghostty), git tools,
-lazygit, gh, mise, python, VS Code.
+Essentials: neovim, tmux, sesh, terminals (kitty/ghostty), git tools,
+lazygit, gh, mise, python, VS Code. Alacritty is installed alongside these by
+`scripts/setup-alacritty.sh` from the upstream GitHub release, because Homebrew
+disabled its cask on 2026-09-01 over the Gatekeeper check and upstream will not
+notarize; bump the pinned version in that script to upgrade it.
 Workstation adds: docker, k8s tools, go/rust/ruby/lua, wireshark, postman,
 dbeaver, figma, media tools.
 

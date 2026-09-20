@@ -8,8 +8,10 @@
 # Homebrew 6 tap trust.
 
 # Terminal emulators
+# alacritty is NOT here: Homebrew disabled its cask on 2026-09-01 (fails the
+# Gatekeeper check; upstream will not notarize). scripts/setup-alacritty.sh
+# installs it from the GitHub release instead - install.sh runs it.
 cask "kitty"
-cask "alacritty"
 cask "ghostty"
 
 # Terminal multiplexer

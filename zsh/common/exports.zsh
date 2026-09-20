@@ -14,7 +14,11 @@ export ANSIBLE_NOCOWS=1
 export ANSIBLE_FORCE_COLOR=true
 
 # tfenv
-export TFENV_ARCH=amd64
+# tfenv installs per-architecture binaries; derive it from the machine so an
+# Apple Silicon host never runs an x86_64 terraform ("Bad CPU type in executable"
+# without Rosetta). uname says arm64 on Apple Silicon and x86_64 on Intel; tfenv
+# wants amd64 for the latter.
+export TFENV_ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo amd64)
 export TFENV_CONFIG_DIR=${XDG_CACHE_HOME:-$HOME/.cache}/tfenv/${TFENV_ARCH}
 
 # PATH

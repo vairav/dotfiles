@@ -74,3 +74,21 @@ mdls -name kMDItemCFBundleIdentifier /Applications/AppName.app
 defaults delete com.apple.finder AppleShowAllFiles
 # Then restart Finder
 ```
+
+## Homebrew auto-upgrade
+
+`brew-autoupgrade.sh` keeps Homebrew formulae and casks current without touching working
+hours. Install it once per Mac with `./macos/brew-autoupgrade.sh --install`, which writes the
+LaunchAgent `local.vairav.brew-autoupgrade`.
+
+- launchd starts it every evening at 18:35 ET. It upgrades only when the last good run is 3 or
+  more days old, so a failed or missed evening is retried the next evening.
+- It skips casks whose app is open, and tmux while a tmux server runs. Casks that update
+  themselves (Homebrew's `auto_updates`) are left to their own updaters. Pinned formulae
+  (`brew pin <name>`) are left alone.
+- Nothing waits on a password. A cask that needs your admin password is listed in the closing
+  message as "Needs you".
+- A good run ends with one notification. A failure, or a tick that fired late because the Mac
+  slept through 18:35, shows a dialog that stays until you click OK.
+- `--now` runs it by hand and counts as a good run. `--check` prints what the next tick would
+  do. `--uninstall` removes the LaunchAgent. The log is `~/Library/Logs/brew-autoupgrade.log`.

@@ -20,9 +20,11 @@
 # terminal, so a cask that needs sudo fails fast and is listed as needing you).
 # Pinned formulae (brew pin) are left alone by brew itself.
 #
-# A failed run (brew update or the formula upgrade failed) shows a dialog that
+# A failed run (brew update failed, so nothing was upgraded) shows a dialog that
 # stays until dismissed and does not count as a good run, so the next evening
-# retries. `--now` runs it by hand at any time and counts as a good run.
+# retries. A single tool or app that fails (a link conflict, a password) does not
+# stop the rest; it is named under "Needs you" in a dialog, because a retry would
+# hit the same problem. `--now` runs it by hand at any time and counts as a good run.
 #
 # On screen: every run posts a notification when it starts (what it is about to
 # upgrade) and when it ends. Run from a terminal, it also shows each step and
@@ -149,12 +151,22 @@ upgrade() {
 
   if (( ${#formulae[@]} )); then
     step "Upgrading tools: ${formulae[*]}"
+    local log_offset failed=()
+    log_offset=$(stat -f %z "$LOG")
     if run brew upgrade --formula "${formulae[@]}"; then
       done_count=${#formulae[@]}
     else
-      log "formula upgrade failed"
-      alert "Upgrade failed while upgrading formulae. Run brew-autoupgrade.sh --now, or it retries tomorrow at 18:35. Log: $LOG"
-      return 1
+      # brew keeps going past a broken formula (a link conflict, say) and fails
+      # at the end. Name the ones that hit an Error and carry on with the apps;
+      # a retry tomorrow would hit the same conflict, so they go to "Needs you".
+      while IFS= read -r f; do failed+=("$f"); done < <(
+        tail -c +"$((log_offset + 1))" "$LOG" | sed $'s/\x1b\\[[0-9;]*m//g; s/\r//g' |
+          awk '/^==> Upgrading [^ ]+ *$/ {name = $3} /^Error:/ && name {print name; name = ""}' | sort -u)
+      (( ${#failed[@]} )) || failed=("some tools")
+      done_count=$(( ${#formulae[@]} - ${#failed[@]} ))
+      (( done_count >= 0 )) || done_count=0
+      step "Tools that failed: ${failed[*]}"
+      needs_you+=("${failed[@]}")
     fi
   fi
 
@@ -175,7 +187,7 @@ upgrade() {
   local msg="$done_count upgraded"
   (( ${#held[@]} )) && msg+=", skipped while open: ${held[*]}"
   if (( ${#needs_you[@]} )); then
-    msg+=". Needs you: brew upgrade --cask ${needs_you[*]}"
+    msg+=". Needs you: ${needs_you[*]} (details in $LOG)"
     step "Done: $msg"
     alert "$msg"
   else

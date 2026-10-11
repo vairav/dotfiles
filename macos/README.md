@@ -86,8 +86,9 @@ LaunchAgent `local.vairav.brew-autoupgrade`.
 - It skips casks whose app is open, and tmux while a tmux server runs. Casks that update
   themselves (Homebrew's `auto_updates`) are left to their own updaters. Pinned formulae
   (`brew pin <name>`) are left alone.
-- Nothing waits on a password. A cask that needs your admin password is listed in the closing
-  message as "Needs you".
+- Nothing waits on a password. One tool or app that fails, for example a cask that needs your
+  admin password or a formula whose link conflicts with another package, does not stop the rest.
+  It is named under "Needs you" in a dialog at the end.
 - Every run posts a notification when it starts, naming how many tools and apps it will
   upgrade. Run from a terminal, it also shows each step and Homebrew's own output and progress
   bars live, and a cask that needs your password asks for it there.

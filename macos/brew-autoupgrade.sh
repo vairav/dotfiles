@@ -24,6 +24,11 @@
 # stays until dismissed and does not count as a good run, so the next evening
 # retries. `--now` runs it by hand at any time and counts as a good run.
 #
+# On screen: every run posts a notification when it starts (what it is about to
+# upgrade) and when it ends. Run from a terminal, it also shows each step and
+# brew's own output and progress bars live, and a cask that needs your password
+# asks for it there instead of being skipped.
+#
 # Usage:
 #   brew-autoupgrade.sh              # launchd entry point
 #   brew-autoupgrade.sh --now        # run now, ignoring the interval and window
@@ -54,7 +59,27 @@ else
 fi
 HHMM=$(date -r "$NOW" +%H%M)
 
+# True when a person started this from a terminal (launchd gives no terminal).
+interactive() { [[ -t 1 ]]; }
+
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >>"$LOG"; }
+
+# A step line: logged, and printed in bold when run from a terminal.
+step() {
+  log "$*"
+  if interactive; then printf '\033[1m==> %s\033[0m\n' "$*"; fi
+}
+
+# Runs a brew command with its output in the log. From a terminal it runs under
+# script(1), which keeps brew's terminal output (progress bars included) on screen
+# while appending the same output to the log.
+run() {
+  if interactive; then
+    script -q -a "$LOG" "$@"
+  else
+    "$@" </dev/null >>"$LOG" 2>&1
+  fi
+}
 
 notify() {
   osascript -e "display notification \"$1\" with title \"Homebrew\"" >/dev/null 2>&1 || true
@@ -101,8 +126,8 @@ for c in json.load(sys.stdin)["casks"]:
 
 upgrade() {
   mkdir -p "$STATE_DIR"
-  log "start"
-  if ! brew update >>"$LOG" 2>&1; then
+  step "Updating the Homebrew package lists"
+  if ! run brew update; then
     log "brew update failed"
     alert "Upgrade did not run: brew update failed. Run brew-autoupgrade.sh --now, or it retries tomorrow at 18:35. Log: $LOG"
     return 1
@@ -114,9 +139,17 @@ upgrade() {
     if [[ "${f##*/}" == tmux ]] && pgrep -qx tmux; then held+=("tmux"); continue; fi
     formulae+=("$f")
   done < <(brew outdated --formula --quiet)
+  local casks=()
+  while IFS= read -r c; do [[ -n "$c" ]] && casks+=("$c"); done < <(brew outdated --cask --quiet)
+
+  local start_msg="Upgrading ${#formulae[@]} tools and checking ${#casks[@]} apps. This can take 10 minutes."
+  (( ${#formulae[@]} + ${#casks[@]} )) || start_msg="Everything is current. Cleaning up."
+  step "$start_msg"
+  notify "$start_msg"
 
   if (( ${#formulae[@]} )); then
-    if brew upgrade --formula "${formulae[@]}" >>"$LOG" 2>&1; then
+    step "Upgrading tools: ${formulae[*]}"
+    if run brew upgrade --formula "${formulae[@]}"; then
       done_count=${#formulae[@]}
     else
       log "formula upgrade failed"
@@ -125,27 +158,28 @@ upgrade() {
     fi
   fi
 
-  while IFS= read -r c; do
-    [[ -z "$c" ]] && continue
-    if cask_app_running "$c"; then held+=("$c"); continue; fi
-    if brew upgrade --cask "$c" </dev/null >>"$LOG" 2>&1; then
+  for c in ${casks[@]+"${casks[@]}"}; do
+    if cask_app_running "$c"; then step "Skipping $c: its app is open"; held+=("$c"); continue; fi
+    step "Upgrading app: $c"
+    if run brew upgrade --cask "$c"; then
       done_count=$((done_count + 1))
     else
       needs_you+=("$c")
     fi
-  done < <(brew outdated --cask --quiet)
+  done
 
-  brew cleanup --prune=30 >>"$LOG" 2>&1 || log "cleanup failed (not fatal)"
+  step "Removing old versions"
+  run brew cleanup --prune=30 || log "cleanup failed (not fatal)"
   echo "$NOW" >"$LAST_GOOD"
 
   local msg="$done_count upgraded"
   (( ${#held[@]} )) && msg+=", skipped while open: ${held[*]}"
   if (( ${#needs_you[@]} )); then
     msg+=". Needs you: brew upgrade --cask ${needs_you[*]}"
-    log "done: $msg"
+    step "Done: $msg"
     alert "$msg"
   else
-    log "done: $msg"
+    step "Done: $msg"
     notify "$msg"
   fi
 }

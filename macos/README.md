@@ -88,6 +88,9 @@ LaunchAgent `local.vairav.brew-autoupgrade`.
   (`brew pin <name>`) are left alone.
 - Nothing waits on a password. A cask that needs your admin password is listed in the closing
   message as "Needs you".
+- Every run posts a notification when it starts, naming how many tools and apps it will
+  upgrade. Run from a terminal, it also shows each step and Homebrew's own output and progress
+  bars live, and a cask that needs your password asks for it there.
 - A good run ends with one notification. A failure, or a tick that fired late because the Mac
   slept through 18:35, shows a dialog that stays until you click OK.
 - `--now` runs it by hand and counts as a good run. `--check` prints what the next tick would

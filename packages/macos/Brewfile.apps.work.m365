@@ -1,0 +1,32 @@
+# Brewfile.apps.work.m365 - Microsoft 365 clients (mail, documents, Teams)
+#
+# Vendor tier: only installed with --work --vendor m365. Named after the
+# product, not the company: Azure is Microsoft too, and lives in
+# Brewfile.apps.work.azure. A client can run one without the other.
+#
+# Skip it on a laptop whose device management already installed Office - a
+# cask cannot take over an app it did not install unless the copy is identical.
+#
+# Was Brewfile.apps.work.microsoft. --vendor microsoft still works and warns.
+#
+# Consulting clients differ - some are Microsoft houses, some Google, some mixed - so
+# vendor stacks never land on a machine that did not ask for them, and never
+# on a personal machine.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.m365
+
+cask_args appdir: "/Applications"
+
+# Office
+cask "microsoft-excel"
+cask "microsoft-word"
+cask "microsoft-powerpoint"
+cask "microsoft-outlook"
+cask "microsoft-onenote"
+cask "microsoft-teams"
+
+# Enterprise
+cask "intune-company-portal"
+
+# microsoft-defender is not in Homebrew - the org pushes it through Intune.
+# Nothing to install here; the MDM enrolment does it.

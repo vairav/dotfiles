@@ -42,16 +42,31 @@ to what a client-owned laptop can carry. Servers get no personal tier.
 
 ### Vendor stacks
 
-Client environments differ, so vendor-specific software is opt-in and work-only:
+Client environments differ, so vendor-specific software is opt-in and work-only.
+There is one file per PRODUCT FAMILY, not per company, because clients mix
+them freely. A client can run Microsoft 365 for mail and AWS for cloud, or
+Google for mail and Azure for cloud. Pick one per row that applies:
+
+| What the client uses | Vendor names |
+| -------------------- | ------------ |
+| Mail, documents, meetings | `m365` (Office, Outlook, Teams, Intune) or `google` (Chrome, Drive; Gmail, Docs and Meet run in the browser) |
+| Cloud | `aws`, `azure`, `oci` (any combination) |
+| Chat and meetings outside the suite | `slack`, `zoom` |
+| Apple documents | `apple` (iWork) |
 
 ```bash
-./packages/install.sh laptop --work --vendor microsoft --vendor google
+# Microsoft 365 mail and Teams, AWS cloud
+./packages/install.sh laptop --work --vendor m365 --vendor aws
+# Google mail and Meet, AWS and Oracle Cloud, Slack for chat
+./packages/install.sh laptop --work --vendor google --vendor aws --vendor oci --vendor slack
 ```
 
 Each `--vendor NAME` pulls in `Brewfile.apps.work.NAME` (or
-`apps.work.NAME.txt` on Linux). Available: `microsoft`, `google`, `apple`,
-`azure`.
-Adding a new one means adding a file - no code change.
+`apps.work.NAME.txt` on Linux). Adding a new one means adding a file - no code
+change. `--vendor microsoft` was split into `m365` and `azure`; the old name
+still installs `m365` and warns. Leave out anything the client's device
+management already installed: a cask cannot take over an app it did not
+install unless the copy is identical, so it fails and lands in the summary.
 
 Nothing vendor-specific belongs in a shared tier. A personal machine never
 receives any of it.
@@ -145,10 +160,14 @@ done
 | Brewfile.server           | Minimal CLI set + Tailscale + AI CLIs   | server             |
 | Brewfile.apps.work        | Vendor-neutral work apps                | --work             |
 | Brewfile.apps.work.workstation | Heavy work apps (empty for now)    | --work + workstation |
-| Brewfile.apps.work.microsoft | Office, Teams, Intune                | --vendor microsoft |
+| Brewfile.apps.work.m365   | Office, Outlook, Teams, Intune          | --vendor m365      |
 | Brewfile.apps.work.google | Drive, Chrome                           | --vendor google    |
 | Brewfile.apps.work.apple  | iWork (Keynote, Numbers, Pages)         | --vendor apple     |
+| Brewfile.apps.work.aws    | AWS CLI, aws-vault, SSM plugin          | --vendor aws       |
 | Brewfile.apps.work.azure  | Azure CLI                               | --vendor azure     |
+| Brewfile.apps.work.oci    | Oracle Cloud CLI                        | --vendor oci       |
+| Brewfile.apps.work.slack  | Slack                                   | --vendor slack     |
+| Brewfile.apps.work.zoom   | Zoom                                    | --vendor zoom      |
 | Brewfile.apps.personal    | Slack, Zoom, Signal, Obsidian, Tailscale, App Store apps | not --work |
 | Brewfile.apps.personal.workstation | (deliberately empty)           | not --work + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |

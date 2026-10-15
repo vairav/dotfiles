@@ -1,6 +1,8 @@
 # Brewfile.apps.work.google - Google-house client tooling
 #
-# Vendor tier: only installed with --work --vendor google.
+# Vendor tier: only installed with --work --vendor google. Google Workspace
+# clients: Gmail, Docs and Meet all run in the browser, so this is Chrome plus
+# the Drive sync client.
 #
 # Chrome and Drive also appear in Brewfile.apps.workstation. That overlap is
 # intentional and harmless (brew bundle is idempotent) - a Google-house work

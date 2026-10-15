@@ -1,0 +1,9 @@
+# Brewfile.apps.work.zoom - clients that hold meetings on Zoom
+#
+# Vendor tier: only installed with --work --vendor zoom. Microsoft 365 clients
+# mostly meet on Teams (in Brewfile.apps.work.m365), Google clients on Meet,
+# which runs in the browser and has no app to install.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.zoom
+
+cask "zoom"

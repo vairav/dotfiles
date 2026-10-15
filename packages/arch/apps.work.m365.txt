@@ -1,4 +1,4 @@
-# Work machine apps - Microsoft-house clients (--work --vendor microsoft)
+# Work machine apps - Microsoft 365 clients (--work --vendor m365)
 #
 # Vendor tier: consulting clients differ, so vendor stacks only land on a
 # machine that asked for them, and never on a personal machine.

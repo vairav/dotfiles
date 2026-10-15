@@ -1,0 +1,9 @@
+# Brewfile.apps.work.slack - clients that run their chat on Slack
+#
+# Vendor tier: only installed with --work --vendor slack. Personal machines get
+# Slack from Brewfile.apps.personal; a work laptop gets it only when the client
+# actually uses it.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.slack
+
+cask "slack"

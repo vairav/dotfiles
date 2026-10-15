@@ -1,0 +1,7 @@
+# Brewfile.apps.work.oci - Oracle Cloud Infrastructure clients
+#
+# Vendor tier: only installed with --work --vendor oci.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.oci
+
+brew "oci-cli"

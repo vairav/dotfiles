@@ -1,0 +1,12 @@
+# Brewfile.apps.work.aws - AWS clients
+#
+# Vendor tier: only installed with --work --vendor aws. Workstations already
+# get the same CLIs from Brewfile.devops - the overlap is intentional and
+# harmless (brew bundle is idempotent). This file is for a work LAPTOP, which
+# never gets the devops tier.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.aws
+
+brew "awscli"
+cask "aws-vault-binary"         # Credentials in the keychain, per profile
+cask "session-manager-plugin"   # aws ssm start-session

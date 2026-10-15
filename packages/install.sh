@@ -22,6 +22,9 @@ DRY_RUN=false
 ROLE="desktop"
 INCLUDE_WORK=false
 INCLUDE_PERSONAL=false
+# One file per product family: Brewfile.apps.work.<name> (macOS) and
+# apps.work.<name>.txt (Arch). Listed here only for help and error text.
+VENDOR_NAMES="m365, google, apple, aws, azure, oci, slack, zoom"
 INCLUDE_PLAYGROUND=false
 CLEANUP=false
 VENDORS=()
@@ -677,7 +680,7 @@ ROLE:
 OPTIONS:
   --work        Include work-specific apps
   --vendor NAME Include a client vendor stack (repeatable, implies --work):
-                microsoft, google, apple, azure
+                $VENDOR_NAMES
   --stack NAME  Include an interest stack (repeatable, any role/ownership):
                 containers, creative, finance, localai, mail
   --personal    Mark the machine personal. The personal tier installs on
@@ -754,8 +757,16 @@ main() {
                 shift
                 ;;
             --vendor)
-                [[ -z "${2:-}" ]] && { error "--vendor needs a name (microsoft, google, apple, azure)"; exit 1; }
-                VENDORS+=("$2")
+                [[ -z "${2:-}" ]] && { error "--vendor needs a name ($VENDOR_NAMES)"; exit 1; }
+                # microsoft was split by product into m365 (mail, Office,
+                # Teams) and azure. Machines that persisted the old name keep
+                # getting the suite, with a nudge to re-run with the new one.
+                if [[ "$2" == "microsoft" ]]; then
+                    warn "--vendor microsoft is now --vendor m365 (Azure is --vendor azure)"
+                    VENDORS+=("m365")
+                else
+                    VENDORS+=("$2")
+                fi
                 shift 2
                 ;;
             --stack)

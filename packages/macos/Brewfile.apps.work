@@ -4,7 +4,7 @@
 # Vendor-specific software lives in Brewfile.apps.work.<vendor> and is selected
 # with --vendor (repeatable), e.g.:
 #
-#   ./packages/install.sh laptop --work --vendor microsoft --vendor google
+#   ./packages/install.sh laptop --work --vendor m365 --vendor aws
 #
 # Empty for now - everything that was here turned out to be Microsoft-specific.
 #

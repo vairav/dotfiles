@@ -1,0 +1,16 @@
+# Brewfile.stack.containers - Local container development
+#
+# Stack tier: opt-in per machine with --stack containers, on any role and under
+# either ownership. Workstations already get the same tools (plus podman and
+# Kubernetes) from Brewfile.dev.workstation - the overlap is intentional and
+# harmless, because brew bundle is idempotent. This stack exists for a laptop
+# that has to run containers without taking the whole heavy dev tier.
+#
+# Docker Desktop needs a paid subscription at organizations over 250 employees
+# or US $10M revenue (Docker's terms). Sign in with whichever Docker account
+# the license belongs to.
+#
+# Usage: brew bundle --file=Brewfile.stack.containers
+
+cask "docker-desktop"
+brew "lazydocker"               # TUI for containers, images and logs

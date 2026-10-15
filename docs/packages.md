@@ -41,7 +41,8 @@ Client environments differ, so vendor-specific software is opt-in and work-only:
 ```
 
 Each `--vendor NAME` pulls in `Brewfile.apps.work.NAME` (or
-`apps.work.NAME.txt` on Linux). Available: `microsoft`, `google`, `apple`.
+`apps.work.NAME.txt` on Linux). Available: `microsoft`, `google`, `apple`,
+`azure`.
 Adding a new one means adding a file - no code change.
 
 Nothing vendor-specific belongs in a shared tier. A personal machine never
@@ -138,9 +139,11 @@ done
 | Brewfile.apps.work.microsoft | Office, Teams, Intune                | --vendor microsoft |
 | Brewfile.apps.work.google | Drive, Chrome                           | --vendor google    |
 | Brewfile.apps.work.apple  | iWork (Keynote, Numbers, Pages)         | --vendor apple     |
+| Brewfile.apps.work.azure  | Azure CLI                               | --vendor azure     |
 | Brewfile.apps.personal    | Light personal apps (SoundSource)       | --personal         |
 | Brewfile.apps.personal.workstation | (deliberately empty)           | --personal + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
+| Brewfile.stack.containers | Docker Desktop, lazydocker              | --stack containers |
 | Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, FreeCAD  | --stack creative   |
 | Brewfile.stack.finance    | TradingView, thinkorswim, beancount     | --stack finance    |
 | Brewfile.stack.localai    | Ollama, LM Studio, Msty, Trae           | --stack localai    |
@@ -192,7 +195,8 @@ Nerd Fonts: Fira Code, JetBrains Mono, Iosevka, Meslo, Monaspace, etc.
 ### devops
 
 Terraform, AWS CLI, Ansible, Packer, etc. Workstation only. Tailscale ships
-as a cask in Brewfile.apps/Brewfile.server instead.
+as a cask in Brewfile.apps/Brewfile.server instead. An Azure client
+gets its CLI from `--vendor azure`.
 
 ### playground
 

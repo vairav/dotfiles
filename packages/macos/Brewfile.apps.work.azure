@@ -1,0 +1,9 @@
+# Brewfile.apps.work.azure - Azure-house client tooling
+#
+# Vendor tier: only installed with --work --vendor azure. Brewfile.devops is
+# AWS-centric and workstation-only, so an Azure client laptop gets its cloud
+# CLI here instead.
+#
+# Usage: brew bundle --file=Brewfile.apps.work.azure
+
+cask "azure-cli"                # az - Homebrew ships it as a cask now

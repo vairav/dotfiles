@@ -662,9 +662,9 @@ ROLE:
 OPTIONS:
   --work        Include work-specific apps
   --vendor NAME Include a client vendor stack (repeatable, implies --work):
-                microsoft, google, apple
+                microsoft, google, apple, azure
   --stack NAME  Include an interest stack (repeatable, any role/ownership):
-                creative, finance, localai, mail
+                containers, creative, finance, localai, mail
   --personal    Include personal-only apps (SoundSource, etc.)
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
@@ -689,6 +689,7 @@ PACKAGE STRUCTURE:
     Brewfile.apps.personal    Personal-only apps (--personal flag)
     Brewfile.apps.personal.workstation    Heavy personal apps (--personal on workstation)
     Brewfile.playground       Testing/evaluation tools (--playground flag)
+    Brewfile.stack.containers Docker Desktop, lazydocker (--stack containers)
     Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)
     Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
     Brewfile.stack.localai    ollama, lm-studio, msty, trae (--stack localai)
@@ -735,12 +736,12 @@ main() {
                 shift
                 ;;
             --vendor)
-                [[ -z "${2:-}" ]] && { error "--vendor needs a name (microsoft, google, apple)"; exit 1; }
+                [[ -z "${2:-}" ]] && { error "--vendor needs a name (microsoft, google, apple, azure)"; exit 1; }
                 VENDORS+=("$2")
                 shift 2
                 ;;
             --stack)
-                [[ -z "${2:-}" ]] && { error "--stack needs a name (creative, finance, localai, mail)"; exit 1; }
+                [[ -z "${2:-}" ]] && { error "--stack needs a name (containers, creative, finance, localai, mail)"; exit 1; }
                 STACKS+=("$2")
                 shift 2
                 ;;

@@ -75,3 +75,19 @@ Verified classes (2026-10):
 | ChatGPT | `Chatgpt` (runs under XWayland) | 5 |
 
 Reload with `hyprctl reload`. Rules apply to newly opened windows only.
+
+### New windows going fullscreen
+
+Two separate causes, both fixed:
+
+- **kitty restoring a maximized state.** `config/kitty/configs/window.conf`
+  sets `remember_window_size yes` (wanted on macOS). Under Hyprland, kitty saves
+  `"window-state": "maximized"` in `~/.cache/kitty/main.json` and every new
+  window maximizes itself right after tiling. `ml4w/kitty-custom.conf` sets
+  `remember_window_size no` for ml4w machines.
+- **Opening a window over a fullscreen one.** ml4w's
+  `~/.config/hypr/conf/misc.lua` ships `on_focus_under_fullscreen = 1`, so the
+  new window took over fullscreen. `config/hypr/misc.lua` (and `misc.conf`)
+  sets `2` (drop fullscreen, then tile). ml4w loads `custom.lua` after its own
+  `misc.lua`, so ours wins, and an ml4w update that resets its file changes
+  nothing.

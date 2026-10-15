@@ -513,6 +513,14 @@ install_pacman() {
         install_pkg_file "$SCRIPT_DIR/arch/apps.workstation.txt"
         install_pkg_file "$SCRIPT_DIR/arch/ai.workstation.txt"
         install_pkg_file "$SCRIPT_DIR/arch/devops.workstation.txt"
+
+        # LM Studio ships as a self-updating AppImage, not an AUR package -
+        # see docs/arch.md. Needs fuse2 from ai.workstation.txt.
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "(dry-run: would run scripts/install-lmstudio-appimage.sh)"
+        else
+            "$SCRIPT_DIR/../scripts/install-lmstudio-appimage.sh"
+        fi
     fi
 
     if [[ "$role" == "server" ]]; then

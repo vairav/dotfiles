@@ -213,6 +213,9 @@ Arch package lists mirror the Brewfile naming and the same role logic
 - `packages/arch/font.txt` - Nerd Fonts
 - `packages/arch/server.txt` - Minimal server
 
+LM Studio is the exception: workstations get the AppImage via
+`scripts/install-lmstudio-appimage.sh`, not a package. See `docs/arch.md`.
+
 Debian uses simpler lists:
 
 - `packages/debian/desktop.txt`

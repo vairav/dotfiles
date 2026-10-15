@@ -4,8 +4,6 @@
 # lmstudio            # Direct AppImage install (self-updating), not AUR -
 #                     # scripts/install-lmstudio-appimage.sh, see docs/arch.md
 fuse2                 # AppImage runtime (LM Studio)
-cursor-bin
-windsurf
 antigravity
 
 # Local LLM

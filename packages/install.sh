@@ -691,7 +691,7 @@ PACKAGE STRUCTURE:
     Brewfile.playground       Testing/evaluation tools (--playground flag)
     Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)
     Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
-    Brewfile.stack.localai    ollama, lm-studio, cursor, windsurf (--stack localai)
+    Brewfile.stack.localai    ollama, lm-studio, msty, trae (--stack localai)
     Brewfile.stack.mail       Canary Mail (--stack mail)
 
   Arch Linux:

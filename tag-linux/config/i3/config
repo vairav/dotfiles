@@ -332,7 +332,6 @@ workspace $ws8 output DP-1-0
 assign [class="(?i)alacritty"] $ws1
 
 assign [class="(?i)code"] $ws2
-assign [class="(?i)cursor"] $ws2
 
 assign [class="(?i)firefox"] $ws3
 
@@ -346,7 +345,6 @@ assign [title="(?i)Main@thinkorswim(?i)"] $ws5
 # automatic set focus new window if it opens on another workspace than the current:
 for_window [class=(?i)alacritty] focus
 for_window [class=(?i)code] focus
-for_window [class=(?i)cursor] focus
 for_window [class=(?i)firefox] focus
 for_window [class=Thunar] focus
 for_window [class=(?i)TelegramDesktop] focus

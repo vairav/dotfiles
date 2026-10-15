@@ -64,7 +64,7 @@ Linux, none of which exist yet). Repeatable. Available:
 | ---------- | ------------------------------------------------------------ |
 | `creative` | Affinity suite, Krita, Bloom, Rogue Amoeba audio, FreeCAD, GarageBand, iMovie |
 | `finance`  | TradingView, thinkorswim, beancount, fava                    |
-| `localai`  | Ollama, LM Studio, Msty, Cursor, Windsurf, Trae, Block Goose  |
+| `localai`  | Ollama, LM Studio, Msty, Trae, Block Goose                    |
 | `mail`     | Canary Mail                                                  |
 
 **Why this axis exists.** These clusters used to live inside the shared
@@ -143,7 +143,7 @@ done
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
 | Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, FreeCAD  | --stack creative   |
 | Brewfile.stack.finance    | TradingView, thinkorswim, beancount     | --stack finance    |
-| Brewfile.stack.localai    | Ollama, LM Studio, Cursor, Windsurf     | --stack localai    |
+| Brewfile.stack.localai    | Ollama, LM Studio, Msty, Trae           | --stack localai    |
 | Brewfile.stack.mail       | Canary Mail                             | --stack mail       |
 | manual-install.txt        | Not in brew                             | -                  |
 

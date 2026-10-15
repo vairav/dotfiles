@@ -14,8 +14,6 @@
 # Usage: brew bundle --file=Brewfile.stack.localai
 
 # AI editors / IDEs
-cask "cursor"
-cask "windsurf"
 cask "trae"
 cask "repo-prompt"  # Repo level AI chat tool
 

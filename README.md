@@ -87,7 +87,7 @@ packages/arch/
 ├── apps.txt              # Essentials: kitty, firefox, slack, zoom, code, zed
 ├── apps.workstation.txt  # Full: chrome, discord, obsidian, cloud sync
 ├── ai.txt                # Essentials: claude-code, opencode
-├── ai.workstation.txt    # Full: cursor, lmstudio, ollama, windsurf
+├── ai.workstation.txt    # Full: lmstudio, antigravity, ollama
 ├── devops.txt            # Essentials: tailscale
 ├── devops.workstation.txt# Full: aws, terraform, ansible
 ├── apps.personal.txt     # Personal machines only

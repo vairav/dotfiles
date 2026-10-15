@@ -53,7 +53,7 @@ Scripts for setting up macOS the way I like it.
 - Don't auto-open downloads
 
 ### Code Editors
-- Key repeat enabled for VS Code, Cursor, Zed
+- Key repeat enabled for VS Code, Zed
 
 ## Checking current values
 

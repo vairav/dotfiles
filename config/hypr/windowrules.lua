@@ -26,7 +26,6 @@ ws(5, { class = "LM Studio" })
 ws(5, { class = "chatgpt" })
 
 -- Workspace 6 - ai-dev
-ws(6, { class = "cursor" })
 
 -- Workspace 7 - web-ext
 -- Per-org Firefox profiles land here. Launch a profile with
@@ -36,7 +35,5 @@ ws(6, { class = "cursor" })
 -- ws(7, { initial_class = "firefox-myorg" })
 
 -- Workspace 8 - ai-dev-ext
-ws(8, { class = "windsurf" })
-ws(8, { class = "cursor" })
 
 -- Workspace 9 - misc

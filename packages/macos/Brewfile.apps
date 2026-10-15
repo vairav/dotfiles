@@ -1,50 +1,22 @@
-# Brewfile.apps - Essential GUI applications (every Mac, incl. laptop)
-# The long tail (extra browsers, cloud sync, creative suite, automation
-# utilities) lives in Brewfile.apps.workstation.
+# Brewfile.apps - GUI applications every Mac gets, work machines included
+#
+# Kept to what a client-owned laptop can carry. Everything else that used to be
+# here (browsers beyond Firefox, chat, notes, menu bar utilities, VPN, App
+# Store apps) moved to Brewfile.apps.personal, which every non-work machine
+# also gets. The long tail lives in Brewfile.apps.workstation.
+#
 # Usage: brew bundle --file=Brewfile.apps
 
 cask_args appdir: "/Applications"
 
-# Browsers
+# Browser
 cask "firefox"
-cask "zen"
 
-# Communication
-cask "slack"
-cask "zoom"
-cask "signal"
-# cask "whatsapp"               # DISABLED: the cask's download URL returns a
-                                # hard 500 (checked repeatedly, not transient),
-                                # and one failed download aborts this WHOLE file.
-                                # App Store alternative if you want it back:
-                                #   mas "WhatsApp Messenger", id: 310633997
-
-# Notes
-cask "obsidian"
-
-# System Utilities
+# Password manager. The 1Password SSH agent serves every SSH key, and setup's
+# scripts/ssh-pubkeys.sh reads public keys through the op CLI.
 cask "1password"
 cask "1password-cli"
+
+# System utilities
 cask "alfred"
-cask "aldente"                  # Battery charge limiter
 cask "rectangle"
-cask "stats"                    # Menu bar system monitor
-cask "shottr"
-
-# Security & VPN
-cask "bitwarden"
-cask "ente-auth"                # 2FA authenticator
-cask "tailscale-app"            # renamed upstream from "tailscale"
-
-# Mac App Store
-#
-# mas can only install apps already associated with your Apple ID - it cannot
-# accept the "Get" for a free app you have never obtained. If one of these
-# fails with "Installing <app> has failed!", open the App Store once, get the
-# app, and re-run. Verify an ID with `mas info <id>` before adding it here.
-#
-# iWork moved to Brewfile.apps.work.apple - a client document suite has no
-# business on a personal machine.
-mas "Amphetamine", id: 937984704
-mas "Dropover", id: 1355679052
-mas "PastePal", id: 1503446680

@@ -271,7 +271,13 @@ install_macos() {
         fi
     fi
 
-    if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
+    # The personal tier goes to every machine that is NOT work, not only to
+    # --personal ones. Machines set up before ownership existed never recorded
+    # one, and gating on --personal would make their next run silently stop
+    # delivering everything that moved into the personal files. Servers keep
+    # their self-contained set.
+    if [[ "$INCLUDE_WORK" != "true" && "$role" != "server" ]]; then
+        brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai.personal")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal")
         [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal.workstation")
     fi
@@ -336,6 +342,14 @@ install_macos() {
         else
             debug "Would run: scripts/setup-alacritty.sh"
         fi
+    fi
+
+    # Claude Code comes from the native installer on every role, servers
+    # included - no Brewfile carries the cask any more.
+    if [[ "$DRY_RUN" == "false" ]]; then
+        "$SCRIPT_DIR/../scripts/setup-claude-code.sh" || warn "Claude Code install incomplete"
+    else
+        debug "Would run: scripts/setup-claude-code.sh"
     fi
 
     # Show manual install instructions
@@ -548,7 +562,8 @@ install_pacman() {
         fi
     fi
 
-    if [[ "$INCLUDE_PERSONAL" == "true" ]]; then
+    # Every non-work machine - see the macOS branch for why not --personal only.
+    if [[ "$INCLUDE_WORK" != "true" && "$role" != "server" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/apps.personal.txt"
         [[ "$heavy" == "true" ]] && install_pkg_file "$SCRIPT_DIR/arch/apps.personal.workstation.txt"
     fi
@@ -665,7 +680,8 @@ OPTIONS:
                 microsoft, google, apple, azure
   --stack NAME  Include an interest stack (repeatable, any role/ownership):
                 containers, creative, finance, localai, mail
-  --personal    Include personal-only apps (SoundSource, etc.)
+  --personal    Mark the machine personal. The personal tier installs on
+                every machine that is not --work, so this is the default
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
   --dry-run     Show what would be installed without installing
@@ -678,16 +694,18 @@ PACKAGE STRUCTURE:
     Brewfile.core             Essential CLI tools
     Brewfile.dev              Development essentials
     Brewfile.dev.workstation  Heavy dev tools (docker, k8s, languages)
-    Brewfile.ai               AI CLI agents + light apps
-    Brewfile.apps             Essential GUI apps
+    Brewfile.ai               AI agents every machine gets (work included)
+    Brewfile.ai.personal      Other AI agents + desktop apps (non-work)
+    Brewfile.apps             GUI apps every machine gets (work included)
     Brewfile.apps.workstation Full GUI app suite
     Brewfile.font             Nerd Fonts
     Brewfile.devops           DevOps tools (workstation only)
     Brewfile.server           Minimal server set (server role only)
     Brewfile.apps.work        Work-specific apps (--work flag)
     Brewfile.apps.work.workstation        Heavy work apps (--work on workstation)
-    Brewfile.apps.personal    Personal-only apps (--personal flag)
-    Brewfile.apps.personal.workstation    Heavy personal apps (--personal on workstation)
+    Brewfile.apps.work.<vendor>  Client vendor stack (--vendor NAME)
+    Brewfile.apps.personal    Personal apps (every non-work machine)
+    Brewfile.apps.personal.workstation    Heavy personal apps (non-work workstation)
     Brewfile.playground       Testing/evaluation tools (--playground flag)
     Brewfile.stack.containers Docker Desktop, lazydocker (--stack containers)
     Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)

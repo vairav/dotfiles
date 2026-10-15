@@ -1,25 +1,24 @@
-# Brewfile.ai - AI essentials: all CLI agents + light desktop apps
-# Local-model tools (LM Studio, Ollama, Msty) and extra AI editors live in
-# Brewfile.ai.workstation - they need RAM/disk a 16GB laptop doesn't have.
+# Brewfile.ai - AI essentials every machine gets, work machines included
+#
+# Kept to tools a client is likely to approve: US-hosted model providers and
+# an editor. Everything else (the other CLI agents and the desktop chat apps)
+# lives in Brewfile.ai.personal, which every non-work machine also gets.
+# Local-model tools (LM Studio, Ollama, Msty) are --stack localai.
+#
+# Claude Code is NOT here: it comes from the native installer
+# (scripts/setup-claude-code.sh), which updates itself. The old claude-code
+# cask put a second `claude` on PATH on any machine that also had the native
+# install.
+#
 # Usage: brew bundle --file=Brewfile.ai
 
 # CLI agents
-cask "claude-code"  # or: npm install -g @anthropic-ai/claude-code
 brew "opencode"
 brew "gemini-cli"
 cask "codex"
-brew "qwen-code"
-brew "kimi-code"
-
-# Block Goose (CLI)
-# Was tap "block/goose" - that tap is gone (the clone 404s) and the CLI now
-# ships in homebrew-core under a different name.
-brew "block-goose-cli"
 
 # MCP
 brew "mcp-toolbox"
 
-# Desktop apps (light)
-cask "claude"
-cask "chatgpt"
+# Editor
 cask "zed"

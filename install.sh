@@ -11,8 +11,8 @@
 #   --laptop         Light setup: essentials only (e.g. MacBook Air)
 #   --workstation    Full setup: essentials + heavy workstation tiers
 #   --server         Minimal server setup (no GUI apps)
-#   --work           Include work packages (MS Office)
-#   --personal       Include personal packages (Rogue Amoeba)
+#   --work           Work machine: shared essentials only, plus --vendor stacks
+#   --personal       Personal machine (the personal tier is the default unless --work)
 #   --ml4w           Linux: using ml4w for Hyprland (excludes kitty, hypr from rcm)
 #   --skip-packages  Skip package installation
 #   --skip-macos     Skip macOS defaults and setup

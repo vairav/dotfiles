@@ -32,6 +32,14 @@ The bare file is the light set any such machine gets; `.workstation` adds the
 heavy tier that only belongs on a desk. Some cells are legitimately near-empty -
 that is a real answer, not a gap to pad out.
 
+**The personal tier installs on every machine that is not `--work`**, not only
+on `--personal` ones. Machines set up before ownership existed never recorded
+one, and the personal files now hold most of the old shared essentials (Slack,
+Zoom, Signal, Obsidian, the App Store apps, the non-Claude AI agents). Gating
+them on `--personal` would make a bare re-run on such a machine silently stop
+delivering all of it. A work machine gets only the shared files, which are kept
+to what a client-owned laptop can carry. Servers get no personal tier.
+
 ### Vendor stacks
 
 Client environments differ, so vendor-specific software is opt-in and work-only:
@@ -114,7 +122,7 @@ done
 
 # Extras
 ./packages/install.sh --work       # + work apps (tiered by role)
-./packages/install.sh --personal   # + personal apps (tiered by role)
+./packages/install.sh --personal   # personal apps (the default unless --work)
 ./packages/install.sh --stack finance   # + an interest stack (repeatable)
 ./packages/install.sh --playground # + Testing tools
 ./packages/install.sh --dry-run    # Preview
@@ -128,8 +136,9 @@ done
 | Brewfile.core             | CLI essentials                          | laptop, workstation |
 | Brewfile.dev              | Dev essentials (nvim, tmux, git, mise)  | laptop, workstation |
 | Brewfile.dev.workstation  | Docker, k8s, languages, debug proxies   | workstation        |
-| Brewfile.ai               | AI CLI agents + Claude/ChatGPT/Zed      | laptop, workstation |
-| Brewfile.apps             | Essential GUI apps                      | laptop, workstation |
+| Brewfile.ai               | opencode, gemini-cli, codex, mcp-toolbox, Zed | laptop, workstation |
+| Brewfile.ai.personal      | qwen-code, kimi-code, goose, Claude/ChatGPT apps | not --work      |
+| Brewfile.apps             | Firefox, 1Password, Alfred, Rectangle   | laptop, workstation |
 | Brewfile.apps.workstation | Full GUI suite (browsers, cloud, autos) | workstation        |
 | Brewfile.font             | Nerd Fonts                              | laptop, workstation |
 | Brewfile.devops           | Terraform, AWS, Ansible                 | workstation        |
@@ -140,8 +149,8 @@ done
 | Brewfile.apps.work.google | Drive, Chrome                           | --vendor google    |
 | Brewfile.apps.work.apple  | iWork (Keynote, Numbers, Pages)         | --vendor apple     |
 | Brewfile.apps.work.azure  | Azure CLI                               | --vendor azure     |
-| Brewfile.apps.personal    | Light personal apps (SoundSource)       | --personal         |
-| Brewfile.apps.personal.workstation | (deliberately empty)           | --personal + workstation |
+| Brewfile.apps.personal    | Slack, Zoom, Signal, Obsidian, Tailscale, App Store apps | not --work |
+| Brewfile.apps.personal.workstation | (deliberately empty)           | not --work + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
 | Brewfile.stack.containers | Docker Desktop, lazydocker              | --stack containers |
 | Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, FreeCAD  | --stack creative   |
@@ -166,16 +175,21 @@ notarize; bump the pinned version in that script to upgrade it.
 Workstation adds: docker, k8s tools, go/rust/ruby/lua, wireshark, postman,
 dbeaver, figma, media tools.
 
-### ai
+### ai / ai.personal
 
-claude-code, opencode, gemini-cli, codex, qwen-code, kimi-code, goose CLI, plus
-Claude, ChatGPT, and Zed apps. Every machine gets these.
-The heavy AI tier is now `--stack localai`, not a role tier.
+Every machine: opencode, gemini-cli, codex, mcp-toolbox and Zed.
+Every non-work machine adds qwen-code, kimi-code, goose CLI and the Claude and
+ChatGPT desktop apps. Claude Code itself comes from the native installer
+(`scripts/setup-claude-code.sh`) on every role, because the old cask left two
+`claude` binaries on PATH wherever the native install also existed.
+The heavy AI tier is `--stack localai`, not a role tier.
 
 ### apps / apps.workstation
 
-Essentials: Firefox, Zen, Slack, Zoom, Signal, WhatsApp, Obsidian, 1Password,
-Alfred, Rectangle, Stats, Tailscale.
+Every machine: Firefox, 1Password and its CLI, Alfred, Rectangle.
+Every non-work machine adds (apps.personal): Zen, Slack, Zoom, Signal,
+Obsidian, AlDente, Stats, Shottr, goku, SoundSource, Bitwarden, Ente Auth,
+Tailscale, and the App Store apps (Amphetamine, Dropover, PastePal).
 Workstation adds: Chrome, Comet, Discord, Notion, cloud sync clients,
 automation utilities (BTT, Hazel, Keyboard Maestro), HandBrake, yt-dlp, Xcode.
 The creative suite and the trading/accounting tools moved out to
@@ -184,8 +198,9 @@ The creative suite and the trading/accounting tools moved out to
 ### server
 
 One self-contained list: shell/CLI parity (eza, bat, fzf, zoxide, atuin,
-starship), neovim, tmux + sesh + mosh, gh + lazygit, claude-code + opencode,
-Tailscale. No other GUI apps. See also `macos/server-setup.sh` for enabling
+starship), neovim, tmux + sesh + mosh, gh + lazygit, opencode + kimi-code,
+Tailscale. Claude Code comes from the native installer, as on every role.
+No other GUI apps. See also `macos/server-setup.sh` for enabling
 SSH and always-on power settings.
 
 ### font
@@ -195,7 +210,7 @@ Nerd Fonts: Fira Code, JetBrains Mono, Iosevka, Meslo, Monaspace, etc.
 ### devops
 
 Terraform, AWS CLI, Ansible, Packer, etc. Workstation only. Tailscale ships
-as a cask in Brewfile.apps/Brewfile.server instead. An Azure client
+as a cask in Brewfile.apps.personal/Brewfile.server instead. An Azure client
 gets its CLI from `--vendor azure`.
 
 ### playground

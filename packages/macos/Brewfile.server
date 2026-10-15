@@ -45,7 +45,7 @@ brew "gh"
 brew "lazygit"
 
 # AI CLI agents
-cask "claude-code"  # or: npm install -g @anthropic-ai/claude-code
+# Claude Code comes from the native installer (scripts/setup-claude-code.sh).
 brew "opencode"
 brew "kimi-code"
 

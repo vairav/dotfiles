@@ -1,12 +1,57 @@
 # Brewfile.apps.personal - Personal-machine essentials (laptop + workstation)
 #
-# Ownership tiers the same way roles do: this file is the light set that any
-# personal machine gets, and Brewfile.apps.personal.workstation holds the heavy
-# creative/production software that only belongs on a desk.
+# Ownership tier: installed on every machine that is not --work, so a machine
+# that never recorded an ownership keeps getting all of this. Ownership tiers
+# the same way roles do: this file is the light set, and
+# Brewfile.apps.personal.workstation holds what only belongs on a desk.
 #
 # Usage: brew bundle --file=Brewfile.apps.personal
 
 cask_args appdir: "/Applications"
 
+# Browsers
+cask "zen"
+
+# Communication
+cask "slack"
+cask "zoom"
+cask "signal"
+# cask "whatsapp"               # DISABLED: the cask's download URL returns a
+                                # hard 500 (checked repeatedly, not transient),
+                                # and one failed download aborts this WHOLE file.
+                                # App Store alternative if you want it back:
+                                #   mas "WhatsApp Messenger", id: 310633997
+
+# Notes
+cask "obsidian"
+
+# System utilities
+cask "aldente"                  # Battery charge limiter
+cask "stats"                    # Menu bar system monitor
+cask "shottr"
+brew "goku"                     # Karabiner config manager (uses EDN format)
+
 # Audio
 cask "soundsource"              # Per-app volume control (menu bar utility)
+
+# Security & VPN
+cask "bitwarden"
+cask "ente-auth"                # 2FA authenticator
+cask "tailscale-app"            # renamed upstream from "tailscale"
+
+# Mac App Store
+#
+# mas can only install apps already associated with your Apple ID - it cannot
+# accept the "Get" for a free app you have never obtained. If one of these
+# fails with "Installing <app> has failed!", open the App Store once, get the
+# app, and re-run. Verify an ID with `mas info <id>` before adding it here.
+#
+# Personal tier because they need your own Apple ID signed in, and Apple caps
+# an account at 10 purchase-associated devices, no more than 5 of them
+# computers. A client-owned laptop should not take one of those slots.
+#
+# iWork lives in Brewfile.apps.work.apple - a client document suite has no
+# business on a personal machine.
+mas "Amphetamine", id: 937984704
+mas "Dropover", id: 1355679052
+mas "PastePal", id: 1503446680

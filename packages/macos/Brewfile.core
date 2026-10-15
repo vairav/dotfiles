@@ -80,5 +80,5 @@ brew "sshpass"              # SSH password automation
 # OCR
 brew "tesseract"            # OCR engine
 
-# Karabiner
-brew "goku"                 # Karabiner config manager (uses EDN format)
+# goku (Karabiner config manager) moved to Brewfile.apps.personal - it is
+# keyboard customization for your own machines, not a baseline tool.

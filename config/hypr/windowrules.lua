@@ -10,6 +10,7 @@ ws(1, { class = "kitty" })
 ws(2, { class = "code-oss" })
 ws(2, { class = "code" })
 ws(2, { class = "Code" })
+ws(2, { class = [[com\.microsoft\.VSCode]] })
 ws(2, { class = [[dev\.zed\.Zed]] })
 -- Zed tiling handled by hypr-zed-tiler.sh (IPC watcher)
 
@@ -18,12 +19,12 @@ ws(3, { class = "firefox" })
 
 -- Workspace 4 - comms
 ws(4, { class = "ferdium" })
-ws(4, { class = "Slack" })
+ws(4, { class = "[Ss]lack" })
 ws(4, { class = "org.telegram.desktop" })
 
 -- Workspace 5 - ai
-ws(5, { class = "LM Studio" })
-ws(5, { class = "chatgpt" })
+ws(5, { class = [[ai\.elementlabs\.lmstudio]] })
+ws(5, { class = "[Cc]hatgpt" })
 
 -- Workspace 6 - ai-dev
 

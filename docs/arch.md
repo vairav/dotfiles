@@ -48,3 +48,30 @@ Why not an rcm `post-up` hook: `post-up` runs on every `rcup`, and a 1 GB
 download doesn't belong in a symlink refresh. Role selection already lives in
 `packages/install.sh`.
 
+## Hyprland window rules
+
+Workspace rules are in `config/hypr/windowrules.lua` (and the older
+`windowrules.conf`). Matching is on the window class (Wayland app id) and is
+case-sensitive. Launcher `.desktop` files and X11 names often differ from it.
+
+Find the real class by launching the app and checking:
+
+```shell
+hyprctl clients -j | jq -r '.[] | "\(.class)\t\(.workspace.name)"'
+```
+
+Verified classes (2026-10):
+
+| App | Class | Workspace |
+| --- | ----- | --------- |
+| kitty | `kitty` | 1 |
+| VS Code | `com.microsoft.VSCode` | 2 |
+| Zed | `dev.zed.Zed` | 2 |
+| Firefox | `firefox` | 3 |
+| Ferdium | `ferdium` | 4 |
+| Slack | `slack` (was `Slack` on X11) | 4 |
+| Telegram | `org.telegram.desktop` (`TelegramDesktop` on X11) | 4 |
+| LM Studio (AppImage) | `ai.elementlabs.lmstudio` (AUR build was `LM Studio`) | 5 |
+| ChatGPT | `Chatgpt` (runs under XWayland) | 5 |
+
+Reload with `hyprctl reload`. Rules apply to newly opened windows only.

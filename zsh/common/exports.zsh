@@ -30,4 +30,5 @@ export TFENV_CONFIG_DIR=${XDG_CACHE_HOME:-$HOME/.cache}/tfenv/${TFENV_ARCH}
 [[ -x /usr/local/bin/brew ]] && export PATH="/usr/local/bin:$PATH"
 [[ -d $HOME/.local/bin ]] && export PATH="$HOME/.local/bin:$PATH"
 [[ -d $HOME/.lmstudio/bin ]] && export PATH="$PATH:$HOME/.lmstudio/bin"
+[[ -d $HOME/.antigravity-ide/antigravity-ide/bin ]] && export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
 [[ -d $HOME/.cargo/bin ]] && export PATH="$HOME/.cargo/bin:$PATH"

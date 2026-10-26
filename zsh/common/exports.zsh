@@ -32,3 +32,11 @@ export TFENV_CONFIG_DIR=${XDG_CACHE_HOME:-$HOME/.cache}/tfenv/${TFENV_ARCH}
 [[ -d $HOME/.lmstudio/bin ]] && export PATH="$PATH:$HOME/.lmstudio/bin"
 [[ -d $HOME/.antigravity-ide/antigravity-ide/bin ]] && export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
 [[ -d $HOME/.cargo/bin ]] && export PATH="$HOME/.cargo/bin:$PATH"
+
+# Completions
+# Docker Desktop ships completions here and, left alone, appends a block to
+# ~/.zshrc that re-runs compinit after the framework already has. Adding the
+# dir before the framework loads lets its single compinit pick them up.
+# Appended, not prepended: the dir also carries Docker's own _kubectl, which
+# must not shadow the one from Homebrew's kubernetes-cli.
+[[ -d $HOME/.docker/completions ]] && fpath+=($HOME/.docker/completions)

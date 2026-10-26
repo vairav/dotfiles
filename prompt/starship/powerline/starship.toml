@@ -111,7 +111,7 @@ disabled = false
 impure_msg = ''
 style = "bg:yellow fg:primary"
 symbol = ' Nix'
-format = '[─](fg:current_line)[](fg:yellow)[$symbol ](fg:primary bg:yellow)[](fg:yellow)'
+format = '[─](fg:current_line)[](fg:yellow)[$symbol ](fg:primary bg:yellow)[](fg:yellow)'
 heuristic = false
 
 [directory]
@@ -173,39 +173,39 @@ am = ''
 am_or_rebase = ' or '
 
 [nodejs]
-format = '[─](fg:current_line)[](fg:green)[$symbol ](fg:primary bg:green)[](fg:green bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:green)[$symbol ](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = '󰎙 Node.js'
 
 [dotnet]
-format = '[─](fg:current_line)[](fg:mauve)[$symbol ](fg:primary bg:mauve)[](fg:mauve bg:box)[$tfm](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:mauve)[$symbol ](fg:primary bg:mauve)[](fg:mauve bg:box)[ $tfm](fg:foreground bg:box)[](fg:box)'
 symbol = ' .NET'
 
 [python]
-format = '[─](fg:current_line)[](fg:teal)[$symbol ](fg:primary bg:teal)[](fg:teal bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:teal)[$symbol ](fg:primary bg:teal)[](fg:teal bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' python'
 
 [java]
-format = '[─](fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Java'
 
 [lua]
-format = '[─](fg:current_line)[](fg:blue)[$symbol ](fg:primary bg:blue)[](fg:blue bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:blue)[$symbol ](fg:primary bg:blue)[](fg:blue bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Lua'
 
 [golang]
-format = '[─](fg:current_line)[](fg:teal)[$symbol ](fg:primary bg:teal)[](fg:teal bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:teal)[$symbol ](fg:primary bg:teal)[](fg:teal bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Go'
 
 [c]
-format = '[─](fg:current_line)[](fg:blue)[$symbol ](fg:primary bg:blue)[](fg:blue bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:blue)[$symbol ](fg:primary bg:blue)[](fg:blue bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' C'
 
 [rust]
-format = '[─](fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Rust'
 
 [zig]
-format = '[─](fg:current_line)[](fg:yellow)[$symbol ](fg:primary bg:yellow)[](fg:yellow bg:box)[$version](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:yellow)[$symbol ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = ' Zig'
 
 # Only renders when AWS env is active (AWS_PROFILE via mise dir scoping etc.)

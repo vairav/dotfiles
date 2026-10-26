@@ -177,7 +177,7 @@ format = '[─](fg:current_line)[](fg:green)[$symbol ](fg:primary bg:green)[�
 symbol = '󰎙 Node.js'
 
 [dotnet]
-format = '[─](fg:current_line)[](fg:mauve)[$symbol ](fg:primary bg:mauve)[](fg:mauve bg:box)[ $tfm](fg:foreground bg:box)[](fg:box)'
+format = '[─](fg:current_line)[](fg:mauve)[$symbol ](fg:primary bg:mauve)[](fg:mauve bg:box)[ $version( $tfm)](fg:foreground bg:box)[](fg:box)'
 symbol = ' .NET'
 
 [python]

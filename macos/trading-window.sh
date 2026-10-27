@@ -13,8 +13,9 @@
 #   market day, open        -> FIRST tick: quit any already-running apps and
 #                              relaunch fresh (stale overnight sessions get a
 #                              clean login state); every tick: launch absent
-#                              apps, hold a caffeinate -u user-activity
-#                              assertion so displays wake and stay lit
+#                              apps, wake the displays (caffeinate -u) and
+#                              keep them lit with an Amphetamine session
+#                              that ends itself 15 min after the bell
 #   market day, post-close  -> ONE quit at the close transition, then hands
 #                              off; apps started manually later stay up
 #
@@ -41,7 +42,8 @@ APPS=("TradingView" "thinkorswim")   # must match /Applications names
 OPEN=0800          # window start (all times America/New_York)
 CLOSE=1630         # window end: 30 min past the 16:00 close
 HALF_CLOSE=1330    # early-close sessions (13:00 close + 30 min)
-HOLD=290           # assertion seconds; must stay below the launchd interval
+AWAKE_END=1615     # displays held lit until 15 min past the 16:00 close
+HALF_AWAKE_END=1315
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/trading-window"
 STATE_FILE="$STATE_DIR/last-transition"
 
@@ -71,6 +73,10 @@ market_close() {
 }
 
 app_running() { pgrep -fq "/Applications/$1" ; }
+
+# Amphetamine (menu bar keep-awake app) through AppleScript. The first call
+# from this agent needs a one-time Allow in Privacy & Security > Automation.
+amph() { osascript -e "tell application \"Amphetamine\" to $1" 2>/dev/null ; }
 
 # Graceful quit of any running app, then wait (bounded) for the processes to
 # exit so a relaunch in the same tick starts a FRESH instance instead of
@@ -142,7 +148,18 @@ case "$(phase_for "$day" "$hhmm" "$dow")" in
       app_running "$app" || open -a "$app" \
         || logger -t trading-window "could not launch $app"
     done
-    exec caffeinate -u -t "$HOLD"
+    # A session already running, ours or a manual one, is left alone; ours
+    # lasts until the awake end, so a reboot or a manual end mid-session is
+    # repaired at the next tick.
+    awake_end="$AWAKE_END"
+    [ "$(market_close "$day" "$dow")" = "$HALF_CLOSE" ] && awake_end="$HALF_AWAKE_END"
+    if [ "$hhmm" -lt "$awake_end" ]; then
+      caffeinate -u -t 5                              # wake displays that are dark
+      mins=$(( 10#${awake_end:0:2} * 60 + 10#${awake_end:2:2} - 10#${hhmm:0:2} * 60 - 10#${hhmm:2:2} ))
+      amph 'session is active' | grep -q true \
+        || amph "start new session with options {duration:$mins, interval:minutes, displaySleepAllowed:false}" >/dev/null \
+        || logger -t trading-window "could not start the Amphetamine session"
+    fi
     ;;
   post-close)
     if [ "$state" != "$day closed" ]; then

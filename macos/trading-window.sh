@@ -154,11 +154,13 @@ case "$(phase_for "$day" "$hhmm" "$dow")" in
     awake_end="$AWAKE_END"
     [ "$(market_close "$day" "$dow")" = "$HALF_CLOSE" ] && awake_end="$HALF_AWAKE_END"
     if [ "$hhmm" -lt "$awake_end" ]; then
-      caffeinate -u -t 5                              # wake displays that are dark
       mins=$(( 10#${awake_end:0:2} * 60 + 10#${awake_end:2:2} - 10#${hhmm:0:2} * 60 - 10#${hhmm:2:2} ))
       amph 'session is active' | grep -q true \
         || amph "start new session with options {duration:$mins, interval:minutes, displaySleepAllowed:false}" >/dev/null \
         || logger -t trading-window "could not start the Amphetamine session"
+      # Wake AFTER the session holds the display: woken first, the overnight idle
+      # timer slept it again 15 s later (pmset log 10-28 to 10-30, 08:04).
+      caffeinate -u -t 5                              # wake displays that are dark
     fi
     ;;
   post-close)

@@ -61,18 +61,51 @@ warn() { echo -e "${YELLOW}==>${NC} $1"; }
 error() { echo -e "${RED}==>${NC} $1"; exit 1; }
 prompt() { echo -e "${BLUE}==>${NC} $1"; }
 
-# Backup a file or directory before replacing
-backup_if_exists() {
-  local target="$1"
-  if [[ -e "$target" && ! -L "$target" ]]; then
-    mkdir -p "$BACKUP_DIR"
-    local backup_path="$BACKUP_DIR${target#$HOME}"
-    mkdir -p "$(dirname "$backup_path")"
-    mv "$target" "$backup_path"
-    warn "Backed up $target"
-  elif [[ -L "$target" ]]; then
-    rm -f "$target"
+# Paths rcup is about to link, one per line, read from lsrc once. Called
+# directly, never in $(...), so the result stays set for the next call.
+RCM_DESTS=""
+RCM_DESTS_READ=false
+load_rcm_dests() {
+  [[ "$RCM_DESTS_READ" == true ]] && return 0
+  RCM_DESTS_READ=true
+  if command -v lsrc &>/dev/null; then
+    RCM_DESTS="$(RCRC="$DOTFILES_DIR/rcrc" lsrc 2>/dev/null | cut -d: -f1)"
   fi
+  return 0
+}
+
+move_to_backup() {
+  local backup_path="$BACKUP_DIR${1#$HOME}"
+  mkdir -p "$(dirname "$backup_path")"
+  mv "$1" "$backup_path"
+  warn "Backed up $1"
+}
+
+# Back up what rcup would replace, and nothing else. rcm builds most folders as
+# real folders and links the files inside them, so moving such a folder whole on
+# every re-run took unmanaged files with it (LazyVim's lock files, 2026-10-31).
+# A path rcm links whole (a SYMLINK_DIRS folder such as a skill) still moves
+# whole. Inside any other folder only the real files rcup would overwrite move.
+# Without lsrc there is no way to tell, so the whole path moves as before.
+backup_if_exists() {
+  local target="$1" dests f
+  if [[ -L "$target" ]]; then
+    rm -f "$target"
+    return 0
+  fi
+  [[ -e "$target" ]] || return 0
+  load_rcm_dests
+  dests="$RCM_DESTS"
+  if [[ -z "$dests" ]] || grep -qxF "$target" <<<"$dests"; then
+    move_to_backup "$target"
+  elif [[ -d "$target" ]]; then
+    while IFS= read -r f; do
+      if [[ "$f" == "$target"/* && -e "$f" && ! -L "$f" ]]; then
+        move_to_backup "$f"
+      fi
+    done <<<"$dests"
+  fi
+  return 0
 }
 
 # Parse arguments

@@ -1,0 +1,15 @@
+# Coding-agent CLIs, declared here so a Node version change cannot strand them.
+# rcm links this file to ~/.config/mise/conf.d/ai-clis.toml. mise loads conf.d
+# fragments before ~/.config/mise/config.toml, so that file must not name these
+# tools or its entry would win.
+#
+# opencode and pi are prebuilt binaries (aqua backend) and need no Node. ccs is
+# npm only. The npm backend keeps it in its own folder, so a Node bump does not
+# break it. mise owns the versions: do not run `opencode upgrade`, `pi update`
+# without flags, or `ccs update`. macos/brew-autoupgrade.sh runs `mise upgrade`
+# for every tool listed here. Which model each lane uses is not set here. That
+# lives in the private lanes file.
+[tools]
+"aqua:anomalyco/opencode" = "latest"
+"aqua:earendil-works/pi" = "latest"
+"npm:@kaitranntt/ccs" = "latest"

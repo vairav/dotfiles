@@ -26,6 +26,10 @@ DOTFILES_DIRS="$HOME/workspace/dotfiles"
 # in ~/.rcrc.local where the ml4w flag is handled, not in this base config.
 EXCLUDES="*.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr"
 
+# Claude Code skills are folders holding SKILL.md, and *.md is excluded above.
+# Linking each skill folder whole keeps the exclusion from emptying it.
+SYMLINK_DIRS="claude/skills/*"
+
 # Source machine-specific rcrc settings (tags, hostname)
 # Create ~/.rcrc.local with:
 #   TAGS="desktop macos"

@@ -9,6 +9,10 @@ export NVIM_APPNAME="nvim/lazyvim"
 export EDITOR=nvim
 export VISUAL=nvim
 
+# opencode: mise owns the binary (config/mise/conf.d/ai-clis.toml), so its
+# own update check stays off.
+export OPENCODE_DISABLE_AUTOUPDATE=1
+
 # Ansible
 export ANSIBLE_NOCOWS=1
 export ANSIBLE_FORCE_COLOR=true

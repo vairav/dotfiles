@@ -180,6 +180,19 @@ upgrade() {
     fi
   done
 
+  # Coding-agent CLIs that mise owns (config/mise/conf.d/ai-clis.toml).
+  # `mise exec` puts the global Node on PATH, which the npm backend needs.
+  local ai_clis="$HOME/.config/mise/conf.d/ai-clis.toml" tools=()
+  if command -v mise >/dev/null && [[ -f "$ai_clis" ]]; then
+    while IFS= read -r t; do tools+=("$t"); done < <(sed -n 's/^"\([^"]*\)" *=.*/\1/p' "$ai_clis")
+    if (( ${#tools[@]} )); then
+      step "Upgrading coding-agent CLIs: ${tools[*]}"
+      run mise exec -- mise upgrade "${tools[@]}" || needs_you+=("coding-agent CLIs (mise upgrade)")
+    else
+      needs_you+=("coding-agent CLIs (no tools read from $ai_clis)")
+    fi
+  fi
+
   step "Removing old versions"
   run brew cleanup --prune=30 || log "cleanup failed (not fatal)"
   echo "$NOW" >"$LAST_GOOD"

@@ -19,8 +19,8 @@ return {
           env = { api_key = "ZAI_API_KEY" },
           schema = {
             model = {
-              default = "glm-4.7",
-              choices = { "glm-4.7", "glm-4.6v", "glm-4.6v-flash" },
+              default = "glm-5.3",
+              choices = { "glm-5.3", "glm-5.3-flash", "glm-4.6v", "glm-4.6v-flash" },
             },
           },
         })

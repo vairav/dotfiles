@@ -38,7 +38,7 @@ Built on [LazyVim](https://lazyvim.org) with these additions:
 <leader>aa  - actions menu
 ```
 
-Needs `ZAI_API_KEY` for Z.ai (models: glm-4.7, glm-4.6v, glm-4.6v-flash).
+Needs `ZAI_API_KEY` for Z.ai (models: glm-5.3 by default, glm-5.3-flash, glm-4.6v, glm-4.6v-flash).
 
 ### Codeium
 

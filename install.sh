@@ -13,6 +13,8 @@
 #   --server         Minimal server setup (no GUI apps)
 #   --work           Work machine: shared essentials only, plus --vendor stacks
 #   --personal       Personal machine (the personal tier is the default unless --work)
+#   --mixed          Employer-owned machine also used personally: work tiers,
+#                    --vendor stacks, and the personal tier
 #   --ml4w           Linux: using ml4w for Hyprland (excludes kitty, hypr from rcm)
 #   --skip-packages  Skip package installation
 #   --skip-macos     Skip macOS defaults and setup
@@ -130,6 +132,7 @@ while [[ $# -gt 0 ]]; do
     --workstation) PROFILE="workstation"; FORWARD_ARGS+=("$1"); shift ;;
     --work) MACHINE_TYPE="work"; FORWARD_ARGS+=("$1"); shift ;;
     --personal) MACHINE_TYPE="personal"; FORWARD_ARGS+=("$1"); shift ;;
+    --mixed) MACHINE_TYPE="mixed"; FORWARD_ARGS+=("$1"); shift ;;
     --vendor) VENDORS+=("$2"); FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
     --stack) STACKS+=("$2"); FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
     --name) MACHINE_NAME="$2"; FORWARD_ARGS+=("$1" "$2"); shift 2 ;;
@@ -503,6 +506,8 @@ install_packages() {
     extras="--work"
   elif [[ "$MACHINE_TYPE" == "personal" ]]; then
     extras="--personal"
+  elif [[ "$MACHINE_TYPE" == "mixed" ]]; then
+    extras="--mixed"
   fi
 
   # Client vendor stacks (repeatable). Length-guarded for bash 3.2.

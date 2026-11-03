@@ -40,6 +40,10 @@ them on `--personal` would make a bare re-run on such a machine silently stop
 delivering all of it. A work machine gets only the shared files, which are kept
 to what a client-owned laptop can carry. Servers get no personal tier.
 
+**`--mixed` is for a company-owned machine that is also used personally.** It
+gets the work tiers and `--vendor` stacks AND the personal tier, which neither
+`--work` nor `--personal` can express on its own.
+
 ### Per-machine skip list
 
 `PACKAGES_SKIP` holds space-separated brew or cask tokens that one machine
@@ -51,7 +55,8 @@ entry as missing on that machine.
 
 ### Vendor stacks
 
-Client environments differ, so vendor-specific software is opt-in and work-only.
+Client environments differ, so vendor-specific software is opt-in and only for
+`--work` or `--mixed` machines.
 There is one file per PRODUCT FAMILY, not per company, because clients mix
 them freely. A client can run Microsoft 365 for mail and AWS for cloud, or
 Google for mail and Azure for cloud. Pick one per row that applies:

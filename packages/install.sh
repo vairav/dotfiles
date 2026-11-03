@@ -22,6 +22,9 @@ DRY_RUN=false
 ROLE="desktop"
 INCLUDE_WORK=false
 INCLUDE_PERSONAL=false
+# Mixed ownership: an employer- or client-owned machine that may also be used
+# personally. It gets the work tiers and --vendor stacks AND the personal tier.
+INCLUDE_MIXED=false
 # One file per product family: Brewfile.apps.work.<name> (macOS) and
 # apps.work.<name>.txt (Arch). Listed here only for help and error text.
 VENDOR_NAMES="m365, google, apple, aws, azure, oci, slack, zoom"
@@ -292,7 +295,7 @@ install_macos() {
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work")
         [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.work.workstation")
 
-        # Vendor stacks: client-specific, opt-in per machine, work-only.
+        # Vendor stacks: client-specific, opt-in per machine, work or mixed only.
         # Length-guarded: /bin/bash on macOS is 3.2, where expanding an empty
         # array under `set -u` is a fatal "unbound variable".
         if [[ ${#VENDORS[@]} -gt 0 ]]; then
@@ -312,7 +315,8 @@ install_macos() {
     # one, and gating on --personal would make their next run silently stop
     # delivering everything that moved into the personal files. Servers keep
     # their self-contained set.
-    if [[ "$INCLUDE_WORK" != "true" && "$role" != "server" ]]; then
+    # A mixed machine is work AND personal, so it gets this tier as well.
+    if [[ ( "$INCLUDE_WORK" != "true" || "$INCLUDE_MIXED" == "true" ) && "$role" != "server" ]]; then
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.ai.personal")
         brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal")
         [[ "$heavy" == "true" ]] && brewfiles+=("$SCRIPT_DIR/macos/Brewfile.apps.personal.workstation")
@@ -599,8 +603,9 @@ install_pacman() {
         fi
     fi
 
-    # Every non-work machine - see the macOS branch for why not --personal only.
-    if [[ "$INCLUDE_WORK" != "true" && "$role" != "server" ]]; then
+    # Every non-work machine, plus mixed ones - see the macOS branch for why
+    # not --personal only.
+    if [[ ( "$INCLUDE_WORK" != "true" || "$INCLUDE_MIXED" == "true" ) && "$role" != "server" ]]; then
         install_pkg_file "$SCRIPT_DIR/arch/apps.personal.txt"
         [[ "$heavy" == "true" ]] && install_pkg_file "$SCRIPT_DIR/arch/apps.personal.workstation.txt"
     fi
@@ -713,12 +718,16 @@ ROLE:
 
 OPTIONS:
   --work        Include work-specific apps
-  --vendor NAME Include a client vendor stack (repeatable, implies --work):
+  --vendor NAME Include a client vendor stack (repeatable, needs --work
+                or --mixed):
                 $VENDOR_NAMES
   --stack NAME  Include an interest stack (repeatable, any role/ownership):
                 containers, creative, finance, localai, mail
   --personal    Mark the machine personal. The personal tier installs on
                 every machine that is not --work, so this is the default
+  --mixed       Employer- or client-owned machine that is also used
+                personally: work tiers and --vendor stacks plus the
+                personal tier
   --playground  Include testing/evaluation tools
   --cleanup     Remove packages not in Brewfiles (macOS only)
   --dry-run     Show what would be installed without installing
@@ -790,6 +799,11 @@ main() {
                 INCLUDE_PERSONAL=true
                 shift
                 ;;
+            --mixed)
+                INCLUDE_WORK=true
+                INCLUDE_MIXED=true
+                shift
+                ;;
             --playground)
                 INCLUDE_PLAYGROUND=true
                 shift
@@ -846,6 +860,7 @@ main() {
     echo "Role:             $ROLE"
     echo "Include work:     $INCLUDE_WORK"
     echo "Include personal: $INCLUDE_PERSONAL"
+    echo "Mixed ownership:  $INCLUDE_MIXED"
     echo "Skip list:        ${PACKAGES_SKIP:-none}"
     echo "Include playground: $INCLUDE_PLAYGROUND"
     echo "Vendors:          ${VENDORS[*]:-none}"

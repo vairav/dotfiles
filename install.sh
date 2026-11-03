@@ -419,6 +419,11 @@ setup_rcrc_local() {
 
   info "Creating ~/.rcrc.local..."
 
+  # An older layout kept ~/.rcrc.local as a symlink into an overlay repo. Once
+  # that repo stops tracking the file the link dangles, and `cat >` would write
+  # through it, leaving a stray rcrc.local inside the repo. Replace the link.
+  [[ -L ~/.rcrc.local ]] && rm -f ~/.rcrc.local
+
   # Build the file
   cat > ~/.rcrc.local << EOF
 # rcm local configuration

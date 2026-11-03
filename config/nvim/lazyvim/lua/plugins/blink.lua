@@ -13,7 +13,7 @@
 --    in actual code, where it usefully surfaces identifiers the LSP has not
 --    indexed yet.
 --
--- Note: <Tab> belongs to Codeium (see codeium.lua, which maps it directly in
+-- Note: <Tab> belongs to Copilot (see copilot.lua, which maps it directly in
 -- insert mode), so it is deliberately not used for completion here.
 
 -- Filetypes that are prose end to end - no code to complete, so buffer words

@@ -49,7 +49,7 @@ See nvim config for full keybindings. Highlights:
 | leader + ac  | Toggle chat   |
 | leader + aa  | Actions menu  |
 
-### AI completion (Codeium)
+### AI completion (Copilot)
 
 | Key   | What              |
 | ----- | ----------------- |

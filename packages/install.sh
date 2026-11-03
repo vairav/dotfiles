@@ -127,6 +127,39 @@ fix_brew_prefix_permissions() {
     fi
 }
 
+# Per-machine skip list. PACKAGES_SKIP holds space-separated brew or cask
+# tokens that this machine must never get from a shared Brewfile (one machine
+# runs podman instead of Docker Desktop, say). The shared files stay
+# untouched: each one is copied to a temp dir under its own name, minus the
+# skipped lines, and that copy is what gets installed. The copy keeps the
+# basename so every log line and FAILED_PKGS entry still names the real file.
+# Prints the path to install from; the original when nothing is skipped.
+apply_skip_list() {
+    local brewfile="$1"
+    if [[ -z "${PACKAGES_SKIP:-}" ]]; then
+        echo "$brewfile"
+        return
+    fi
+    local tmpdir out skipped="" name line
+    tmpdir="$(mktemp -d)"
+    out="$tmpdir/$(basename "$brewfile")"
+    : > "$out"
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        if [[ "$line" =~ ^[[:space:]]*(brew|cask)[[:space:]]+\"([^\"]+)\" ]]; then
+            name="${BASH_REMATCH[2]}"
+            # bare token, so homebrew/cask/foo matches a skip entry of foo
+            if [[ " $PACKAGES_SKIP " == *" ${name##*/} "* ]]; then
+                skipped="$skipped ${name##*/}"
+                continue
+            fi
+        fi
+        printf '%s\n' "$line" >> "$out"
+    done < "$brewfile"
+    # stderr: stdout is the path the caller captures
+    [[ -n "$skipped" ]] && info "Skipping on this machine:$skipped" >&2
+    echo "$out"
+}
+
 install_brewfile_individually() {
     local brewfile="$1"
     warn "brew bundle aborted on $(basename "$brewfile") - retrying entry by entry"
@@ -315,6 +348,7 @@ install_macos() {
     for brewfile in "${brewfiles[@]}"; do
         if [[ -f "$brewfile" ]]; then
             info "Installing from $(basename "$brewfile")..."
+            brewfile="$(apply_skip_list "$brewfile")"
             if [[ "$DRY_RUN" == "false" ]]; then
                 # `|| true` keeps a bad file from killing the run, but it is not
                 # enough on its own - see install_brewfile_individually.
@@ -691,6 +725,10 @@ OPTIONS:
   --check       Alias for --dry-run
   -h, --help    Show this help
 
+ENVIRONMENT:
+  PACKAGES_SKIP Space-separated brew or cask tokens to leave out of every
+                shared Brewfile on this machine (per-machine override)
+
 PACKAGE STRUCTURE:
 
   macOS (Brewfiles):
@@ -808,6 +846,7 @@ main() {
     echo "Role:             $ROLE"
     echo "Include work:     $INCLUDE_WORK"
     echo "Include personal: $INCLUDE_PERSONAL"
+    echo "Skip list:        ${PACKAGES_SKIP:-none}"
     echo "Include playground: $INCLUDE_PLAYGROUND"
     echo "Vendors:          ${VENDORS[*]:-none}"
     echo "Stacks:           ${STACKS[*]:-none}"

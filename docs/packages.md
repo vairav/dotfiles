@@ -40,6 +40,15 @@ them on `--personal` would make a bare re-run on such a machine silently stop
 delivering all of it. A work machine gets only the shared files, which are kept
 to what a client-owned laptop can carry. Servers get no personal tier.
 
+### Per-machine skip list
+
+`PACKAGES_SKIP` holds space-separated brew or cask tokens that one machine
+must never get from a shared Brewfile, for example a machine that runs podman
+instead of Docker Desktop. The shared files stay untouched: the installer
+writes a temp copy of each one without the skipped lines and installs from
+that. `brew bundle check` against a shared file will still report a skipped
+entry as missing on that machine.
+
 ### Vendor stacks
 
 Client environments differ, so vendor-specific software is opt-in and work-only.

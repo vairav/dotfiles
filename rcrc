@@ -24,13 +24,18 @@ DOTFILES_DIRS="$HOME/workspace/dotfiles"
 # fell back to its default font and every Nerd Font glyph in the prompt and in
 # eza's icons rendered as a box. The exclusion is ml4w-specific, so it belongs
 # in ~/.rcrc.local where the ml4w flag is handled, not in this base config.
-EXCLUDES="*.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr rcrc.local"
+# Name files exactly here and never use a wildcard. A bare name matches at any
+# depth, so a ./ prefix is what limits a name to the repo root. rcm also expands
+# a pattern such as *.md against the folder it is reading, which dropped
+# claude/CLAUDE.md with no message and left no way to include it again. A file
+# that is not named here gets linked, which is visible, and
+# scripts/check-rcm-links.sh checks the rest.
+EXCLUDES="README.md ./CLAUDE.md ./AGENTS.md .git .gitignore .gitmodules .brew .cask .osx docs packages hooks setup_mac.sh setup_ubuntu.sh brew prompt ls ssh sublime termux tridactyl vim zsh tmux git mise.toml ml4w config/hypr rcrc.local .rcm-not-linked"
 
 # rcrc.local is machine state that install.sh writes, never a file to link.
 # A stray copy inside a repo would otherwise be linked over the real one.
 
-# Claude Code skills are folders holding SKILL.md, and *.md is excluded above.
-# Linking each skill folder whole keeps the exclusion from emptying it.
+# Claude Code skills are folders, and each one is linked whole.
 SYMLINK_DIRS="claude/skills/*"
 
 # Source machine-specific rcrc settings (tags, hostname)

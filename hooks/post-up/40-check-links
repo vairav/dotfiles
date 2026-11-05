@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# rcm post-up hook: prove that rcm delivered what the repos track, on every
+# rcup and no matter who ran it. See scripts/check-rcm-links.sh for the reason.
+#
+# Always exits 0, because a reporting step must not stop the steps after it. A
+# caller that needs the verdict runs the script itself and reads its exit status.
+
+set -uo pipefail
+
+DOTFILES="${DOTFILES:-$HOME/workspace/dotfiles}"
+
+"$DOTFILES/scripts/check-rcm-links.sh"
+exit 0

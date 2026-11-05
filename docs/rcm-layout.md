@@ -104,7 +104,7 @@ TAGS="desktop macos"
 - `packages/` - Managed by install.sh
 - `macos/` - Setup scripts
 - `docs/` - Documentation
-- `*.md` files
+- Documentation by exact name (`README.md`, and `CLAUDE.md` and `AGENTS.md` at the repo root). Wildcards are not used, see `rcrc`
 
 ## Common tasks
 

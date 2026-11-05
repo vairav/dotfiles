@@ -1,0 +1,30 @@
+# Tracked files that rcm is NOT meant to link, one shell pattern per line. A
+# pattern matches the path relative to the repo, and * also matches /.
+# scripts/check-rcm-links.sh reports any tracked file that is neither linked
+# nor listed here. Keep entries specific: a broad pattern hides the next file
+# that should have been delivered.
+
+# Repo files and documentation
+.gitignore
+.rcm-not-linked
+README.md
+*/README.md
+docs/*
+mise.toml
+
+# Read by scripts rather than linked
+packages/*
+hooks/*
+ml4w/*
+
+# Sourced or included by a linked entry file
+zsh/*
+tmux/*
+git/*
+prompt/*
+config/hypr/*
+
+# Other devices, copied by hand
+ssh/*
+termux/*
+tridactyl/*

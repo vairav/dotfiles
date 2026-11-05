@@ -5,6 +5,12 @@
 # lives in Brewfile.ai.personal, which every non-work machine also gets.
 # Local-model tools (LM Studio, Ollama, Msty) are --stack localai.
 #
+# opencode is NOT here. On non-work machines mise owns it, together with pi and
+# ccs (config/mise/conf.d/ai-clis.toml), and the brew-autoupgrade job keeps it
+# current. A brew copy next to that leaves two on PATH. Work machines do not get
+# the mise CLIs, so they get it from Brewfile.apps.work. gemini-cli is
+# --vendor gemini.
+#
 # Claude Code is NOT here: it comes from the native installer
 # (scripts/setup-claude-code.sh), which updates itself. The old claude-code
 # cask put a second `claude` on PATH on any machine that also had the native
@@ -13,8 +19,6 @@
 # Usage: brew bundle --file=Brewfile.ai
 
 # CLI agents
-brew "opencode"
-brew "gemini-cli"
 cask "codex"
 
 # MCP

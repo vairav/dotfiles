@@ -165,7 +165,7 @@ done
 | Brewfile.core             | CLI essentials                          | laptop, workstation |
 | Brewfile.dev              | Dev essentials (nvim, tmux, git, mise)  | laptop, workstation |
 | Brewfile.dev.workstation  | Docker, k8s, languages, debug proxies   | workstation        |
-| Brewfile.ai               | opencode, gemini-cli, codex, mcp-toolbox, Zed | laptop, workstation |
+| Brewfile.ai               | codex, mcp-toolbox, Zed | laptop, workstation |
 | Brewfile.ai.personal      | qwen-code, kimi-code, goose, Claude/ChatGPT apps | not --work      |
 | Brewfile.apps             | Firefox, 1Password, Alfred, Rectangle   | laptop, workstation |
 | Brewfile.apps.workstation | Full GUI suite (browsers, cloud, autos) | workstation        |
@@ -180,6 +180,7 @@ done
 | Brewfile.apps.work.aws    | AWS CLI, aws-vault, SSM plugin          | --vendor aws       |
 | Brewfile.apps.work.azure  | Azure CLI                               | --vendor azure     |
 | Brewfile.apps.work.oci    | Oracle Cloud CLI                        | --vendor oci       |
+| Brewfile.apps.work.gemini | gemini-cli                              | --vendor gemini    |
 | Brewfile.apps.work.slack  | Slack                                   | --vendor slack     |
 | Brewfile.apps.work.zoom   | Zoom                                    | --vendor zoom      |
 | Brewfile.apps.personal    | Slack, Zoom, Signal, Obsidian, Tailscale, App Store apps | not --work |
@@ -210,7 +211,7 @@ dbeaver, figma, media tools.
 
 ### ai / ai.personal
 
-Every machine: opencode, gemini-cli, codex, mcp-toolbox and Zed.
+Every machine: codex, mcp-toolbox and Zed. mise installs opencode, pi and ccs on non-work machines. Work machines get opencode from `Brewfile.apps.work`, and gemini-cli is `--vendor gemini`.
 Every non-work machine adds qwen-code, kimi-code, goose CLI and the Claude and
 ChatGPT desktop apps. Claude Code itself comes from the native installer
 (`scripts/setup-claude-code.sh`) on every role, because the old cask left two

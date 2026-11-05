@@ -27,7 +27,7 @@ INCLUDE_PERSONAL=false
 INCLUDE_MIXED=false
 # One file per product family: Brewfile.apps.work.<name> (macOS) and
 # apps.work.<name>.txt (Arch). Listed here only for help and error text.
-VENDOR_NAMES="m365, google, apple, aws, azure, oci, slack, zoom"
+VENDOR_NAMES="m365, google, gemini, apple, aws, azure, oci, slack, zoom"
 INCLUDE_PLAYGROUND=false
 CLEANUP=false
 VENDORS=()

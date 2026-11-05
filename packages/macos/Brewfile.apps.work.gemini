@@ -1,0 +1,9 @@
+# Brewfile.apps.work.gemini - Google model access on the command line
+#
+# For a client that provides Google models. It is a vendor file because the
+# client's arrangement decides whether a machine wants it, so no shared tier
+# may carry it.
+#
+# Usage: ./packages/install.sh laptop --work --vendor gemini
+
+brew "gemini-cli"

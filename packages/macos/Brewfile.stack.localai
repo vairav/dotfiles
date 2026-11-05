@@ -8,8 +8,8 @@
 # screen: it is a poor fit for Intel Macs in particular, which have no
 # Metal-class GPU, so ollama and lm-studio run CPU-only there.
 #
-# The AI CLI agents (claude-code, opencode, kimi-code, gemini-cli, ...) are NOT
-# here - they are essentials and live in Brewfile.ai on every machine.
+# The AI CLI agents are NOT here: see Brewfile.ai and Brewfile.ai.personal, and
+# config/mise/conf.d/ai-clis.toml for the ones mise owns.
 #
 # Usage: brew bundle --file=Brewfile.stack.localai
 

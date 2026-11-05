@@ -6,8 +6,10 @@
 #
 #   ./packages/install.sh laptop --work --vendor m365 --vendor aws
 #
-# Empty for now - everything that was here turned out to be Microsoft-specific.
-#
 # Usage: brew bundle --file=Brewfile.apps.work
 
 cask_args appdir: "/Applications"
+
+# On other machines mise owns opencode, but work machines do not get the mise
+# CLIs because a client approves the model providers there.
+brew "opencode"

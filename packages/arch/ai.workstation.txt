@@ -10,7 +10,6 @@ antigravity
 ollama
 
 # CLI agents (extended)
-gemini-cli
 # openai-codex-git  # AUR build issues, install manually if needed
 qwen-code
 codename-goose-bin

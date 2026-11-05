@@ -46,7 +46,6 @@ brew "lazygit"
 
 # AI CLI agents
 # Claude Code comes from the native installer (scripts/setup-claude-code.sh).
-brew "opencode"
 brew "kimi-code"
 
 # VPN (GUI cask - Mac servers still run a desktop session)

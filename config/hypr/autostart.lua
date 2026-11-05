@@ -16,4 +16,12 @@ hl.on("hyprland.start", function()
     -- autostart entry, which nothing on Hyprland processes. Needed early:
     -- the SSH agent and commit signing both go through its socket.
     hl.exec_cmd("1password --silent")
+
+    -- Fill in any output awww left blank (see the script for why)
+    hl.exec_cmd(HOME .. "/workspace/dotfiles/scripts/hypr-wallpaper-ensure.sh")
+end)
+
+-- A renumbered or newly connected monitor comes up blank too
+hl.on("monitor.added", function()
+    hl.exec_cmd(os.getenv("HOME") .. "/workspace/dotfiles/scripts/hypr-wallpaper-ensure.sh")
 end)

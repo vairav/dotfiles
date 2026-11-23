@@ -20,7 +20,7 @@ cask "repo-prompt"  # Repo level AI chat tool
 # Local models
 brew "ollama"
 cask "lm-studio"    # Local only LLM model manager
-cask "msty"         # Local AI model manager (multi-provider)
+cask "mstystudio"   # Msty Studio, local and cloud model chat (replaced msty, discontinued 2026)
 
 # Block Goose (desktop)
 cask "block-goose"

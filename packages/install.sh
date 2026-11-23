@@ -760,7 +760,7 @@ PACKAGE STRUCTURE:
     Brewfile.stack.containers Docker Desktop, lazydocker (--stack containers)
     Brewfile.stack.creative   Affinity/krita/audio/ArtCraft/CAD (--stack creative)
     Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
-    Brewfile.stack.localai    ollama, lm-studio, msty, trae (--stack localai)
+    Brewfile.stack.localai    ollama, lm-studio, mstystudio, trae (--stack localai)
     Brewfile.stack.mail       Canary Mail (--stack mail)
 
   Arch Linux:

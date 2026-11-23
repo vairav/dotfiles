@@ -32,6 +32,7 @@ cask "loopback"                 # Virtual audio routing
 cask "farrago"                  # Soundboard for audio clips
 cask "fission"                  # Fast audio editor
 cask "piezo"                    # Simple audio recording
+cask "airfoil"                  # Stream Mac audio to AirPlay and other speakers
 
 # 3D/CAD
 cask "freecad"

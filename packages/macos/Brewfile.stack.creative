@@ -18,9 +18,9 @@
 cask_args appdir: "/Applications"
 
 # Image & layout
-cask "affinity-designer"
-cask "affinity-photo"
-cask "affinity-publisher"
+# Affinity is one app since the Canva acquisition. The separate Designer,
+# Photo and Publisher 2 casks were disabled upstream on 2026-11-01.
+cask "affinity"
 cask "bloom"
 cask "krita"
 

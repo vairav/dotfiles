@@ -758,7 +758,7 @@ PACKAGE STRUCTURE:
     Brewfile.apps.personal.workstation    Heavy personal apps (non-work workstation)
     Brewfile.playground       Testing/evaluation tools (--playground flag)
     Brewfile.stack.containers Docker Desktop, lazydocker (--stack containers)
-    Brewfile.stack.creative   Affinity/krita/audio/CAD (--stack creative)
+    Brewfile.stack.creative   Affinity/krita/audio/ArtCraft/CAD (--stack creative)
     Brewfile.stack.finance    tradingview, thinkorswim, beancount (--stack finance)
     Brewfile.stack.localai    ollama, lm-studio, msty, trae (--stack localai)
     Brewfile.stack.mail       Canary Mail (--stack mail)

@@ -21,7 +21,6 @@ cask_args appdir: "/Applications"
 # Affinity is one app since the Canva acquisition. The separate Designer,
 # Photo and Publisher 2 casks were disabled upstream on 2026-11-01.
 cask "affinity"
-cask "bloom"
 cask "krita"
 
 # Rogue Amoeba audio production suite (https://rogueamoeba.com/)
@@ -33,6 +32,17 @@ cask "farrago"                  # Soundboard for audio clips
 cask "fission"                  # Fast audio editor
 cask "piezo"                    # Simple audio recording
 cask "airfoil"                  # Stream Mac audio to AirPlay and other speakers
+
+# ArtCraft (https://getartcraft.com/): open-source apps modeled on the Adobe
+# suite, one GitHub repo each under github.com/storytold. Early builds.
+cask "photocraft"               # Image editor (Photoshop)
+cask "vectorcraft"              # Vector editor (Illustrator)
+cask "filmcraft"                # Video editor (Premiere Pro)
+cask "lightcraft"               # Photo library and raw developer (Lightroom)
+cask "pdfcraft"                 # PDF editor (Acrobat)
+cask "effectcraft"              # Motion graphics and compositing (After Effects)
+cask "designcraft"              # Page layout (InDesign)
+cask "artcraft"                 # AI image and video app (paid credits or local models)
 
 # 3D/CAD
 cask "freecad"

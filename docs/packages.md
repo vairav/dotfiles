@@ -100,7 +100,7 @@ Linux, none of which exist yet). Repeatable. Available:
 
 | Stack      | Contents                                                     |
 | ---------- | ------------------------------------------------------------ |
-| `creative` | Affinity suite, Krita, Bloom, Rogue Amoeba audio, FreeCAD, GarageBand, iMovie |
+| `creative` | Affinity, Krita, Rogue Amoeba audio, ArtCraft apps, FreeCAD, GarageBand, iMovie |
 | `finance`  | TradingView, thinkorswim, beancount, fava                    |
 | `localai`  | Ollama, LM Studio, Msty, Trae, Block Goose                    |
 | `mail`     | Canary Mail                                                  |
@@ -187,7 +187,7 @@ done
 | Brewfile.apps.personal.workstation | (deliberately empty)           | not --work + workstation |
 | Brewfile.playground       | Testing/evaluation                      | --playground       |
 | Brewfile.stack.containers | Docker Desktop, lazydocker              | --stack containers |
-| Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, FreeCAD  | --stack creative   |
+| Brewfile.stack.creative   | Affinity, Krita, Rogue Amoeba, ArtCraft, FreeCAD | --stack creative |
 | Brewfile.stack.finance    | TradingView, thinkorswim, beancount     | --stack finance    |
 | Brewfile.stack.localai    | Ollama, LM Studio, Msty, Trae           | --stack localai    |
 | Brewfile.stack.mail       | Canary Mail                             | --stack mail       |

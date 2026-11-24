@@ -64,7 +64,7 @@ RCRC=~/workspace/dotfiles/rcrc rcup -v
 dotfiles/
 ├── zshrc, tmux.conf, gitconfig    # -> ~/.*
 ├── config/                         # -> ~/.config/
-│   ├── nvim/, kitty/, alacritty/
+│   ├── nvim/, kitty/, alacritty/, zed/
 │   └── starship.toml
 ├── zsh/                            # Zsh config (sourced)
 ├── tag-macos/                      # macOS-specific

@@ -1,0 +1,14 @@
+# Clear the screen and scrollback: Cmd+K on macOS, Ctrl+Shift+K on Linux.
+#
+# Both chords send the private sequence \e[9001~. tmux turns it into a pane
+# clear (tmux/conf/keybindings.conf), and zsh catches it when tmux is not
+# running (zsh/common/keybindings.zsh). This replaces Alacritty's own macOS
+# Cmd+K, which clears only Alacritty's scrollback and so did nothing in tmux.
+# On Linux "Command" is the Super key, which Hyprland takes first, so each
+# line only matters on its own platform.
+
+[keyboard]
+bindings = [
+  { key = "K", mods = "Command", chars = "\u001b[9001~" },
+  { key = "K", mods = "Control|Shift", chars = "\u001b[9001~" },
+]

@@ -1,0 +1,11 @@
+# Linters the homelab pre-commit pass calls by name (ansible-lint, yamllint).
+# rcm links this file to ~/.config/mise/conf.d/lint-tools.toml.
+#
+# Each one gets its own pipx virtualenv (uv builds it), so its shim works with
+# no global Python version set. Before this file they were pip-installed into
+# mise's Python 3.13.3, and with no global Python their shims failed with
+# "No version is set for shim: ansible-lint" (found 2026-10-31, fixed 2026-11-26).
+# ansible-lint brings its own ansible-core inside its virtualenv.
+[tools]
+"pipx:ansible-lint" = "latest"
+"pipx:yamllint" = "latest"

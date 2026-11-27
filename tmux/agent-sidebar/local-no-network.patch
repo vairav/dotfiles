@@ -1,0 +1,26 @@
+diff --git i/src/git.rs w/src/git.rs
+index 2608ffc..7fd84e9 100644
+--- i/src/git.rs
++++ w/src/git.rs
+@@ -84,6 +84,8 @@ pub fn fetch_git_data(path: &str) -> GitData {
+ /// times out. Bounded by a 5s deadline so a hung `gh` cannot stall the git
+ /// polling thread.
+ pub fn fetch_pr_number(path: &str) -> Option<String> {
++    // Local build: no gh pr view calls.
++    if true { let _ = path; return None; }
+     let mut child = Command::new("gh")
+         .env("GIT_OPTIONAL_LOCKS", "0")
+         .args(["pr", "view", "--json", "number", "-q", ".number"])
+diff --git i/src/version.rs w/src/version.rs
+index 289074a..d40937c 100644
+--- i/src/version.rs
++++ w/src/version.rs
+@@ -14,6 +14,8 @@ pub struct UpdateNotice {
+ }
+ 
+ pub fn fetch_update_notice() -> Option<UpdateNotice> {
++    // Local build: no release check against api.github.com.
++    if true { return None; }
+     let latest = fetch_latest_release_version()?;
+     if compare_versions(&latest, LOCAL_VERSION) == Ordering::Greater {
+         Some(UpdateNotice {
